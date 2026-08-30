@@ -1,142 +1,210 @@
-/* SearchWing LogViewer
-   Copyright 2022 Friedrich Beckmann
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version. */
+/* SkyForge Main App Controller */
 
 function readfiles(files) {
     if (!files || files.length === 0) return;
-    if (!is_dataflash(files[0].name)) {
+    const file = files[0];
+
+    if (!is_dataflash(file.name)) {
         alert("Please select a valid ArduPilot dataflash (.bin or .log) file.");
         return;
     }
-    const uploadpage = document.getElementById('uploadpage');
-    if (uploadpage) uploadpage.style.display = "none";
-    const analyzepage = document.getElementById('analyzepage');
-    if (analyzepage) analyzepage.style.display = "block";
+
+    const dropCard = document.querySelector('.drop-card');
+    if (dropCard) {
+        dropCard.classList.add('loading');
+        dropCard.innerHTML = `<div class="spinner"></div><p>Parsing <strong>${file.name}</strong> (${(file.size / (1024 * 1024)).toFixed(2)} MB)...</p>`;
+    }
 
     const reader = new FileReader();
     reader.onload = function(event) {
-        try {
-            console.log("Parsing log file...");
-            const buffer = event.target.result;
-            const lf = new logfile(buffer);
-            document.logfile = lf;
-            build_navbar(lf.get_msgitem_list());
+        setTimeout(() => {
+            try {
+                const startTime = performance.now();
+                const buffer = event.target.result;
+                const lf = new logfile(buffer);
+                document.logfile = lf;
 
-            const plot = document.getElementById('plot');
-            const layout = {
-                yaxis1: { side: 'left' },
-                yaxis2: { side: 'left', overlaying: 'y', position: 0.15 },
-                yaxis3: { side: 'right', overlaying: 'y', position: 0.85 },
-                yaxis4: { side: 'right', overlaying: 'y' }
-            };
+                const parseDuration = ((performance.now() - startTime) / 1000).toFixed(2);
+                console.log(`Parsed ${lf.totalMessages} messages in ${parseDuration}s`);
 
-            let ds = null;
-            if (lf.msgtype_name_hash && lf.msgtype_name_hash["BARO"] != null) {
-                ds = lf.get_data_series("BARO", 0, "Alt");
-            }
-            if (ds) {
-                ds.name = ds.name + ":y";
-                Plotly.newPlot(plot, [ds], layout);
-                add_trace_to_plotctrl(ds);
-            } else {
-                Plotly.newPlot(plot, [], layout);
-            }
+                // Restore drop card with success banner
+                if (dropCard) {
+                    dropCard.classList.remove('loading');
+                    dropCard.innerHTML = `
+                        <div class="file-loaded-info">
+                            <span class="file-icon">📁</span>
+                            <div>
+                                <strong>${file.name}</strong>
+                                <span class="file-meta">${(file.size / (1024 * 1024)).toFixed(2)} MB &bull; ${lf.totalMessages.toLocaleString()} packets parsed in ${parseDuration}s</span>
+                            </div>
+                            <label class="change-file-btn">
+                                Change File
+                                <input type="file" id="files" name="file" accept=".bin,.BIN,.log" onchange="handle_onfilechange(event)" style="display:none">
+                            </label>
+                        </div>
+                    `;
+                }
 
-            if (lf.msgtype_name_hash && lf.msgtype_name_hash["GPS"] != null) {
+                // Show analyze workspace
+                const analyzepage = document.getElementById('analyzepage');
+                if (analyzepage) analyzepage.style.display = "block";
+
+                // Build sidebar
+                const msgList = lf.get_msgitem_list();
+                build_navbar(msgList);
+
+                // Initialize main plot
+                init_main_plot();
+
+                // Plot default signal
+                plot_default_signal(lf);
+
+                // GPS & Overview
                 const gpsds = lf.get_gps_series();
-                if (gpsds && gpsds.lat && gpsds.lat.length > 0) {
+                get_overview(gpsds, lf.get_boot_time(), lf);
+                if (gpsds) {
                     draw_flight_map(gpsds);
-                    get_overview(gpsds, lf.get_boot_time());
+                } else {
+                    const mapDiv = document.getElementById('map');
+                    if (mapDiv) mapDiv.style.display = "none";
+                }
+
+            } catch (err) {
+                console.error("Error reading logfile:", err);
+                alert("Error parsing logfile: " + err.message);
+                if (dropCard) {
+                    dropCard.classList.remove('loading');
+                    dropCard.innerHTML = `
+                        <p>Error parsing file. Please try another ArduPilot dataflash (.bin) file.</p>
+                        <input type="file" id="files" name="file" accept=".bin,.BIN,.log" onchange="handle_onfilechange(event)">
+                    `;
                 }
             }
-        } catch (err) {
-            console.error("Error reading logfile:", err);
-            alert("Error parsing logfile: " + err.message);
+        }, 30);
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+function init_main_plot() {
+    const plot = document.getElementById('plot');
+    if (!plot) return;
+
+    activeTraces = [];
+
+    const layout = {
+        title: {
+            text: 'Telemetry Time-Series Plot',
+            font: { color: '#f8fafc', size: 14 }
+        },
+        paper_bgcolor: '#0f172a',
+        plot_bgcolor: '#1e293b',
+        showlegend: false,
+        hovermode: 'x unified',
+        margin: { l: 60, r: 60, t: 40, b: 40 },
+        xaxis: {
+            color: '#94a3b8',
+            gridcolor: '#334155',
+            zerolinecolor: '#475569'
+        },
+        yaxis: {
+            title: 'Y1',
+            color: '#38bdf8',
+            gridcolor: '#334155',
+            zerolinecolor: '#475569'
+        },
+        yaxis2: {
+            title: 'Y2',
+            color: '#10b981',
+            overlaying: 'y',
+            side: 'right',
+            gridcolor: 'transparent'
+        },
+        yaxis3: {
+            title: 'Y3',
+            color: '#f59e0b',
+            overlaying: 'y',
+            side: 'left',
+            position: 0.05,
+            gridcolor: 'transparent'
+        },
+        yaxis4: {
+            title: 'Y4',
+            color: '#ec4899',
+            overlaying: 'y',
+            side: 'right',
+            position: 0.95,
+            gridcolor: 'transparent'
         }
     };
-    reader.readAsArrayBuffer(files[0]);
+
+    const config = {
+        responsive: true,
+        displaylogo: false,
+        modeBarButtonsToRemove: ['lasso2d', 'select2d']
+    };
+
+    Plotly.newPlot(plot, [], layout, config);
+    render_active_traces_pill_bar();
+}
+
+function plot_default_signal(lf) {
+    const preferredSignals = [
+        ['BARO', 'Alt'],
+        ['GPS', 'Alt'],
+        ['ATT', 'Pitch'],
+        ['ATT', 'Roll'],
+        ['BAT', 'Volt'],
+        ['CURR', 'Volt']
+    ];
+
+    for (const [msg, field] of preferredSignals) {
+        if (lf.msgtype_name_hash[msg] != null) {
+            const ds = lf.get_data_series(msg, -1, field);
+            if (ds && ds.y.length > 0) {
+                add_trace_to_plot(ds, 'y');
+                return;
+            }
+        }
+    }
+
+    // Fallback: first available numeric field from any message
+    const msgList = lf.get_msgitem_list();
+    for (const msg of msgList) {
+        for (const sub of msg.subitemlist) {
+            if (sub === 'TimeUS' || sub === 'TimeMS') continue;
+            const ds = lf.get_data_series(msg.name, -1, sub);
+            if (ds && ds.y.length > 0 && typeof ds.y[0] === 'number') {
+                add_trace_to_plot(ds, 'y');
+                return;
+            }
+        }
+    }
 }
 
 function handle_ondrop(event) {
     event.preventDefault();
-    console.log(event.dataTransfer.files);
-    readfiles(event.dataTransfer.files);
-    console.log("Hallo");
-};
-
-function handle_dragover(event) {
-    /* Only when the default handler is prevented, the
-       element is considered an allowed drop target */
-    event.dataTransfer.dropEffect = 'copy';
-    event.preventDefault();
-};
-
-function handle_dragenter(event) {
-    event.preventDefault();
-};
-
-function handle_onfilechange(event) {
-    console.log("File here!" + event.currentTarget.files[0].name);
-    readfiles(event.currentTarget.files);
-}
-
-/** Check the filename ending if this a dataflash file. The
- *  mimetype does not help here because there is no unique mimetype
- *  for the dataflash file. So we just check the file extension.
- */
-function is_dataflash(fname) {
-    if (!fname) return false;
-    const fileextension = fname.split(".").pop();
-    const ext = fileextension ? fileextension.toLowerCase() : "";
-    return ext === "bin" || ext === "log";
-}
-
-function on_trace_remove(event) {
-    plot = document.getElementById('plot');
-    Plotly.deleteTraces('plot',0);
-
-}
-
-function upload_click(event) {
-    uploadpage = document.getElementById('uploadpage');
-    uploadpage.style.display="initial";
-    analyzepage = document.getElementById('analyzepage');
-    analyzepage.style.display="none";
-}
-
-function on_ulSend() {
-    let logfile = document.getElementById("fileToUpload").files[0];
-    let locationname = document.getElementById("ulLocation").value;
-    console.log("Hallo Click");
-    const chunksize = 1000000;
-    let chunknr = 0;
-    for(let filepos = 0;filepos < logfile.size;filepos += chunksize) {
-        const chunk = logfile.slice(filepos, filepos + chunksize);
-        const formData = new FormData();
-        formData.append("fileToUpload", chunk, logfile.name + chunknr++);
-        let xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = state => {console.log("Status", xhr.status); };
-        xhr.timeout = 5000;
-        xhr.open("POST", 'upload.php');
-        xhr.send(formData);
+    if (event.dataTransfer && event.dataTransfer.files) {
+        readfiles(event.dataTransfer.files);
     }
 }
 
-function on_ulSend_onefile() {
-    let logfile = document.getElementById("fileToUpload").files[0];
-    let locationname = document.getElementById("ulLocation").value;
-    console.log("Hallo Click");
-    let formData = new FormData();
-    formData.append("fileToUpload", logfile);
-    formData.append("location", locationname);
+function handle_dragover(event) {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'copy';
+}
 
-    let xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = state => {console.log("Status", xhr.status); };
-    xhr.timeout = 5000;
-    xhr.open("POST", 'upload.php');
-    xhr.send(formData);
+function handle_dragenter(event) {
+    event.preventDefault();
+}
+
+function handle_onfilechange(event) {
+    if (event.currentTarget && event.currentTarget.files) {
+        readfiles(event.currentTarget.files);
+    }
+}
+
+function is_dataflash(fname) {
+    if (!fname) return false;
+    const ext = fname.split(".").pop().toLowerCase();
+    return ext === "bin" || ext === "log";
 }

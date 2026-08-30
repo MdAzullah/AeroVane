@@ -1,160 +1,238 @@
-/* SearchWing LogViewer
-   Copyright 2022 Friedrich Beckmann
+/* SkyForge Signal Explorer & Sidebar Navigation */
 
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version. */
+let activeTraces = [];
+const TRACE_COLORS = [
+    '#38bdf8', '#10b981', '#f59e0b', '#ec4899', 
+    '#8b5cf6', '#06b6d4', '#f97316', '#84cc16',
+    '#e11d48', '#3b82f6', '#14b8a6', '#d946ef'
+];
 
-/* The navigation bar shows the available data items in the logfile
+function build_navbar(itemlist) {
+    const nav = document.querySelector('nav');
+    if (!nav) return;
 
-   The logfile contains a list of data items, i.e. the list will 
-   be constructed dynamically. Each log item contains several
-   subitems. For example the "RCIN" log item contains the subitems
-   TimeUS,C1,C2,...,C14. That means the sampletime and then 15
-   channel values from the remote control input.
-   All subitems will be displayed in a tree view style. */
+    nav.innerHTML = `
+        <div class="sidebar-header">
+            <h3>Signals & Messages</h3>
+            <input type="text" id="signalSearch" placeholder="Search signals (e.g. Alt, Pitch)..." oninput="filter_signals(this.value)">
+        </div>
+        <ul id="msglist"></ul>
+    `;
 
-/** This function builds the navigation bar html element structure such
-   that the items and subitems are displayed like this
-
-   RCIN         This main item name of class "caret"
-       C1  |
-       C2  | -- These subitems are shown when you click on "RCIN"
-       C3  |    That are <li> elements of class "nested"
-
-   @param itemlist : An array of msgtypes where each item contains
-                       - name (string)
-                       - subitemlist : array of strings with subitemnames
-*/
-function build_navbar (itemlist) {
     const vl = document.getElementById('msglist');
-    for (var i = 0; i < itemlist.length;i++) {
-		const msgt = itemlist[i];
-		if (msgt == null)
-		    continue;
-		if (msgt.with_instances) {
-			for(let i = 0; i < msgt.data.length;i++) {
-				const entry = create_entry(msgt, i);
-				vl.appendChild(entry);
-			}
-		} else {
-			const entry = create_entry(msgt, -1);
-			vl.appendChild(entry);
-		}
+    for (let i = 0; i < itemlist.length; i++) {
+        const msgt = itemlist[i];
+        if (!msgt || !msgt.name) continue;
+
+        if (msgt.with_instances && Array.isArray(msgt.data)) {
+            let instanceFound = false;
+            for (let inst = 0; inst < msgt.data.length; inst++) {
+                if (msgt.data[inst] && msgt.data[inst].length > 0) {
+                    const entry = create_entry(msgt, inst);
+                    vl.appendChild(entry);
+                    instanceFound = true;
+                }
+            }
+            if (!instanceFound) {
+                const entry = create_entry(msgt, -1);
+                vl.appendChild(entry);
+            }
+        } else {
+            const count = Array.isArray(msgt.data) ? msgt.data.length : 0;
+            if (count > 0 || msgt.subitemlist.length > 0) {
+                const entry = create_entry(msgt, -1);
+                vl.appendChild(entry);
+            }
+        }
     }
 }
 
-/** Create a navbar entry based on
- *  @param: msgtype : The msgtype like "GPS"
- *  @param: instance : The instance number or -1 if this msgtype has no instances
- *
-*/
-function create_entry (msgt, instance) {
-	const entry = document.createElement('li');
-	entry.id = msgt.name + "_" + (msgt.with_instances ? instance : "");
-	const span  = document.createElement('span');
-	span.className = "caret";
-	span.textContent = msgt.name +
-	    (msgt.with_instances ? instance : "") + "    (" +
-		(msgt.with_instances ? msgt.data[instance].length : msgt.data.length) + ")";
-	span.addEventListener("click", function () {
-		var el = this.parentElement.querySelector(".nested");
-		el.classList.toggle("active");
-	});
-	const a = document.createElement('a');
-	a.href = "https://ardupilot.org/plane/docs/logmessages.html#" + msgt.name.toLowerCase();
-	a.textContent = "i";
-	a.style = "padding-left:10px"
-	entry.appendChild(span);
-	entry.appendChild(a);
-	const ul = document.createElement('ul');
-	ul.className = "nested";
-	subitemlist = msgt.subitemlist;
-	for (var si = 0; si < subitemlist.length; si++) {
-		const li = document.createElement('li');
-		li.textContent = subitemlist[si];
-		li.addEventListener("click", on_click_subitem);
-		ul.appendChild(li);
-	}
-	entry.appendChild(ul);
-	return entry;
-}
+function create_entry(msgt, instance) {
+    const entry = document.createElement('li');
+    const msgId = msgt.name + (instance >= 0 ? "_" + instance : "");
+    entry.id = msgId;
+    entry.className = "msg-group";
 
-/** Eventhandler when a subitem is clicked.
- *  Get the data series for the clicked subitem and
- *  submit a plot
- */
-function on_click_subitem () {
-	const name_instance = this.parentElement.parentElement.id;
-	const split_array = name_instance.split("_")
-	const name = split_array[0];
-	const instance = split_array[1];
-	const subitemname = this.textContent;
-	const lf = document.logfile;
-	const ds = lf.get_data_series(name, instance, subitemname);
-	ds.name = ds.name + ":y";
-	const plot = document.getElementById('plot');
-	Plotly.addTraces(plot, ds);
-	add_trace_to_plotctrl(ds);
-}
-
-/** Add a trace to an axis plot control element */
-function add_trace_to_plotctrl (ds) {
-	const vl = document.getElementById('y');
-	const p  = document.createElement('p');
-    p.draggable=true;
-	p.addEventListener('dragstart', axis_dragstart);
-	p.id = ds.name.split(":")[0];
-	p.textContent=p.id;
-	vl.appendChild(p);
-}
-
-function axis_drop(event) {
-	event.preventDefault();
-	const p = document.getElementById(event.dataTransfer.getData('text'));
-	if (p == null)
-		return;
-	const div = event.currentTarget.firstElementChild;
-	div.appendChild(p);
-	const tracename = p.textContent;
-	const plot = document.getElementById('plot');
-	const tracenr = trace_idx_by_name(plot, tracename);
-	if (tracenr < 0)
-		return;	
-	Plotly.restyle(plot, {yaxis: div.id, name: tracename + ":" + div.id}, tracenr);
-}
-
-function trace_idx_by_name (plot, name) {
-    const data = plot.data;
-    for(i=0;i < data.length;i++) {
-        if (data[i].name.split(":")[0] == name)
-            return i
+    let count = 0;
+    if (msgt.with_instances && instance >= 0 && msgt.data[instance]) {
+        count = msgt.data[instance].length;
+    } else if (Array.isArray(msgt.data)) {
+        count = msgt.data.length;
     }
-    return -1;
+
+    const header = document.createElement('div');
+    header.className = "msg-header";
+    header.innerHTML = `
+        <span class="msg-title">
+            <span class="caret-icon">▶</span>
+            <strong>${msgt.name}${instance >= 0 ? ` [${instance}]` : ''}</strong>
+        </span>
+        <span class="msg-count">${count.toLocaleString()}</span>
+    `;
+
+    header.addEventListener("click", function() {
+        const group = this.parentElement;
+        const nested = group.querySelector(".nested");
+        const icon = group.querySelector(".caret-icon");
+        if (nested) {
+            const isOpen = nested.classList.toggle("active");
+            icon.textContent = isOpen ? "▼" : "▶";
+        }
+    });
+
+    entry.appendChild(header);
+
+    const ul = document.createElement('ul');
+    ul.className = "nested";
+    const subitems = msgt.subitemlist || [];
+
+    for (let si = 0; si < subitems.length; si++) {
+        const subname = subitems[si];
+        // Skip timestamp in field selector
+        if (subname === "TimeUS" || subname === "TimeMS") continue;
+
+        const li = document.createElement('li');
+        li.className = "signal-item";
+        li.dataset.group = msgt.name;
+        li.dataset.instance = instance >= 0 ? instance : -1;
+        li.dataset.field = subname;
+        li.innerHTML = `
+            <span class="signal-name">${subname}</span>
+            <button class="add-btn" title="Plot signal">+</button>
+        `;
+
+        li.addEventListener("click", function(e) {
+            e.stopPropagation();
+            toggle_signal_plot(msgt.name, instance, subname);
+        });
+
+        ul.appendChild(li);
+    }
+
+    entry.appendChild(ul);
+    return entry;
 }
 
-function delete_trace(event) {
-	event.preventDefault();
-	const p = document.getElementById(event.dataTransfer.getData('text'));
-	if (p == null)
-		return;
-	const tracename = p.textContent;
-	p.remove();
-	const plot = document.getElementById('plot');
-	const tracenr = trace_idx_by_name(plot, tracename);
-	if (tracenr < 0)
-		return;
-	Plotly.deleteTraces(plot, tracenr);
+function filter_signals(query) {
+    const q = query.toLowerCase().trim();
+    const groups = document.querySelectorAll(".msg-group");
+
+    groups.forEach(group => {
+        const title = group.querySelector("strong")?.textContent.toLowerCase() || "";
+        const signals = group.querySelectorAll(".signal-item");
+        let hasMatchingSignal = false;
+
+        signals.forEach(sig => {
+            const field = sig.dataset.field.toLowerCase();
+            const full = `${sig.dataset.group}.${field}`.toLowerCase();
+            if (q === "" || field.includes(q) || full.includes(q) || title.includes(q)) {
+                sig.style.display = "flex";
+                hasMatchingSignal = true;
+            } else {
+                sig.style.display = "none";
+            }
+        });
+
+        if (q === "" || hasMatchingSignal || title.includes(q)) {
+            group.style.display = "block";
+            const nested = group.querySelector(".nested");
+            const icon = group.querySelector(".caret-icon");
+            if (q !== "" && nested && hasMatchingSignal) {
+                nested.classList.add("active");
+                if (icon) icon.textContent = "▼";
+            }
+        } else {
+            group.style.display = "none";
+        }
+    });
 }
 
-function axis_dragover(event) {
-	event.dataTransfer.dropEffect = 'copy';
-    event.preventDefault();
+function toggle_signal_plot(msgName, instance, fieldName) {
+    const lf = document.logfile;
+    if (!lf) return;
+
+    const seriesName = msgName + (instance >= 0 ? instance : "") + "." + fieldName;
+    const existingIdx = activeTraces.findIndex(t => t.name.startsWith(seriesName));
+
+    if (existingIdx >= 0) {
+        remove_trace(existingIdx);
+    } else {
+        const ds = lf.get_data_series(msgName, instance, fieldName);
+        if (!ds || ds.y.length === 0) {
+            alert(`No data points found for ${seriesName}`);
+            return;
+        }
+        add_trace_to_plot(ds);
+    }
 }
 
-function axis_dragstart(event) {
-	event.dataTransfer.setData("text",event.target.id);
-	console.log(event.target.id);
+function add_trace_to_plot(ds, axisId = 'y') {
+    const plot = document.getElementById('plot');
+    if (!plot) return;
+
+    const color = TRACE_COLORS[activeTraces.length % TRACE_COLORS.length];
+    ds.line = { color: color, width: 2 };
+    ds.yaxis = axisId;
+    ds.name = `${ds.name}:${axisId}`;
+
+    Plotly.addTraces(plot, ds);
+    activeTraces.push({ name: ds.name, axis: axisId, color: color });
+    render_active_traces_pill_bar();
 }
 
+function remove_trace(traceIndex) {
+    const plot = document.getElementById('plot');
+    if (!plot || traceIndex < 0 || traceIndex >= activeTraces.length) return;
+
+    Plotly.deleteTraces(plot, traceIndex);
+    activeTraces.splice(traceIndex, 1);
+    render_active_traces_pill_bar();
+}
+
+function clear_all_traces() {
+    const plot = document.getElementById('plot');
+    if (!plot) return;
+
+    while (activeTraces.length > 0) {
+        Plotly.deleteTraces(plot, 0);
+        activeTraces.shift();
+    }
+    render_active_traces_pill_bar();
+}
+
+function change_trace_axis(traceIndex, newAxis) {
+    const plot = document.getElementById('plot');
+    if (!plot || traceIndex < 0 || traceIndex >= activeTraces.length) return;
+
+    const tr = activeTraces[traceIndex];
+    const baseName = tr.name.split(":")[0];
+    tr.axis = newAxis;
+    tr.name = `${baseName}:${newAxis}`;
+
+    Plotly.restyle(plot, { yaxis: newAxis, name: tr.name }, traceIndex);
+    render_active_traces_pill_bar();
+}
+
+function render_active_traces_pill_bar() {
+    const container = document.getElementById('active-traces-bar');
+    if (!container) return;
+
+    if (activeTraces.length === 0) {
+        container.innerHTML = `<span class="empty-hint">No active plots. Click any signal on the left sidebar to graph it.</span>`;
+        return;
+    }
+
+    container.innerHTML = activeTraces.map((t, idx) => `
+        <div class="trace-pill" style="border-left-color: ${t.color}">
+            <span class="trace-color-dot" style="background-color: ${t.color}"></span>
+            <span class="trace-label">${t.name.split(':')[0]}</span>
+            <select class="axis-select" onchange="change_trace_axis(${idx}, this.value)">
+                <option value="y" ${t.axis === 'y' ? 'selected' : ''}>Y1</option>
+                <option value="y2" ${t.axis === 'y2' ? 'selected' : ''}>Y2</option>
+                <option value="y3" ${t.axis === 'y3' ? 'selected' : ''}>Y3</option>
+                <option value="y4" ${t.axis === 'y4' ? 'selected' : ''}>Y4</option>
+            </select>
+            <button class="trace-remove-btn" onclick="remove_trace(${idx})" title="Remove trace">&times;</button>
+        </div>
+    `).join('');
+}

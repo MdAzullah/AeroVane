@@ -1,130 +1,189 @@
-/* SearchWing LogViewer
-   Copyright 2022 Friedrich Beckmann
+/* SkyForge Flight Trajectory Map & Overview Generator */
 
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version. */
-
-/** Compute the distance between two coordinates given in
- *  latitude and longitude.
- */
 function coord2dist(a, b) {
-    const earthradius = 6378388.0; /* Earth Radius in m */
-    const difflat = a.lat - b.lat;
-    const difflon = a.lon - b.lon;
-    const distlon = difflat * Math.PI * earthradius / 180.0;
-    const radius_at_lat = Math.cos(a.lat * Math.PI / 180.0 ) * earthradius;
-    const distlat = difflon * Math.PI * radius_at_lat / 180.0;
-    return Math.sqrt(distlat*distlat + distlon*distlon);
+    const earthradius = 6378388.0; /* Earth Radius in meters */
+    const difflat = (a.lat - b.lat) * Math.PI / 180.0;
+    const difflon = (a.lon - b.lon) * Math.PI / 180.0;
+    const lat1 = a.lat * Math.PI / 180.0;
+    const lat2 = b.lat * Math.PI / 180.0;
+
+    const sinLat = Math.sin(difflat / 2);
+    const sinLon = Math.sin(difflon / 2);
+    const h = sinLat * sinLat + Math.cos(lat1) * Math.cos(lat2) * sinLon * sinLon;
+    const c = 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+    return earthradius * c;
 }
 
-var data = [
-{
-    type: "scattermapbox",
-    text: ["Hallo"],
-    lon: [7.883502],
-    lat: [54.187918],
-    marker: { color: "fuchsia", size: 4 }
+function formatDuration(ms) {
+    if (!ms || isNaN(ms) || ms <= 0) return "0s";
+    const totalSecs = Math.floor(ms / 1000);
+    const hrs = Math.floor(totalSecs / 3600);
+    const mins = Math.floor((totalSecs % 3600) / 60);
+    const secs = totalSecs % 60;
+
+    if (hrs > 0) return `${hrs}h ${mins}m ${secs}s`;
+    if (mins > 0) return `${mins}m ${secs}s`;
+    return `${secs}s`;
+}
+
+function draw_flight_map(gpsds) {
+    const mapDiv = document.getElementById('map');
+    if (!mapDiv) return;
+
+    if (!gpsds || !gpsds.lat || gpsds.lat.length === 0) {
+        mapDiv.style.display = "none";
+        return;
     }
-];
 
-var layout = {
-    dragmode: "zoom",
-    mapbox: { style: "open-street-map", center: { lat: 38, lon: -90 }, zoom: 15 },
-    margin: { r: 0, t: 0, b: 0, l: 0 }
-};
+    mapDiv.style.display = "block";
 
-/** Draw flight map */
-function draw_flight_map(ds) {
-    layout.mapbox.center.lon = ds.cenlon;
-    layout.mapbox.center.lat = ds.cenlat;
-    ds.type = "scattermapbox";
-    ds.mode = 'lines';
-    ds.line = { width: 1, color: 'blue'};
-    Plotly.newPlot("map", [ds], layout);
+    const pathTrace = {
+        x: gpsds.lon,
+        y: gpsds.lat,
+        mode: 'lines',
+        name: 'Flight Path',
+        line: {
+            color: '#38bdf8',
+            width: 3
+        },
+        hoverinfo: 'text',
+        text: gpsds.alt && gpsds.alt.length ? gpsds.alt.map((a, i) => `Alt: ${a.toFixed(1)}m | Spd: ${(gpsds.vel[i] * 3.6).toFixed(1)} km/h`) : 'GPS Point'
+    };
+
+    const startPoint = {
+        x: [gpsds.lon[0]],
+        y: [gpsds.lat[0]],
+        mode: 'markers',
+        name: 'Takeoff (Start)',
+        marker: { color: '#22c55e', size: 10, symbol: 'circle' }
+    };
+
+    const endPoint = {
+        x: [gpsds.lon[gpsds.lon.length - 1]],
+        y: [gpsds.lat[gpsds.lat.length - 1]],
+        mode: 'markers',
+        name: 'Landing (End)',
+        marker: { color: '#ef4444', size: 10, symbol: 'circle' }
+    };
+
+    const layout = {
+        title: {
+            text: '2D GPS Flight Path',
+            font: { color: '#f8fafc', size: 14 }
+        },
+        paper_bgcolor: '#0f172a',
+        plot_bgcolor: '#1e293b',
+        showlegend: true,
+        legend: { orientation: 'h', y: 1.1, font: { color: '#94a3b8' } },
+        margin: { l: 60, r: 30, t: 40, b: 50 },
+        xaxis: {
+            title: 'Longitude',
+            color: '#94a3b8',
+            gridcolor: '#334155',
+            zerolinecolor: '#475569'
+        },
+        yaxis: {
+            title: 'Latitude',
+            color: '#94a3b8',
+            gridcolor: '#334155',
+            zerolinecolor: '#475569',
+            scaleanchor: "x",
+            scaleratio: 1
+        }
+    };
+
+    const config = { responsive: true, displayModeBar: true };
+    Plotly.newPlot('map', [pathTrace, startPoint, endPoint], layout, config);
 }
 
-function myHours (duration) {
-    const hours = Math.floor(duration / 3600000);
-    return hours;
-}
-function myMinutes (duration) {
-    const minutes = Math.floor((duration % 3600000) / 60000);
-    return minutes;
-}
-function mySeconds (duration) {
-    const seconds = (duration % 60000) / 1000;
-    return seconds;
-}
-function myMilliseconds (duration) {
-    const ms = Math.floor(duration % 1000);
-    return ms;
-}
-/** Compute overview information from GPS data series like
- *  - Distance travelled
- *  - Time in Air
- *  - Max/Min Speed
- *  @param: gps data series with lat/lon, velocity and time
- */
-function get_overview(gpsds, boot_time) {
-    if (!gpsds || !gpsds.lat || gpsds.lat.length === 0) return;
-    let e = document.getElementById('logstart');
-    if (e && boot_time) {
-        const bootdate = new Date(boot_time);
-        e.textContent = bootdate.toString();
-    }
-    if (gpsds.time && gpsds.time.length > 0 && boot_time) {
-        const time_of_last_gps_msg = gpsds.time[gpsds.time.length-1].getTime();
-        const duration_ms = time_of_last_gps_msg - boot_time;
-        e = document.getElementById('logduration');
-        if (e) {
-            e.textContent = myHours(duration_ms) + " hours " +
-                myMinutes(duration_ms) + " minutes " +
-                mySeconds(duration_ms) + " seconds";
+function get_overview(gpsds, boot_time, logfileRef) {
+    // 1. Logging Start
+    const elStart = document.getElementById('logstart');
+    if (elStart) {
+        if (boot_time > 0) {
+            elStart.textContent = new Date(boot_time).toLocaleString();
+        } else {
+            elStart.textContent = "Relative Time (No GPS Absolute Epoch)";
         }
     }
-    let flytime = 0;
-    let flystarttime = 0;
-    let distance = 0.0;
-    let lastpos = { lon : 0.0, lat : 0.0, vel : 0.0, time : 0 };
-    let flying = false;
-    for (let i = 0; i < gpsds.lat.length; i++) {
-        const pos = { lon : gpsds.lon[i],
-                      lat : gpsds.lat[i],
-                      vel : gpsds.vel[i],
-                      time : gpsds.time[i] ? gpsds.time[i].getTime() : 0 };
-        const status = gpsds.status[i];
-        if (!flying && status >= 3 && pos.vel > 1.5) {
-            flying = true;
-            lastpos = pos;
-            flystarttime = pos.time;
-        } else if (flying && pos.vel < 1.0) {
-            flying = false;
-            flytime += pos.time - flystarttime;
-        }
-        if (flying) {
-            distance += coord2dist(pos, lastpos);
-            lastpos = pos;
+
+    // 2. Logging Duration
+    let totalDurationMs = 0;
+    if (gpsds && gpsds.time && gpsds.time.length > 0) {
+        const lastT = gpsds.time[gpsds.time.length - 1];
+        const firstT = gpsds.time[0];
+        if (lastT instanceof Date && firstT instanceof Date) {
+            totalDurationMs = lastT.getTime() - firstT.getTime();
+        } else if (typeof lastT === 'number' && typeof firstT === 'number') {
+            totalDurationMs = (lastT - firstT) * 1000;
         }
     }
-    e = document.getElementById('distance');
-    if (e) e.textContent = (Math.floor(distance) / 1000.0).toFixed(2) + " km";
-    e = document.getElementById('flighttime');
-    if (e) {
-        e.textContent = myHours(flytime) + " hours " +
-            myMinutes(flytime) + " minutes " +
-            mySeconds(flytime) + " seconds";
+    const elDur = document.getElementById('logduration');
+    if (elDur) elDur.textContent = formatDuration(totalDurationMs);
+
+    // 3. Flight Metrics
+    let totalDistanceM = 0;
+    let flyingTimeMs = 0;
+    let isFlying = false;
+    let flyingStartMs = 0;
+    let lastPos = null;
+
+    if (gpsds && gpsds.lat && gpsds.lat.length > 1) {
+        for (let i = 0; i < gpsds.lat.length; i++) {
+            const pos = {
+                lat: gpsds.lat[i],
+                lon: gpsds.lon[i],
+                vel: gpsds.vel[i] || 0,
+                time: (gpsds.time[i] instanceof Date) ? gpsds.time[i].getTime() : (gpsds.time[i] * 1000)
+            };
+            const status = gpsds.status ? gpsds.status[i] : 3;
+
+            if (!isFlying && status >= 3 && pos.vel > 1.5) {
+                isFlying = true;
+                flyingStartMs = pos.time;
+                lastPos = pos;
+            } else if (isFlying && pos.vel < 0.8) {
+                isFlying = false;
+                flyingTimeMs += (pos.time - flyingStartMs);
+            }
+
+            if (isFlying && lastPos) {
+                totalDistanceM += coord2dist(pos, lastPos);
+                lastPos = pos;
+            }
+        }
+        if (isFlying) {
+            const lastTime = (gpsds.time[gpsds.time.length - 1] instanceof Date) 
+                ? gpsds.time[gpsds.time.length - 1].getTime() 
+                : (gpsds.time[gpsds.time.length - 1] * 1000);
+            flyingTimeMs += (lastTime - flyingStartMs);
+        }
     }
-    e = document.getElementById('avgspeed');
-    if (e) {
-        const avgspeed = flytime > 0 ? (distance / flytime * 3600.0) : 0;
-        e.textContent = avgspeed.toFixed(1) + " km/h";
+
+    // 4. Altitude Delta
+    let altDiffM = 0;
+    if (gpsds && gpsds.alt && gpsds.alt.length > 0) {
+        altDiffM = Math.max(0, (gpsds.altmax || 0) - (gpsds.altmin || 0));
     }
-    e = document.getElementById('maxspeed');
-    if (e) {
-        const maxspd = (gpsds.velmax && gpsds.velmax > 0) ? (gpsds.velmax * 3.6).toFixed(1) : "0.0";
-        e.textContent = maxspd + " km/h";
+
+    const elDist = document.getElementById('distance');
+    if (elDist) elDist.textContent = (totalDistanceM / 1000.0).toFixed(2) + " km";
+
+    const elAlt = document.getElementById('maxaltdiff');
+    if (elAlt) elAlt.textContent = altDiffM.toFixed(1) + " m";
+
+    const elFly = document.getElementById('flighttime');
+    if (elFly) elFly.textContent = formatDuration(flyingTimeMs);
+
+    const elAvg = document.getElementById('avgspeed');
+    if (elAvg) {
+        const speedKmh = flyingTimeMs > 0 ? (totalDistanceM / (flyingTimeMs / 1000)) * 3.6 : 0;
+        elAvg.textContent = speedKmh.toFixed(1) + " km/h";
+    }
+
+    const elMax = document.getElementById('maxspeed');
+    if (elMax) {
+        const maxKmh = (gpsds && gpsds.velmax) ? (gpsds.velmax * 3.6) : 0;
+        elMax.textContent = maxKmh.toFixed(1) + " km/h";
     }
 }
-
