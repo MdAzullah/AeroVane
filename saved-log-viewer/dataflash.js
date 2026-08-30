@@ -194,21 +194,26 @@ class logfile {
     /* Based on item name like "GPS" and the subitemname like "Lat" I go through the logbuffer and
      * collect a time and data array ready for plotting with plotly */
     get_data_series(item, instance, subitem) {
-		const msgtypeval = this.msgtype_name_hash[item]; //Type number from name like GPS
+		const msgtypeval = this.msgtype_name_hash[item];
+		if (msgtypeval == null) return null;
 		const msgt = this.msgtypes[msgtypeval];
+		if (!msgt) return null;
+		const subitemidx = msgt.subitemidx_from_name[subitem];
+		if (subitemidx == null) return null;
 		var ds = { name : item +
 			(msgt.with_instances ? instance : "") + "." + subitem, x : [], y : [] };
-		const subitemidx = msgt.subitemidx_from_name[subitem];
 		const timesubidx = msgt.subitemidx_from_name["TimeUS"];
+		if (timesubidx == null) return null;
 		const subitemoffset = msgt.subitemoffset[subitemidx]; /* Offset of subitem within item */
 		const timesuboff =  msgt.subitemoffset[timesubidx];
 		const rf = readfunc[msgt.fields[subitemidx]];
+		if (!rf) return null;
 		const dv = new DataView(this.buffer);
 		let dataindexlist = [];
 		if (msgt.with_instances)
-			dataindexlist = msgt.data[instance];
+			dataindexlist = msgt.data[instance] || [];
 		else
-			dataindexlist = msgt.data;
+			dataindexlist = msgt.data || [];
 		for (let i = 0;i < dataindexlist.length;i++) {
 			let offset = dataindexlist[i] + subitemoffset;
 			const value = rf(dv, offset);
@@ -225,13 +230,16 @@ class logfile {
 	*/
 	get_gps_series() {
 		const gpstypeval = this.msgtype_name_hash["GPS"];
+		if (gpstypeval == null) return null;
 		const msgt = this.msgtypes[gpstypeval];
+		if (!msgt) return null;
 		var ds = { name : "GPS", lat : [], lon : [], time : [], vel : [], status : [] };
 		const latsubidx  = msgt.subitemidx_from_name["Lat"];
 		const lonsubidx  = msgt.subitemidx_from_name["Lng"];
 		const velsubidx  = msgt.subitemidx_from_name["Spd"];
 		const timesubidx = msgt.subitemidx_from_name["TimeUS"];
 		const statusidx  = msgt.subitemidx_from_name["Status"];
+		if (latsubidx == null || lonsubidx == null || timesubidx == null) return null;
 		const latoffset  = msgt.subitemoffset[latsubidx];
 		const lonoffset  = msgt.subitemoffset[lonsubidx];
 		const veloffset  = msgt.subitemoffset[velsubidx];

@@ -1,0 +1,17 @@
+{
+  "name": "skyforge",
+  "version": "1.0.0",
+  "description": "SkyForge — High-performance drone telemetry & flight log analysis suite",
+  "author": "MD Azizullah <md.azizullah.engineer@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "npm --prefix live-viewer run dev",
+    "dev:live": "npm --prefix live-viewer run dev",
+    "dev:saved": "python3 -m http.server 8080 --directory saved-log-viewer",
+    "dev:bridge": "./bridge/mavlink-server 'fakesource://' wsserver://0.0.0.0:9988",
+    "build": "npm --prefix live-viewer run build",
+    "test": "npm --prefix live-viewer test",
+    "typecheck": "npm --prefix live-viewer run typecheck",
+    "verify": "npm --prefix live-viewer run verify"
+  }
+}

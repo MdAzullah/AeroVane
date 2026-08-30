@@ -68,25 +68,32 @@ function myMilliseconds (duration) {
  *  @param: gps data series with lat/lon, velocity and time
  */
 function get_overview(gpsds, boot_time) {
+    if (!gpsds || !gpsds.lat || gpsds.lat.length === 0) return;
     let e = document.getElementById('logstart');
-    const bootdate = new Date(boot_time);
-    e.textContent = bootdate.toString();
-    const time_of_last_gps_msg = gpsds.time[gpsds.time.length-1].getTime();
-    const duration_ms = time_of_last_gps_msg - boot_time;
-    e = document.getElementById('logduration');
-    e.textContent = myHours(duration_ms) + " hours " +
-        myMinutes(duration_ms) + " minutes " +
-        mySeconds(duration_ms) + " seconds";
+    if (e && boot_time) {
+        const bootdate = new Date(boot_time);
+        e.textContent = bootdate.toString();
+    }
+    if (gpsds.time && gpsds.time.length > 0 && boot_time) {
+        const time_of_last_gps_msg = gpsds.time[gpsds.time.length-1].getTime();
+        const duration_ms = time_of_last_gps_msg - boot_time;
+        e = document.getElementById('logduration');
+        if (e) {
+            e.textContent = myHours(duration_ms) + " hours " +
+                myMinutes(duration_ms) + " minutes " +
+                mySeconds(duration_ms) + " seconds";
+        }
+    }
     let flytime = 0;
     let flystarttime = 0;
     let distance = 0.0;
     let lastpos = { lon : 0.0, lat : 0.0, vel : 0.0, time : 0 };
     let flying = false;
-    for(i = 0;i < gpsds.lat.length;i++) {
+    for (let i = 0; i < gpsds.lat.length; i++) {
         const pos = { lon : gpsds.lon[i],
                       lat : gpsds.lat[i],
                       vel : gpsds.vel[i],
-                      time : gpsds.time[i].getTime()};
+                      time : gpsds.time[i] ? gpsds.time[i].getTime() : 0 };
         const status = gpsds.status[i];
         if (!flying && status >= 3 && pos.vel > 1.5) {
             flying = true;
@@ -102,17 +109,22 @@ function get_overview(gpsds, boot_time) {
         }
     }
     e = document.getElementById('distance');
-    e.textContent = Math.floor(distance) / 1000.0 + " km";
+    if (e) e.textContent = (Math.floor(distance) / 1000.0).toFixed(2) + " km";
     e = document.getElementById('flighttime');
-    e.textContent = myHours(flytime) + " hours " +
-        myMinutes(flytime) + " minutes " +
-        mySeconds(flytime) + " seconds";
+    if (e) {
+        e.textContent = myHours(flytime) + " hours " +
+            myMinutes(flytime) + " minutes " +
+            mySeconds(flytime) + " seconds";
+    }
     e = document.getElementById('avgspeed');
-    const avgspeed = distance / flytime * 3600.0;
-    e.textContent = avgspeed.toFixed(1) + " km/h";
+    if (e) {
+        const avgspeed = flytime > 0 ? (distance / flytime * 3600.0) : 0;
+        e.textContent = avgspeed.toFixed(1) + " km/h";
+    }
     e = document.getElementById('maxspeed');
-    e.textContent = (gpsds.velmax * 3.6).toFixed(1) + " km/h";
-    console.log(flytime);
-    console.log(distance);
+    if (e) {
+        const maxspd = (gpsds.velmax && gpsds.velmax > 0) ? (gpsds.velmax * 3.6).toFixed(1) : "0.0";
+        e.textContent = maxspd + " km/h";
+    }
 }
 
