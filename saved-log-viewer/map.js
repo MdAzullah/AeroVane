@@ -1,4 +1,5 @@
-/* SkyForge Geographic Flight Path & Real-World Map Visualizer (Leaflet) */
+/* SkyForge Geographic Flight Path & Real-World Map Visualizer (Leaflet)
+   Supports Satellite Hybrid with High-Resolution Place Names, Roads & Boundaries */
 
 let leafletMap = null;
 let flightPolyline = null;
@@ -50,32 +51,73 @@ function init_or_get_map(centerLat, centerLon, zoom = 15) {
         attributionControl: true
     });
 
-    // Basemaps
-    const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    // 1. Raw Tile Providers
+    const esriSatelliteBase = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         maxZoom: 19,
-        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics'
     });
 
-    const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    const esriPlacesLabels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 19,
+        pane: 'overlayPane',
+        attribution: '&copy; Esri'
+    });
+
+    const esriRoadsLabels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 19,
+        pane: 'overlayPane',
+        attribution: '&copy; Esri'
+    });
+
+    // Hybrid Satellite: Satellite Imagery + Roads + Place Names
+    const satelliteHybrid = L.layerGroup([
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 }),
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 }),
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 })
+    ]);
+
+    // OpenStreetMap (Streets & Places)
+    const streetOsm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     });
 
-    const darkLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    // CARTO Voyager (High-contrast cities & roads)
+    const cartoVoyager = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="https://carto.com/">CARTO</a>'
     });
 
-    // Default to Satellite (most useful for UAV flight fields)
-    satelliteLayer.addTo(leafletMap);
+    // Esri Topographic (Terrain + Towns & Landmarks)
+    const esriTopo = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 19,
+        attribution: '&copy; Esri &mdash; Topo & Landmarks'
+    });
+
+    // Dark Mode with Labels
+    const cartoDark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://carto.com/">CARTO</a>'
+    });
+
+    // Set default active base layer: Hybrid Satellite with full place names & roads
+    satelliteHybrid.addTo(leafletMap);
 
     const baseMaps = {
-        "🛰️ Satellite (Esri)": satelliteLayer,
-        "🗺️ Streets (OSM)": streetLayer,
-        "🌙 Dark Mode (Carto)": darkLayer
+        "🛰️ Satellite (Hybrid + Place Names & Roads)": satelliteHybrid,
+        "🛰️ Satellite (Clean Imagery Only)": esriSatelliteBase,
+        "🗺️ Streets (OpenStreetMap)": streetOsm,
+        "🏙️ City View (CARTO Voyager)": cartoVoyager,
+        "🏔️ Topographic (Esri Topo & Elevation)": esriTopo,
+        "🌙 Dark Mode (Carto Dark)": cartoDark
     };
 
-    L.control.layers(baseMaps, null, { position: 'topright' }).addTo(leafletMap);
+    const overlayMaps = {
+        "🏷️ Place & City Names Overlay": esriPlacesLabels,
+        "🛣️ Roads & Highway Overlay": esriRoadsLabels
+    };
+
+    L.control.layers(baseMaps, overlayMaps, { position: 'topright', collapsed: false }).addTo(leafletMap);
     L.control.scale({ imperial: false, position: 'bottomleft' }).addTo(leafletMap);
 
     return leafletMap;
@@ -102,7 +144,7 @@ function draw_flight_map(gpsds) {
     const map = init_or_get_map(gpsds.cenlat, gpsds.cenlon);
     if (!map) return;
 
-    // Clear previous layers
+    // Clear previous flight path & markers
     if (flightPolyline) map.removeLayer(flightPolyline);
     if (takeoffMarker) map.removeLayer(takeoffMarker);
     if (landingMarker) map.removeLayer(landingMarker);
@@ -141,7 +183,7 @@ function draw_flight_map(gpsds) {
     }).addTo(map);
 
     takeoffMarker.bindPopup(`
-        <div style="font-family: sans-serif; font-size: 13px;">
+        <div style="font-family: sans-serif; font-size: 13px; min-width: 140px;">
             <strong style="color: #22c55e;">🟢 Takeoff (Start)</strong><br>
             <strong>Time:</strong> ${takeoffTime}<br>
             <strong>Alt:</strong> ${takeoffAlt}<br>
@@ -166,7 +208,7 @@ function draw_flight_map(gpsds) {
     }).addTo(map);
 
     landingMarker.bindPopup(`
-        <div style="font-family: sans-serif; font-size: 13px;">
+        <div style="font-family: sans-serif; font-size: 13px; min-width: 140px;">
             <strong style="color: #ef4444;">🔴 Landing (End)</strong><br>
             <strong>Time:</strong> ${landingTime}<br>
             <strong>Alt:</strong> ${landingAlt}<br>

@@ -477,23 +477,44 @@ h1 {
 }
 
 .leaflet-control-layers {
-    background: #0f172a !important;
+    background: rgba(15, 23, 42, 0.92) !important;
+    backdrop-filter: blur(8px);
     color: #f8fafc !important;
     border: 1px solid var(--border-color) !important;
     border-radius: 8px !important;
-    padding: 6px 10px !important;
+    padding: 8px 12px !important;
     font-size: 12px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4) !important;
 }
 
 .leaflet-control-layers-expanded {
-    background: #0f172a !important;
+    background: rgba(15, 23, 42, 0.95) !important;
     color: #f8fafc !important;
 }
 
+.leaflet-control-layers label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 4px 0;
+    cursor: pointer;
+    color: #cbd5e1;
+}
+
+.leaflet-control-layers label:hover {
+    color: var(--accent);
+}
+
+.leaflet-control-layers-separator {
+    border-top: 1px solid var(--border-color) !important;
+    margin: 6px 0 !important;
+}
+
 .leaflet-control-scale-line {
-    background: rgba(15, 23, 42, 0.8) !important;
+    background: rgba(15, 23, 42, 0.85) !important;
     color: #f8fafc !important;
     border-color: var(--accent) !important;
+    font-weight: 600;
 }
 
 /* Spinner */
