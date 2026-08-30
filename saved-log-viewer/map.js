@@ -1,4 +1,11 @@
-/* SkyForge Flight Trajectory Map & Overview Generator */
+/* SkyForge Geographic Flight Path & Real-World Map Visualizer (Leaflet) */
+
+let leafletMap = null;
+let flightPolyline = null;
+let takeoffMarker = null;
+let landingMarker = null;
+let droneHoverMarker = null;
+let currentGpsData = null;
 
 function coord2dist(a, b) {
     const earthradius = 6378388.0; /* Earth Radius in meters */
@@ -26,74 +33,171 @@ function formatDuration(ms) {
     return `${secs}s`;
 }
 
+function init_or_get_map(centerLat, centerLon, zoom = 15) {
+    const mapContainer = document.getElementById('map');
+    if (!mapContainer) return null;
+
+    if (leafletMap) {
+        leafletMap.setView([centerLat, centerLon], zoom);
+        return leafletMap;
+    }
+
+    // Initialize Leaflet Map
+    leafletMap = L.map('map', {
+        center: [centerLat, centerLon],
+        zoom: zoom,
+        zoomControl: true,
+        attributionControl: true
+    });
+
+    // Basemaps
+    const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 19,
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    });
+
+    const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+
+    const darkLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://carto.com/">CARTO</a>'
+    });
+
+    // Default to Satellite (most useful for UAV flight fields)
+    satelliteLayer.addTo(leafletMap);
+
+    const baseMaps = {
+        "🛰️ Satellite (Esri)": satelliteLayer,
+        "🗺️ Streets (OSM)": streetLayer,
+        "🌙 Dark Mode (Carto)": darkLayer
+    };
+
+    L.control.layers(baseMaps, null, { position: 'topright' }).addTo(leafletMap);
+    L.control.scale({ imperial: false, position: 'bottomleft' }).addTo(leafletMap);
+
+    return leafletMap;
+}
+
 function draw_flight_map(gpsds) {
-    const mapDiv = document.getElementById('map');
-    if (!mapDiv) return;
+    const mapCard = document.querySelector('.map-card');
+    const mapContainer = document.getElementById('map');
+    if (!mapContainer) return;
 
     if (!gpsds || !gpsds.lat || gpsds.lat.length === 0) {
-        mapDiv.style.display = "none";
+        if (mapCard) mapCard.style.display = "none";
         return;
     }
 
-    mapDiv.style.display = "block";
+    if (mapCard) mapCard.style.display = "block";
+    currentGpsData = gpsds;
 
-    const pathTrace = {
-        x: gpsds.lon,
-        y: gpsds.lat,
-        mode: 'lines',
-        name: 'Flight Path',
-        line: {
-            color: '#38bdf8',
-            width: 3
-        },
-        hoverinfo: 'text',
-        text: gpsds.alt && gpsds.alt.length ? gpsds.alt.map((a, i) => `Alt: ${a.toFixed(1)}m | Spd: ${(gpsds.vel[i] * 3.6).toFixed(1)} km/h`) : 'GPS Point'
-    };
+    const latlngs = [];
+    for (let i = 0; i < gpsds.lat.length; i++) {
+        latlngs.push([gpsds.lat[i], gpsds.lon[i]]);
+    }
 
-    const startPoint = {
-        x: [gpsds.lon[0]],
-        y: [gpsds.lat[0]],
-        mode: 'markers',
-        name: 'Takeoff (Start)',
-        marker: { color: '#22c55e', size: 10, symbol: 'circle' }
-    };
+    const map = init_or_get_map(gpsds.cenlat, gpsds.cenlon);
+    if (!map) return;
 
-    const endPoint = {
-        x: [gpsds.lon[gpsds.lon.length - 1]],
-        y: [gpsds.lat[gpsds.lat.length - 1]],
-        mode: 'markers',
-        name: 'Landing (End)',
-        marker: { color: '#ef4444', size: 10, symbol: 'circle' }
-    };
+    // Clear previous layers
+    if (flightPolyline) map.removeLayer(flightPolyline);
+    if (takeoffMarker) map.removeLayer(takeoffMarker);
+    if (landingMarker) map.removeLayer(landingMarker);
+    if (droneHoverMarker) map.removeLayer(droneHoverMarker);
 
-    const layout = {
-        title: {
-            text: '2D GPS Flight Path',
-            font: { color: '#f8fafc', size: 14 }
-        },
-        paper_bgcolor: '#0f172a',
-        plot_bgcolor: '#1e293b',
-        showlegend: true,
-        legend: { orientation: 'h', y: 1.1, font: { color: '#94a3b8' } },
-        margin: { l: 60, r: 30, t: 40, b: 50 },
-        xaxis: {
-            title: 'Longitude',
-            color: '#94a3b8',
-            gridcolor: '#334155',
-            zerolinecolor: '#475569'
-        },
-        yaxis: {
-            title: 'Latitude',
-            color: '#94a3b8',
-            gridcolor: '#334155',
-            zerolinecolor: '#475569',
-            scaleanchor: "x",
-            scaleratio: 1
-        }
-    };
+    // 1. Draw glowing outer shadow + main polyline
+    const polylineShadow = L.polyline(latlngs, {
+        color: '#0284c7',
+        weight: 6,
+        opacity: 0.5,
+        lineCap: 'round',
+        lineJoin: 'round'
+    }).addTo(map);
 
-    const config = { responsive: true, displayModeBar: true };
-    Plotly.newPlot('map', [pathTrace, startPoint, endPoint], layout, config);
+    flightPolyline = L.polyline(latlngs, {
+        color: '#38bdf8',
+        weight: 3.5,
+        opacity: 0.95,
+        lineCap: 'round',
+        lineJoin: 'round'
+    }).addTo(map);
+
+    // 2. Takeoff Marker (Green)
+    const takeoffLat = gpsds.lat[0];
+    const takeoffLon = gpsds.lon[0];
+    const takeoffAlt = gpsds.alt && gpsds.alt.length ? gpsds.alt[0].toFixed(1) + "m" : "N/A";
+    const takeoffTime = (gpsds.time && gpsds.time[0] instanceof Date) ? gpsds.time[0].toLocaleTimeString() : "Start";
+
+    takeoffMarker = L.circleMarker([takeoffLat, takeoffLon], {
+        radius: 8,
+        fillColor: '#22c55e',
+        color: '#ffffff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.95
+    }).addTo(map);
+
+    takeoffMarker.bindPopup(`
+        <div style="font-family: sans-serif; font-size: 13px;">
+            <strong style="color: #22c55e;">🟢 Takeoff (Start)</strong><br>
+            <strong>Time:</strong> ${takeoffTime}<br>
+            <strong>Alt:</strong> ${takeoffAlt}<br>
+            <strong>Lat/Lon:</strong> ${takeoffLat.toFixed(6)}, ${takeoffLon.toFixed(6)}
+        </div>
+    `);
+
+    // 3. Landing Marker (Red)
+    const lastIdx = gpsds.lat.length - 1;
+    const landingLat = gpsds.lat[lastIdx];
+    const landingLon = gpsds.lon[lastIdx];
+    const landingAlt = gpsds.alt && gpsds.alt.length ? gpsds.alt[lastIdx].toFixed(1) + "m" : "N/A";
+    const landingTime = (gpsds.time && gpsds.time[lastIdx] instanceof Date) ? gpsds.time[lastIdx].toLocaleTimeString() : "End";
+
+    landingMarker = L.circleMarker([landingLat, landingLon], {
+        radius: 8,
+        fillColor: '#ef4444',
+        color: '#ffffff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.95
+    }).addTo(map);
+
+    landingMarker.bindPopup(`
+        <div style="font-family: sans-serif; font-size: 13px;">
+            <strong style="color: #ef4444;">🔴 Landing (End)</strong><br>
+            <strong>Time:</strong> ${landingTime}<br>
+            <strong>Alt:</strong> ${landingAlt}<br>
+            <strong>Lat/Lon:</strong> ${landingLat.toFixed(6)}, ${landingLon.toFixed(6)}
+        </div>
+    `);
+
+    // 4. Drone Live Position Marker (Cyan pulse for time cursor)
+    droneHoverMarker = L.circleMarker([takeoffLat, takeoffLon], {
+        radius: 6,
+        fillColor: '#f59e0b',
+        color: '#ffffff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.95
+    });
+
+    // Fit view to polyline bounding box with padding
+    const bounds = flightPolyline.getBounds();
+    map.fitBounds(bounds, { padding: [45, 45], maxZoom: 18 });
+
+    // Invalidate size after layout updates
+    setTimeout(() => {
+        map.invalidateSize();
+    }, 100);
+}
+
+function fit_flight_path() {
+    if (leafletMap && flightPolyline) {
+        leafletMap.fitBounds(flightPolyline.getBounds(), { padding: [45, 45], maxZoom: 18 });
+    }
 }
 
 function get_overview(gpsds, boot_time, logfileRef) {
@@ -103,7 +207,7 @@ function get_overview(gpsds, boot_time, logfileRef) {
         if (boot_time > 0) {
             elStart.textContent = new Date(boot_time).toLocaleString();
         } else {
-            elStart.textContent = "Relative Time (No GPS Absolute Epoch)";
+            elStart.textContent = "Relative Time (No GPS Epoch)";
         }
     }
 

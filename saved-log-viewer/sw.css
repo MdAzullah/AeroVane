@@ -409,7 +409,43 @@ h1 {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 10px;
-    padding: 12px;
+    padding: 16px;
+}
+
+.map-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.map-title-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.map-icon {
+    font-size: 16px;
+}
+
+.fit-btn {
+    background-color: #1e293b;
+    border: 1px solid var(--border-color);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.fit-btn:hover {
+    background-color: var(--accent);
+    color: #0f172a;
 }
 
 #plot {
@@ -419,8 +455,45 @@ h1 {
 
 #map {
     width: 100%;
-    min-height: 380px;
-    margin-top: 4px;
+    height: 520px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    background-color: #0b0f19;
+}
+
+/* Leaflet Dark Customizations */
+.leaflet-popup-content-wrapper {
+    background: #0f172a !important;
+    color: #f8fafc !important;
+    border: 1px solid var(--border-color);
+    border-radius: 8px !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5) !important;
+}
+
+.leaflet-popup-tip {
+    background: #0f172a !important;
+    border: 1px solid var(--border-color);
+}
+
+.leaflet-control-layers {
+    background: #0f172a !important;
+    color: #f8fafc !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 8px !important;
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+}
+
+.leaflet-control-layers-expanded {
+    background: #0f172a !important;
+    color: #f8fafc !important;
+}
+
+.leaflet-control-scale-line {
+    background: rgba(15, 23, 42, 0.8) !important;
+    color: #f8fafc !important;
+    border-color: var(--accent) !important;
 }
 
 /* Spinner */

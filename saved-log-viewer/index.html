@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SkyForge — ArduPilot Dataflash Log Analyzer</title>
+    <link rel="stylesheet" href="leaflet.css">
     <link rel="stylesheet" href="sw.css">
 </head>
 <body>
@@ -80,8 +81,17 @@
                         <div id="plot"></div>
                     </div>
 
-                    <!-- GPS 2D Trajectory Map -->
+                    <!-- GPS Real-World Trajectory Map -->
                     <div class="map-card">
+                        <div class="map-header">
+                            <div class="map-title-group">
+                                <span class="map-icon">🛰️</span>
+                                <span class="section-title">Geographic Flight Trajectory Map</span>
+                            </div>
+                            <div class="map-actions">
+                                <button class="fit-btn" onclick="fit_flight_path()" title="Center map on flight path">🎯 Fit Flight Path</button>
+                            </div>
+                        </div>
                         <div id="map"></div>
                     </div>
                 </section>
@@ -90,6 +100,7 @@
     </div>
 
     <!-- Scripts -->
+    <script type="text/javascript" src="leaflet.js"></script>
     <script type="text/javascript" src="plotly-2.14.0.min.js"></script>
     <script type="text/javascript" src="dataflash.js"></script>
     <script type="text/javascript" src="map.js"></script>
