@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>SkyForge — Dataflash Flight Log Analyzer</title>
+     <link rel="stylesheet" href="sw.css">
+</head>
+
+<body>
+     <section class="header-section" ondrop="handle_ondrop(event)" ondragover="handle_dragover(event)" ondragenter="handle_dragenter(event)">
+          <h1>SkyForge ArduPilot Log Analyzer</h1>
+          <div class="drop-card">
+               <p>Drag & Drop your ArduPilot Dataflash (<code>*.bin</code>) log file here</p>
+               <input type="file" id="files" name="file" accept=".bin,.BIN" onchange="handle_onfilechange(event)">
+          </div>
+     </section>
+     <section id="analyzepage" style="display:none">
+          <div id="overview">
+               <table>
+                    <tr>
+                         <td>Logging Start</td>
+                         <td id="logstart">-</td>
+                    </tr>
+                    <tr>
+                         <td><a href="https://ardupilot.org/plane/docs/logmessages.html#acc">Logging Duration</a></td>
+                         <td id="logduration">-</td>
+                    </tr>
+                    <tr>
+                         <td>Distance</td>
+                         <td id="distance">- km</td>
+                    </tr>
+                    <tr>
+                         <td>Max Altitude Difference</td>
+                         <td id="maxaltdiff">- m</td>
+                    </tr>
+                    <tr>
+                         <td>Flight time</td>
+                         <td id="flighttime">-</td>
+                    </tr>
+                    <tr>
+                         <td>Average Speed</td>
+                         <td id="avgspeed">- km/h</td>
+                    </tr>
+                    <tr>
+                         <td>Maximum Speed</td>
+                         <td id="maxspeed">- km/h</td>
+                    </tr>
+                    <tr>
+                         <td>Maximum Speed Up</td>
+                         <td id="maxupspeed">- km/h</td>
+                    </tr>
+                    <tr>
+                         <td>Maximum Speed Down</td>
+                         <td id="maxdownspeed">- km/h</td>
+                    </tr>
+               </table>
+          </div>
+
+          <div id="map"></div>
+
+          <nav>
+               <ul id="msglist">
+                    <!-- The item tree will be build here -->
+               </ul>
+          </nav>
+          <plot>
+               <div id="plot"></div>
+          </plot>
+
+          <table>
+               <tr>
+                    <th>y</th>
+                    <th>y2</th>
+                    <th></th>
+                    <th>y3</th>
+                    <th>y4</th>
+               </tr>
+               <tr>
+                    <td ondrop="axis_drop(event)" ondragover="axis_dragover(event)">
+                         <div id="y" class="axis"></div>
+                    </td>
+                    <td ondrop="axis_drop(event)" ondragover="axis_dragover(event)">
+                         <div id="y2" class="axis"></div>
+                    </td>
+                    <td ondrop="delete_trace(event)" ondragover="axis_dragover(event)"
+                         style="width:300px; text-align:center; vertical-align: center;">
+                         Delete
+                    </td>
+                    <td ondrop="axis_drop(event)" ondragover="axis_dragover(event)">
+                         <div id="y3" class="axis"></div>
+                    </td>
+                    <td ondrop="axis_drop(event)" ondragover="axis_dragover(event)">
+                         <div id="y4" class="axis"></div>
+                    </td>
+               </tr>
+          </table>
+
+     </section>
+
+     </section>
+
+     <script type="text/javascript" src="dataflash.js"></script>
+     <script type="text/javascript" src="navbar.js"></script>
+     <script type="text/javascript" src="plotly-2.14.0.min.js"></script>
+     <script type="text/javascript" src="map.js"></script>
+     <script type="text/javascript" src="main.js"></script>
+</body>
+</html>

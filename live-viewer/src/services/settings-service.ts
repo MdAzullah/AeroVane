@@ -1,0 +1,139 @@
+/**
+ * Settings service — persists app preferences to IndexedDB using idb-keyval.
+ *
+ * Owns preferences like theme, baudRate, bufferCapacity, etc.
+ * Grid layout positions remain in a separate key owned by TelemetryView.
+ */
+
+import { get, set, del } from 'idb-keyval';
+import type { BaudRate } from './webserial-byte-source';
+import { DEFAULT_BAUD_RATE } from './webserial-byte-source';
+import type { UnitProfile } from './unit-display';
+
+const SETTINGS_KEY = 'mavdeck-settings-v1';
+
+export type MapLayerType = 'street' | 'satellite' | 'hybrid';
+
+export interface MavDeckSettings {
+  activeTab: string;
+  theme: 'dark' | 'light';
+  debugConsoleEnabled: boolean;
+  uiScale: number;
+  unitProfile: UnitProfile;
+  baudRate: BaudRate;
+  bufferCapacity: number;
+  dataRetentionMinutes: number;
+  updateIntervalMs: number;
+  mapShowPath: boolean;
+  mapTrailLength: number;
+  mapLayer: MapLayerType;
+  mapZoom: number;
+  mapCenterLat: number;
+  mapCenterLon: number;
+  mapAutoCenter: boolean;
+  sidebarCollapsed: boolean;
+  sidebarWidth: number;
+  autoConnect: boolean;
+  autoDetectBaud: boolean;
+  lastPortVendorId: number | null;
+  lastPortProductId: number | null;
+  lastPortSerialNumber: string | null;
+  lastSuccessfulBaudRate: BaudRate | null;
+  dialectUrl: string;
+}
+
+export const DEFAULT_SETTINGS: MavDeckSettings = {
+  activeTab: 'telemetry',
+  theme: 'dark',
+  debugConsoleEnabled: false,
+  uiScale: 1,
+  unitProfile: 'raw',
+  baudRate: DEFAULT_BAUD_RATE,
+  bufferCapacity: 2000,
+  dataRetentionMinutes: 10,
+  updateIntervalMs: 16,
+  mapShowPath: true,
+  mapTrailLength: 500,
+  mapLayer: 'street',
+  mapZoom: 15,
+  mapCenterLat: 34.0522,
+  mapCenterLon: -118.2437,
+  mapAutoCenter: true,
+  sidebarCollapsed: false,
+  sidebarWidth: 350,
+  autoConnect: true,
+  autoDetectBaud: true,
+  lastPortVendorId: null,
+  lastPortProductId: null,
+  lastPortSerialNumber: null,
+  lastSuccessfulBaudRate: null,
+  dialectUrl: 'https://github.com/DanWilson00/js_c_library_v2/blob/master/message_definitions/jetshark.xml',
+};
+
+/**
+ * Load settings from IndexedDB. Merges with defaults for forward-compatibility:
+ * any new keys added in future versions will get their default values.
+ */
+export async function loadSettings(): Promise<MavDeckSettings> {
+  const saved = await get<Partial<MavDeckSettings>>(SETTINGS_KEY);
+  if (!saved) return { ...DEFAULT_SETTINGS };
+  return { ...DEFAULT_SETTINGS, ...saved };
+}
+
+/** Save settings to IndexedDB. */
+export async function saveSettings(settings: MavDeckSettings): Promise<void> {
+  pendingSettings = null;
+  if (debounceTimer) {
+    clearTimeout(debounceTimer);
+    debounceTimer = null;
+  }
+  await set(SETTINGS_KEY, settings);
+}
+
+let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+let pendingSettings: MavDeckSettings | null = null;
+
+/** Save settings with a 2-second debounce to avoid thrashing IndexedDB. */
+export function saveSettingsDebounced(settings: MavDeckSettings): void {
+  pendingSettings = settings;
+  if (debounceTimer) clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    const nextSettings = pendingSettings;
+    pendingSettings = null;
+    if (nextSettings) {
+      void saveSettings(nextSettings);
+    }
+    debounceTimer = null;
+  }, 2000);
+}
+
+export async function flushSettings(): Promise<void> {
+  if (debounceTimer) {
+    clearTimeout(debounceTimer);
+    debounceTimer = null;
+  }
+  const nextSettings = pendingSettings;
+  pendingSettings = null;
+  if (nextSettings) {
+    await saveSettings(nextSettings);
+  }
+}
+
+const DIALECT_KEY = 'mavdeck-dialect-v1';
+
+export interface PersistedDialect {
+  name: string;       // e.g. "common" or "ardupilotmega"
+  json: string;       // parsed JSON string (registry-compatible)
+}
+
+export async function saveDialect(name: string, json: string): Promise<void> {
+  await set(DIALECT_KEY, { name, json });
+}
+
+export async function loadDialect(): Promise<PersistedDialect | undefined> {
+  return get<PersistedDialect>(DIALECT_KEY);
+}
+
+export async function clearDialect(): Promise<void> {
+  await del(DIALECT_KEY);
+}
