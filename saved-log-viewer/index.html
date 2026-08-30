@@ -58,6 +58,9 @@
                 </div>
             </section>
 
+            <!-- Mobile Sidebar Toggle -->
+            <button class="mobile-sidebar-toggle" onclick="toggle_mobile_sidebar()">☰ Signals & Messages Explorer</button>
+
             <!-- Workspace Layout: Left Sidebar + Right Visualization -->
             <div class="workspace-grid">
                 <!-- Left Sidebar: Signal & Message Tree -->
@@ -71,7 +74,10 @@
                     <div class="traces-toolbar">
                         <div class="traces-header">
                             <span class="section-title">Active Signals</span>
-                            <button class="clear-btn" onclick="clear_all_traces()">Clear All</button>
+                            <div class="header-action-group">
+                                <button id="graph-fullscreen-btn" class="fullscreen-toggle-btn" onclick="toggle_graph_fullscreen()" title="Fullscreen Split View (Signals on Left, Graph on Right)">⛶ Fullscreen Split</button>
+                                <button class="clear-btn" onclick="clear_all_traces()" title="Clear all active plots">Clear All</button>
+                            </div>
                         </div>
                         <div id="active-traces-bar" class="traces-pill-container"></div>
                     </div>
@@ -90,6 +96,7 @@
                             </div>
                             <div class="map-actions">
                                 <button class="fit-btn" onclick="fit_flight_path()" title="Center map on flight path">🎯 Fit Flight Path</button>
+                                <button id="map-fullscreen-btn" class="fullscreen-toggle-btn" onclick="toggle_map_fullscreen()" title="Toggle full screen map">⛶ Fullscreen</button>
                             </div>
                         </div>
                         <div id="map"></div>

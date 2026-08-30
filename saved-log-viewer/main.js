@@ -1,4 +1,5 @@
-/* SkyForge Main App Controller */
+/* SkyForge Main App Controller
+   Supports full responsiveness, split fullscreen graph/sidebar workspace, and mobile layouts */
 
 function readfiles(files) {
     if (!files || files.length === 0) return;
@@ -65,8 +66,8 @@ function readfiles(files) {
                 if (gpsds) {
                     draw_flight_map(gpsds);
                 } else {
-                    const mapDiv = document.getElementById('map');
-                    if (mapDiv) mapDiv.style.display = "none";
+                    const mapCard = document.querySelector('.map-card');
+                    if (mapCard) mapCard.style.display = "none";
                 }
 
             } catch (err) {
@@ -100,7 +101,8 @@ function init_main_plot() {
         plot_bgcolor: '#1e293b',
         showlegend: false,
         hovermode: 'x unified',
-        margin: { l: 60, r: 60, t: 40, b: 40 },
+        autosize: true,
+        margin: { l: 55, r: 55, t: 40, b: 40 },
         xaxis: {
             color: '#94a3b8',
             gridcolor: '#334155',
@@ -180,6 +182,62 @@ function plot_default_signal(lf) {
         }
     }
 }
+
+function toggle_graph_fullscreen() {
+    const workspace = document.querySelector('.workspace-grid');
+    if (!workspace) return;
+
+    const isFullscreen = workspace.classList.toggle('fullscreen-workspace');
+    const btn = document.getElementById('graph-fullscreen-btn');
+    if (btn) {
+        btn.innerHTML = isFullscreen ? '✕ Exit Fullscreen' : '⛶ Fullscreen Split';
+    }
+
+    const mapCard = document.querySelector('.map-card');
+    if (mapCard) {
+        mapCard.style.display = isFullscreen ? 'none' : (currentGpsData ? 'block' : 'none');
+    }
+
+    setTimeout(() => {
+        const plot = document.getElementById('plot');
+        if (plot && window.Plotly) {
+            Plotly.Plots.resize(plot);
+        }
+    }, 150);
+}
+
+function toggle_mobile_sidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar) {
+        sidebar.classList.toggle('mobile-open');
+    }
+}
+
+// Global escape key handler to exit any fullscreen mode
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        const workspace = document.querySelector('.workspace-grid');
+        if (workspace && workspace.classList.contains('fullscreen-workspace')) {
+            toggle_graph_fullscreen();
+        }
+
+        const mapCard = document.querySelector('.map-card');
+        if (mapCard && mapCard.classList.contains('fullscreen-active')) {
+            toggle_map_fullscreen();
+        }
+    }
+});
+
+// Window resize handler for Plotly and Leaflet
+window.addEventListener('resize', function() {
+    const plot = document.getElementById('plot');
+    if (plot && window.Plotly) {
+        Plotly.Plots.resize(plot);
+    }
+    if (leafletMap) {
+        leafletMap.invalidateSize();
+    }
+});
 
 function handle_ondrop(event) {
     event.preventDefault();

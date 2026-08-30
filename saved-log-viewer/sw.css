@@ -1,4 +1,5 @@
-/* SkyForge Modern Dark Theme Stylesheet */
+/* SkyForge Modern Dark Theme Stylesheet
+   Fully responsive across all screen sizes with Split-Fullscreen and Map-Fullscreen support */
 
 :root {
     --bg-base: #0b0f19;
@@ -9,7 +10,7 @@
     --text-secondary: #94a3b8;
     --text-muted: #64748b;
     --accent: #38bdf8;
-    --accent-glow: rgba(56, 189, 248, 0.15);
+    --accent-glow: rgba(56, 189, 248, 0.18);
     --success: #10b981;
     --danger: #ef4444;
     --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -26,18 +27,19 @@ body {
     color: var(--text-primary);
     font-family: var(--font-family);
     min-height: 100vh;
-    padding: 24px;
+    padding: 20px;
 }
 
 .app-container {
-    max-width: 1560px;
+    max-width: 1600px;
     margin: 0 auto;
+    width: 100%;
 }
 
 /* Header */
 .app-header {
     text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
 .brand {
@@ -46,6 +48,7 @@ body {
     justify-content: center;
     gap: 12px;
     margin-bottom: 6px;
+    flex-wrap: wrap;
 }
 
 .brand-badge {
@@ -59,15 +62,15 @@ body {
 }
 
 h1 {
-    font-size: 26px;
+    font-size: clamp(20px, 4vw, 26px);
     font-weight: 700;
     color: #f8fafc;
 }
 
 .brand-tagline {
-    font-size: 14px;
+    font-size: clamp(12px, 2.5vw, 14px);
     color: var(--text-secondary);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 /* Drop Zone */
@@ -75,7 +78,7 @@ h1 {
     background-color: var(--bg-card);
     border: 2px dashed var(--border-color);
     border-radius: 12px;
-    padding: 20px 24px;
+    padding: 18px 24px;
     max-width: 680px;
     margin: 0 auto;
     transition: all 0.2s ease;
@@ -127,6 +130,7 @@ h1 {
     justify-content: space-between;
     text-align: left;
     gap: 16px;
+    flex-wrap: wrap;
 }
 
 .file-icon {
@@ -143,7 +147,7 @@ h1 {
 /* Overview Metrics */
 .overview-section {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 12px;
     margin-bottom: 20px;
 }
@@ -152,7 +156,7 @@ h1 {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 10px;
-    padding: 12px 16px;
+    padding: 12px 14px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
 }
 
@@ -167,17 +171,35 @@ h1 {
 
 .metric-value {
     display: block;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--text-primary);
+    word-break: break-word;
+}
+
+/* Mobile Sidebar Toggle Button */
+.mobile-sidebar-toggle {
+    display: none;
+    width: 100%;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 12px;
+    text-align: center;
 }
 
 /* Workspace Grid */
 .workspace-grid {
     display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 20px;
+    grid-template-columns: 290px 1fr;
+    gap: 18px;
     align-items: start;
+    width: 100%;
 }
 
 /* Left Sidebar */
@@ -186,12 +208,15 @@ h1 {
     border: 1px solid var(--border-color);
     border-radius: 10px;
     padding: 14px;
-    max-height: 820px;
+    max-height: 860px;
     overflow-y: auto;
+    position: sticky;
+    top: 14px;
 }
 
 .sidebar-header h3 {
-    font-size: 13px;
+    font-size: 12px;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: var(--text-muted);
@@ -203,7 +228,7 @@ h1 {
     background-color: #0b0f19;
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    padding: 7px 10px;
+    padding: 8px 10px;
     font-size: 12px;
     color: var(--text-primary);
     margin-bottom: 12px;
@@ -307,6 +332,7 @@ h1 {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    min-width: 0;
 }
 
 .traces-toolbar {
@@ -321,6 +347,8 @@ h1 {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .section-title {
@@ -331,13 +359,39 @@ h1 {
     color: var(--text-muted);
 }
 
+.header-action-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.fullscreen-toggle-btn {
+    background: #1e293b;
+    border: 1px solid var(--border-color);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.fullscreen-toggle-btn:hover {
+    background: var(--accent);
+    color: #0f172a;
+}
+
 .clear-btn {
     background: transparent;
     border: 1px solid var(--border-color);
     color: var(--text-muted);
     font-size: 11px;
-    padding: 3px 8px;
-    border-radius: 4px;
+    padding: 4px 8px;
+    border-radius: 6px;
     cursor: pointer;
 }
 
@@ -409,7 +463,7 @@ h1 {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 10px;
-    padding: 16px;
+    padding: 14px;
 }
 
 .map-header {
@@ -419,6 +473,8 @@ h1 {
     margin-bottom: 12px;
     padding-bottom: 8px;
     border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .map-title-group {
@@ -429,6 +485,12 @@ h1 {
 
 .map-icon {
     font-size: 16px;
+}
+
+.map-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .fit-btn {
@@ -450,16 +512,89 @@ h1 {
 
 #plot {
     width: 100%;
-    min-height: 480px;
+    min-height: 460px;
 }
 
 #map {
     width: 100%;
-    height: 520px;
+    height: 500px;
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid var(--border-color);
     background-color: #0b0f19;
+}
+
+/* =========================================================
+   FULLSCREEN MODES (SPLIT WORKSPACE & MAP FULLSCREEN)
+   ========================================================= */
+
+/* 1. Fullscreen Split Workspace (Sidebar on Left, Huge Graph on Right) */
+.workspace-grid.fullscreen-workspace {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 99999 !important;
+    background: #0b0f19 !important;
+    padding: 14px !important;
+    margin: 0 !important;
+    display: grid !important;
+    grid-template-columns: 310px 1fr !important;
+    gap: 14px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+}
+
+.workspace-grid.fullscreen-workspace .sidebar {
+    height: calc(100vh - 28px) !important;
+    max-height: calc(100vh - 28px) !important;
+    position: static !important;
+}
+
+.workspace-grid.fullscreen-workspace .visualizer-panel {
+    height: calc(100vh - 28px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+}
+
+.workspace-grid.fullscreen-workspace .chart-card {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+    padding: 10px !important;
+}
+
+.workspace-grid.fullscreen-workspace #plot {
+    flex: 1 !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    width: 100% !important;
+}
+
+/* 2. Fullscreen Map Mode */
+.map-card.fullscreen-active {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 99999 !important;
+    background: #0b0f19 !important;
+    padding: 14px !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-sizing: border-box !important;
+}
+
+.map-card.fullscreen-active #map {
+    flex: 1 !important;
+    height: calc(100vh - 65px) !important;
+    width: 100% !important;
 }
 
 /* Leaflet Dark Customizations */
@@ -482,7 +617,7 @@ h1 {
     color: #f8fafc !important;
     border: 1px solid var(--border-color) !important;
     border-radius: 8px !important;
-    padding: 8px 12px !important;
+    padding: 6px 10px !important;
     font-size: 12px !important;
     box-shadow: 0 4px 12px rgba(0,0,0,0.4) !important;
 }
@@ -490,24 +625,21 @@ h1 {
 .leaflet-control-layers-expanded {
     background: rgba(15, 23, 42, 0.95) !important;
     color: #f8fafc !important;
+    padding: 8px 12px !important;
 }
 
 .leaflet-control-layers label {
     display: flex;
     align-items: center;
     gap: 6px;
-    margin: 4px 0;
+    margin: 5px 0;
     cursor: pointer;
     color: #cbd5e1;
+    font-size: 12px;
 }
 
 .leaflet-control-layers label:hover {
     color: var(--accent);
-}
-
-.leaflet-control-layers-separator {
-    border-top: 1px solid var(--border-color) !important;
-    margin: 6px 0 !important;
 }
 
 .leaflet-control-scale-line {
@@ -532,8 +664,59 @@ h1 {
     to { transform: rotate(360deg); }
 }
 
-@media (max-width: 900px) {
+/* =========================================================
+   RESPONSIVE MEDIA QUERIES (MOBILE, TABLET, LAPTOP)
+   ========================================================= */
+
+@media (max-width: 960px) {
+    body {
+        padding: 12px;
+    }
+
+    .mobile-sidebar-toggle {
+        display: block;
+    }
+
     .workspace-grid {
         grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: none;
+        position: static;
+        max-height: 450px;
+    }
+
+    .sidebar.mobile-open {
+        display: block;
+    }
+
+    #plot {
+        min-height: 380px;
+    }
+
+    #map {
+        height: 380px;
+    }
+}
+
+@media (max-width: 600px) {
+    .overview-section {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .file-loaded-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .traces-header, .map-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header-action-group, .map-actions {
+        width: 100%;
+        justify-content: space-between;
     }
 }

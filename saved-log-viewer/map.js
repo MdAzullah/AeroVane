@@ -1,5 +1,5 @@
 /* SkyForge Geographic Flight Path & Real-World Map Visualizer (Leaflet)
-   Supports Satellite Hybrid with High-Resolution Place Names, Roads & Boundaries */
+   Clean 4-layer selection, collapsible controls, and fullscreen support */
 
 let leafletMap = null;
 let flightPolyline = null;
@@ -51,73 +51,50 @@ function init_or_get_map(centerLat, centerLon, zoom = 15) {
         attributionControl: true
     });
 
-    // 1. Raw Tile Providers
-    const esriSatelliteBase = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        maxZoom: 19,
-        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics'
-    });
-
-    const esriPlacesLabels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-        maxZoom: 19,
-        pane: 'overlayPane',
-        attribution: '&copy; Esri'
-    });
-
-    const esriRoadsLabels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', {
-        maxZoom: 19,
-        pane: 'overlayPane',
-        attribution: '&copy; Esri'
-    });
-
-    // Hybrid Satellite: Satellite Imagery + Roads + Place Names
+    // 1. Hybrid Satellite Layer (Satellite + Roads + Location Names)
     const satelliteHybrid = L.layerGroup([
-        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 }),
-        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 }),
-        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 })
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            maxZoom: 19,
+            attribution: 'Tiles &copy; Esri &mdash; Satellite Imagery'
+        }),
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', {
+            maxZoom: 19
+        }),
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+            maxZoom: 19
+        })
     ]);
 
-    // OpenStreetMap (Streets & Places)
+    // 2. OpenStreetMap (Detailed Street & Place Names)
     const streetOsm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     });
 
-    // CARTO Voyager (High-contrast cities & roads)
-    const cartoVoyager = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://carto.com/">CARTO</a>'
-    });
-
-    // Esri Topographic (Terrain + Towns & Landmarks)
+    // 3. Topographic Terrain Layer
     const esriTopo = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
         maxZoom: 19,
-        attribution: '&copy; Esri &mdash; Topo & Landmarks'
+        attribution: '&copy; Esri &mdash; Topo & Terrain'
     });
 
-    // Dark Mode with Labels
+    // 4. Dark Mode Layer
     const cartoDark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="https://carto.com/">CARTO</a>'
     });
 
-    // Set default active base layer: Hybrid Satellite with full place names & roads
+    // Default to Hybrid Satellite
     satelliteHybrid.addTo(leafletMap);
 
     const baseMaps = {
-        "🛰️ Satellite (Hybrid + Place Names & Roads)": satelliteHybrid,
-        "🛰️ Satellite (Clean Imagery Only)": esriSatelliteBase,
-        "🗺️ Streets (OpenStreetMap)": streetOsm,
-        "🏙️ City View (CARTO Voyager)": cartoVoyager,
-        "🏔️ Topographic (Esri Topo & Elevation)": esriTopo,
-        "🌙 Dark Mode (Carto Dark)": cartoDark
+        "🛰️ Hybrid Satellite": satelliteHybrid,
+        "🗺️ Streets (OSM)": streetOsm,
+        "🏔️ Topo Terrain": esriTopo,
+        "🌙 Dark Mode": cartoDark
     };
 
-    const overlayMaps = {
-        "🏷️ Place & City Names Overlay": esriPlacesLabels,
-        "🛣️ Roads & Highway Overlay": esriRoadsLabels
-    };
-
-    L.control.layers(baseMaps, overlayMaps, { position: 'topright', collapsed: false }).addTo(leafletMap);
+    // Collapsible layer selector (can be opened and closed easily)
+    L.control.layers(baseMaps, null, { position: 'topright', collapsed: true }).addTo(leafletMap);
     L.control.scale({ imperial: false, position: 'bottomleft' }).addTo(leafletMap);
 
     return leafletMap;
@@ -150,15 +127,7 @@ function draw_flight_map(gpsds) {
     if (landingMarker) map.removeLayer(landingMarker);
     if (droneHoverMarker) map.removeLayer(droneHoverMarker);
 
-    // 1. Draw glowing outer shadow + main polyline
-    const polylineShadow = L.polyline(latlngs, {
-        color: '#0284c7',
-        weight: 6,
-        opacity: 0.5,
-        lineCap: 'round',
-        lineJoin: 'round'
-    }).addTo(map);
-
+    // 1. Polyline Shadow + Glowing Flight Path
     flightPolyline = L.polyline(latlngs, {
         color: '#38bdf8',
         weight: 3.5,
@@ -216,21 +185,10 @@ function draw_flight_map(gpsds) {
         </div>
     `);
 
-    // 4. Drone Live Position Marker (Cyan pulse for time cursor)
-    droneHoverMarker = L.circleMarker([takeoffLat, takeoffLon], {
-        radius: 6,
-        fillColor: '#f59e0b',
-        color: '#ffffff',
-        weight: 2,
-        opacity: 1,
-        fillOpacity: 0.95
-    });
-
-    // Fit view to polyline bounding box with padding
+    // Fit view to bounds
     const bounds = flightPolyline.getBounds();
     map.fitBounds(bounds, { padding: [45, 45], maxZoom: 18 });
 
-    // Invalidate size after layout updates
     setTimeout(() => {
         map.invalidateSize();
     }, 100);
@@ -242,8 +200,25 @@ function fit_flight_path() {
     }
 }
 
+function toggle_map_fullscreen() {
+    const mapCard = document.querySelector('.map-card');
+    if (!mapCard) return;
+
+    const isFullscreen = mapCard.classList.toggle('fullscreen-active');
+    const btn = document.getElementById('map-fullscreen-btn');
+    if (btn) {
+        btn.textContent = isFullscreen ? '✕ Exit Fullscreen' : '⛶ Fullscreen';
+    }
+
+    setTimeout(() => {
+        if (leafletMap) {
+            leafletMap.invalidateSize();
+            fit_flight_path();
+        }
+    }, 150);
+}
+
 function get_overview(gpsds, boot_time, logfileRef) {
-    // 1. Logging Start
     const elStart = document.getElementById('logstart');
     if (elStart) {
         if (boot_time > 0) {
@@ -253,7 +228,6 @@ function get_overview(gpsds, boot_time, logfileRef) {
         }
     }
 
-    // 2. Logging Duration
     let totalDurationMs = 0;
     if (gpsds && gpsds.time && gpsds.time.length > 0) {
         const lastT = gpsds.time[gpsds.time.length - 1];
@@ -267,7 +241,6 @@ function get_overview(gpsds, boot_time, logfileRef) {
     const elDur = document.getElementById('logduration');
     if (elDur) elDur.textContent = formatDuration(totalDurationMs);
 
-    // 3. Flight Metrics
     let totalDistanceM = 0;
     let flyingTimeMs = 0;
     let isFlying = false;
@@ -306,7 +279,6 @@ function get_overview(gpsds, boot_time, logfileRef) {
         }
     }
 
-    // 4. Altitude Delta
     let altDiffM = 0;
     if (gpsds && gpsds.alt && gpsds.alt.length > 0) {
         altDiffM = Math.max(0, (gpsds.altmax || 0) - (gpsds.altmin || 0));
