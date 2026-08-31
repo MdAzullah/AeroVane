@@ -1,6 +1,7 @@
 import { get, set, del, clear } from 'idb-keyval';
 
-const METADATA_CACHE_PREFIX = 'mavdeck-metadata-cache-v1:';
+const METADATA_CACHE_PREFIX = 'skyforge-metadata-cache-v1:';
+const LEGACY_METADATA_CACHE_PREFIX = 'mavdeck-metadata-cache-v1:';
 
 interface CachedMetadataEntry {
   crc: number;
@@ -25,7 +26,10 @@ export async function getCachedMetadataByCrc(crc: number): Promise<string | null
     return memoryCache.get(key)?.json ?? null;
   }
 
-  const entry = await get<CachedMetadataEntry>(key);
+  let entry = await get<CachedMetadataEntry>(key);
+  if (!entry) {
+    entry = await get<CachedMetadataEntry>(`${LEGACY_METADATA_CACHE_PREFIX}${crc >>> 0}`);
+  }
   return entry?.json ?? null;
 }
 

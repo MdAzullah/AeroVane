@@ -2,13 +2,13 @@ import type { Accessor, Setter } from 'solid-js';
 import { batch } from 'solid-js';
 import { appState, setAppState } from '../store';
 import { logDebugInfo, logDebugWarn } from './debug-console';
-import type { MavDeckSettings } from './settings-service';
+import type { SkyForgeSettings } from './settings-service';
 import type { SerialSessionController } from './serial-session-controller';
 
 export function bindSessionState(
   controller: SerialSessionController,
-  loadedSettings: Accessor<MavDeckSettings>,
-  setLoadedSettings: Setter<MavDeckSettings>,
+  loadedSettings: Accessor<SkyForgeSettings>,
+  setLoadedSettings: Setter<SkyForgeSettings>,
 ): () => void {
   let lastLoggedStatus = appState.connectionStatus;
   const unsubStatus = controller.onStatusChange(status => {

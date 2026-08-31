@@ -18,7 +18,7 @@ import {
   logDebugInfo,
   logDebugWarn,
   type RuntimeServices,
-  type MavDeckSettings,
+  type SkyForgeSettings,
 } from '../services';
 import { MavlinkMetadataRegistry } from '../mavlink/registry';
 import { bindSessionState } from '../services/session-state-sync';
@@ -26,15 +26,15 @@ import { bindSessionState } from '../services/session-state-sync';
 interface BootstrapResult {
   loading: Accessor<boolean>;
   settingsReady: Accessor<boolean>;
-  loadedSettings: Accessor<MavDeckSettings>;
-  setLoadedSettings: Setter<MavDeckSettings>;
+  loadedSettings: Accessor<SkyForgeSettings>;
+  setLoadedSettings: Setter<SkyForgeSettings>;
   runtimeServices: Accessor<RuntimeServices | null>;
 }
 
 export function useBootstrap(): BootstrapResult {
   const [loading, setLoading] = createSignal(true);
   const [settingsReady, setSettingsReady] = createSignal(false);
-  const [loadedSettings, setLoadedSettings] = createSignal<MavDeckSettings>({ ...DEFAULT_SETTINGS });
+  const [loadedSettings, setLoadedSettings] = createSignal<SkyForgeSettings>({ ...DEFAULT_SETTINGS });
   const [runtimeServices, setRuntimeServices] = createSignal<RuntimeServices | null>(null);
 
   let bridge: MavlinkWorkerBridge | undefined;

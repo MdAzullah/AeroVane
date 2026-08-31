@@ -6,18 +6,18 @@ import {
   useConnectionManager,
   useSerialSessionController,
   useWorkerBridge,
-  type MavDeckSettings,
+  type SkyForgeSettings,
 } from '../services';
 import type { Setter } from 'solid-js';
 
-function settingsEqual(a: MavDeckSettings, b: MavDeckSettings): boolean {
-  return Object.keys(a).every((key) => a[key as keyof MavDeckSettings] === b[key as keyof MavDeckSettings]);
+function settingsEqual(a: SkyForgeSettings, b: SkyForgeSettings): boolean {
+  return Object.keys(a).every((key) => a[key as keyof SkyForgeSettings] === b[key as keyof SkyForgeSettings]);
 }
 
 export function useSettingsSync(
   settingsReady: Accessor<boolean>,
-  loadedSettings: Accessor<MavDeckSettings>,
-  setLoadedSettings: Setter<MavDeckSettings>,
+  loadedSettings: Accessor<SkyForgeSettings>,
+  setLoadedSettings: Setter<SkyForgeSettings>,
 ): void {
   const workerBridge = useWorkerBridge();
   const connectionManager = useConnectionManager();

@@ -1,10 +1,13 @@
 import { get, set, del, keys } from 'idb-keyval';
 
 const LOGS_DIR = 'logs';
-const STAGE_META_PREFIX = 'mavdeck-tlog-stage-meta-';
-const STAGE_CHUNK_PREFIX = 'mavdeck-tlog-stage-chunk-';
-const LOG_META_PREFIX = 'mavdeck-tlog-meta-';
-const RECOVERY_LOCK_KEY = 'mavdeck-tlog-recovery-lock';
+const STAGE_META_PREFIX = 'skyforge-tlog-stage-meta-';
+const LEGACY_STAGE_META_PREFIX = 'mavdeck-tlog-stage-meta-';
+const STAGE_CHUNK_PREFIX = 'skyforge-tlog-stage-chunk-';
+const LEGACY_STAGE_CHUNK_PREFIX = 'mavdeck-tlog-stage-chunk-';
+const LOG_META_PREFIX = 'skyforge-tlog-meta-';
+const LEGACY_LOG_META_PREFIX = 'mavdeck-tlog-meta-';
+const RECOVERY_LOCK_KEY = 'skyforge-tlog-recovery-lock';
 
 const MAX_NOTE_LENGTH = 2000;
 
@@ -203,7 +206,7 @@ export async function recoverStagedSessions(): Promise<void> {
   try {
     const allKeys = await keys();
     const stageKeys = allKeys
-      .filter((k): k is string => typeof k === 'string' && k.startsWith(STAGE_META_PREFIX));
+      .filter((k): k is string => typeof k === 'string' && (k.startsWith(STAGE_META_PREFIX) || k.startsWith(LEGACY_STAGE_META_PREFIX)));
 
     for (const key of stageKeys) {
       const meta = await get<StageMeta>(key);

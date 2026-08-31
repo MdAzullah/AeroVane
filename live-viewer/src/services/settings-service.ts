@@ -10,11 +10,12 @@ import type { BaudRate } from './webserial-byte-source';
 import { DEFAULT_BAUD_RATE } from './webserial-byte-source';
 import type { UnitProfile } from './unit-display';
 
-const SETTINGS_KEY = 'mavdeck-settings-v1';
+const SETTINGS_KEY = 'skyforge-settings-v1';
+const LEGACY_SETTINGS_KEY = 'mavdeck-settings-v1';
 
 export type MapLayerType = 'street' | 'satellite' | 'hybrid';
 
-export interface MavDeckSettings {
+export interface SkyForgeSettings {
   activeTab: string;
   theme: 'dark' | 'light';
   debugConsoleEnabled: boolean;
@@ -42,7 +43,10 @@ export interface MavDeckSettings {
   dialectUrl: string;
 }
 
-export const DEFAULT_SETTINGS: MavDeckSettings = {
+// Type alias for backward compatibility
+export type MavDeckSettings = SkyForgeSettings;
+
+export const DEFAULT_SETTINGS: SkyForgeSettings = {
   activeTab: 'telemetry',
   theme: 'dark',
   debugConsoleEnabled: false,
@@ -74,14 +78,17 @@ export const DEFAULT_SETTINGS: MavDeckSettings = {
  * Load settings from IndexedDB. Merges with defaults for forward-compatibility:
  * any new keys added in future versions will get their default values.
  */
-export async function loadSettings(): Promise<MavDeckSettings> {
-  const saved = await get<Partial<MavDeckSettings>>(SETTINGS_KEY);
+export async function loadSettings(): Promise<SkyForgeSettings> {
+  let saved = await get<Partial<SkyForgeSettings>>(SETTINGS_KEY);
+  if (!saved) {
+    saved = await get<Partial<SkyForgeSettings>>(LEGACY_SETTINGS_KEY);
+  }
   if (!saved) return { ...DEFAULT_SETTINGS };
   return { ...DEFAULT_SETTINGS, ...saved };
 }
 
 /** Save settings to IndexedDB. */
-export async function saveSettings(settings: MavDeckSettings): Promise<void> {
+export async function saveSettings(settings: SkyForgeSettings): Promise<void> {
   pendingSettings = null;
   if (debounceTimer) {
     clearTimeout(debounceTimer);
@@ -91,10 +98,10 @@ export async function saveSettings(settings: MavDeckSettings): Promise<void> {
 }
 
 let debounceTimer: ReturnType<typeof setTimeout> | null = null;
-let pendingSettings: MavDeckSettings | null = null;
+let pendingSettings: SkyForgeSettings | null = null;
 
 /** Save settings with a 2-second debounce to avoid thrashing IndexedDB. */
-export function saveSettingsDebounced(settings: MavDeckSettings): void {
+export function saveSettingsDebounced(settings: SkyForgeSettings): void {
   pendingSettings = settings;
   if (debounceTimer) clearTimeout(debounceTimer);
   debounceTimer = setTimeout(() => {
@@ -119,7 +126,8 @@ export async function flushSettings(): Promise<void> {
   }
 }
 
-const DIALECT_KEY = 'mavdeck-dialect-v1';
+const DIALECT_KEY = 'skyforge-dialect-v1';
+const LEGACY_DIALECT_KEY = 'mavdeck-dialect-v1';
 
 export interface PersistedDialect {
   name: string;       // e.g. "common" or "ardupilotmega"
@@ -131,9 +139,14 @@ export async function saveDialect(name: string, json: string): Promise<void> {
 }
 
 export async function loadDialect(): Promise<PersistedDialect | undefined> {
-  return get<PersistedDialect>(DIALECT_KEY);
+  const dialect = await get<PersistedDialect>(DIALECT_KEY);
+  if (!dialect) {
+    return get<PersistedDialect>(LEGACY_DIALECT_KEY);
+  }
+  return dialect;
 }
 
 export async function clearDialect(): Promise<void> {
   await del(DIALECT_KEY);
+  await del(LEGACY_DIALECT_KEY);
 }

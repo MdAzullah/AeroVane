@@ -35,6 +35,7 @@ export {
   saveSettingsDebounced,
   flushSettings,
   DEFAULT_SETTINGS,
+  type SkyForgeSettings,
   type MavDeckSettings,
   type MapLayerType,
   saveDialect,

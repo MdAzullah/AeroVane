@@ -14,7 +14,7 @@ vi.mock('idb-keyval', () => ({
 }));
 
 import { loadSettings, saveSettings, saveSettingsDebounced, flushSettings, DEFAULT_SETTINGS, saveDialect, loadDialect, clearDialect } from '../settings-service';
-import type { MavDeckSettings, PersistedDialect } from '../settings-service';
+import type { SkyForgeSettings, PersistedDialect } from '../settings-service';
 
 describe('settings-service', () => {
   beforeEach(() => {
@@ -37,7 +37,7 @@ describe('settings-service', () => {
   });
 
   it('returns saved settings when they exist', async () => {
-    const saved: MavDeckSettings = {
+    const saved: SkyForgeSettings = {
       activeTab: 'map',
       theme: 'light',
       debugConsoleEnabled: true,
@@ -64,19 +64,30 @@ describe('settings-service', () => {
       lastSuccessfulBaudRate: null,
       dialectUrl: '',
     };
-    mockStore.set('mavdeck-settings-v1', saved);
+    mockStore.set('skyforge-settings-v1', saved);
 
     const settings = await loadSettings();
     expect(settings).toEqual(saved);
   });
 
+  it('falls back to legacy settings key if skyforge key does not exist', async () => {
+    const legacy: Partial<SkyForgeSettings> = {
+      theme: 'light',
+      baudRate: 57600,
+    };
+    mockStore.set('mavdeck-settings-v1', legacy);
+
+    const settings = await loadSettings();
+    expect(settings.theme).toBe('light');
+    expect(settings.baudRate).toBe(57600);
+  });
+
   it('merges defaults for missing keys (forward-compatible)', async () => {
-    // Simulate an older saved settings object missing new keys
     const partial = {
       theme: 'light' as const,
       baudRate: 57600 as const,
     };
-    mockStore.set('mavdeck-settings-v1', partial);
+    mockStore.set('skyforge-settings-v1', partial);
 
     const settings = await loadSettings();
 
@@ -93,7 +104,7 @@ describe('settings-service', () => {
   });
 
   it('saveSettings persists to IndexedDB', async () => {
-    const settings: MavDeckSettings = {
+    const settings: SkyForgeSettings = {
       activeTab: 'map',
       theme: 'light',
       debugConsoleEnabled: true,
@@ -123,12 +134,12 @@ describe('settings-service', () => {
 
     await saveSettings(settings);
 
-    const stored = mockStore.get('mavdeck-settings-v1') as MavDeckSettings;
+    const stored = mockStore.get('skyforge-settings-v1') as SkyForgeSettings;
     expect(stored).toEqual(settings);
   });
 
   it('saveSettings round-trips through loadSettings', async () => {
-    const settings: MavDeckSettings = {
+    const settings: SkyForgeSettings = {
       activeTab: 'map',
       theme: 'light',
       debugConsoleEnabled: false,
@@ -162,7 +173,7 @@ describe('settings-service', () => {
   });
 
   it('saveSettingsDebounced saves after 2 seconds', async () => {
-    const settings: MavDeckSettings = {
+    const settings: SkyForgeSettings = {
       ...DEFAULT_SETTINGS,
       theme: 'light',
     };
@@ -170,18 +181,18 @@ describe('settings-service', () => {
     saveSettingsDebounced(settings);
 
     // Not saved yet
-    expect(mockStore.has('mavdeck-settings-v1')).toBe(false);
+    expect(mockStore.has('skyforge-settings-v1')).toBe(false);
 
     // Advance past debounce period
     await vi.advanceTimersByTimeAsync(2000);
 
-    const stored = mockStore.get('mavdeck-settings-v1') as MavDeckSettings;
+    const stored = mockStore.get('skyforge-settings-v1') as SkyForgeSettings;
     expect(stored).toEqual(settings);
   });
 
   it('saveSettingsDebounced resets timer on rapid calls', async () => {
-    const settings1: MavDeckSettings = { ...DEFAULT_SETTINGS, theme: 'light' };
-    const settings2: MavDeckSettings = { ...DEFAULT_SETTINGS, bufferCapacity: 5000 };
+    const settings1: SkyForgeSettings = { ...DEFAULT_SETTINGS, theme: 'light' };
+    const settings2: SkyForgeSettings = { ...DEFAULT_SETTINGS, bufferCapacity: 5000 };
 
     saveSettingsDebounced(settings1);
     await vi.advanceTimersByTimeAsync(1000); // 1s — not yet fired
@@ -191,37 +202,37 @@ describe('settings-service', () => {
     await vi.advanceTimersByTimeAsync(1000); // 1s more — still within debounce of second call
 
     // First call's settings should NOT have been saved
-    expect(mockStore.has('mavdeck-settings-v1')).toBe(false);
+    expect(mockStore.has('skyforge-settings-v1')).toBe(false);
 
     // Advance to complete the second debounce
     await vi.advanceTimersByTimeAsync(1000);
 
-    const stored = mockStore.get('mavdeck-settings-v1') as MavDeckSettings;
+    const stored = mockStore.get('skyforge-settings-v1') as SkyForgeSettings;
     expect(stored).toEqual(settings2);
   });
 
   it('flushSettings persists the last debounced settings immediately', async () => {
-    const settings: MavDeckSettings = { ...DEFAULT_SETTINGS, mapZoom: 17 };
+    const settings: SkyForgeSettings = { ...DEFAULT_SETTINGS, mapZoom: 17 };
 
     saveSettingsDebounced(settings);
     await flushSettings();
 
-    expect(mockStore.get('mavdeck-settings-v1')).toEqual(settings);
+    expect(mockStore.get('skyforge-settings-v1')).toEqual(settings);
   });
 
   it('immediate save cancels stale debounced settings', async () => {
-    const staleSettings: MavDeckSettings = { ...DEFAULT_SETTINGS, activeTab: 'telemetry' };
-    const latestSettings: MavDeckSettings = { ...DEFAULT_SETTINGS, activeTab: 'map' };
+    const staleSettings: SkyForgeSettings = { ...DEFAULT_SETTINGS, activeTab: 'telemetry' };
+    const latestSettings: SkyForgeSettings = { ...DEFAULT_SETTINGS, activeTab: 'map' };
 
     saveSettingsDebounced(staleSettings);
     await saveSettings(latestSettings);
     await flushSettings();
 
-    expect(mockStore.get('mavdeck-settings-v1')).toEqual(latestSettings);
+    expect(mockStore.get('skyforge-settings-v1')).toEqual(latestSettings);
   });
 
   it('round-trips hybrid map layer setting', async () => {
-    const settings: MavDeckSettings = {
+    const settings: SkyForgeSettings = {
       ...DEFAULT_SETTINGS,
       mapLayer: 'hybrid',
     };

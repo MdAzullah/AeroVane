@@ -18,7 +18,7 @@ import {
   useStatusTextCapture,
 } from './hooks';
 import { RuntimeServicesProvider, saveSettings } from './services';
-import type { MavDeckSettings } from './services';
+import type { SkyForgeSettings } from './services';
 
 interface AppContentProps {
   settingsReady: () => boolean;
@@ -37,7 +37,7 @@ function AppContent(props: AppContentProps) {
   function handleSelectTab(tabId: 'telemetry' | 'map' | 'parameters') {
     if (appState.activeTab === tabId) return;
     setAppState('activeTab', tabId);
-    const nextSettings: MavDeckSettings = {
+    const nextSettings: SkyForgeSettings = {
       ...props.loadedSettings(),
       activeTab: tabId,
     };

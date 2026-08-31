@@ -21,9 +21,12 @@ function pickNextColor(existingSignals: PlotSignalConfig[]): string {
   return SIGNAL_COLORS[existingSignals.length % SIGNAL_COLORS.length];
 }
 
-const LAYOUT_KEY_V2 = 'mavdeck-layout-v2';
-const LAYOUT_KEY_V1 = 'mavdeck-layout-v1';
-const ACTIVE_SUBTAB_KEY = 'mavdeck-active-subtab';
+const LAYOUT_KEY_V2 = 'skyforge-layout-v2';
+const LEGACY_LAYOUT_KEY_V2 = 'mavdeck-layout-v2';
+const LAYOUT_KEY_V1 = 'skyforge-layout-v1';
+const LEGACY_LAYOUT_KEY_V1 = 'mavdeck-layout-v1';
+const ACTIVE_SUBTAB_KEY = 'skyforge-active-subtab';
+const LEGACY_ACTIVE_SUBTAB_KEY = 'mavdeck-active-subtab';
 
 let plotIdCounter = 0;
 function nextPlotId(): string {
@@ -138,19 +141,26 @@ export default function TelemetryView() {
   onMount(async () => {
     // Try v2 first
     let savedTabs = await get<PersistedPlotTabV1[]>(LAYOUT_KEY_V2);
+    if (!savedTabs) {
+      savedTabs = await get<PersistedPlotTabV1[]>(LEGACY_LAYOUT_KEY_V2);
+    }
 
     if (!savedTabs) {
       // Try v1 migration
-      const v1 = await get<{ [tabId: string]: PlotConfig[] }>(LAYOUT_KEY_V1);
+      let v1 = await get<{ [tabId: string]: PlotConfig[] }>(LAYOUT_KEY_V1);
+      if (!v1) {
+        v1 = await get<{ [tabId: string]: PlotConfig[] }>(LEGACY_LAYOUT_KEY_V1);
+      }
       if (v1) {
         savedTabs = Object.entries(v1).map(([tabId, plots], i) => ({
           id: tabId,
           name: `Tab ${i + 1}`,
           plots: serializePlotTabs([{ id: tabId, name: `Tab ${i + 1}`, plots }])[0].plots,
         }));
-        // Save as v2 and remove v1
+        // Save as v2 and remove legacy v1
         await set(LAYOUT_KEY_V2, savedTabs);
         await del(LAYOUT_KEY_V1);
+        await del(LEGACY_LAYOUT_KEY_V1);
       }
     }
 
@@ -167,7 +177,10 @@ export default function TelemetryView() {
       }
     }
 
-    const savedSubTab = await get<string>(ACTIVE_SUBTAB_KEY);
+    let savedSubTab = await get<string>(ACTIVE_SUBTAB_KEY);
+    if (!savedSubTab) {
+      savedSubTab = await get<string>(LEGACY_ACTIVE_SUBTAB_KEY);
+    }
     const restoredSubTab = savedSubTab && restoredTabs.some(t => t.id === savedSubTab)
       ? savedSubTab
       : restoredTabs[0].id;

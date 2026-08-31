@@ -8,13 +8,13 @@
 
 import { createEffect, onCleanup } from 'solid-js';
 import { appState } from '../store';
-import { useSerialSessionController, getSerialBackend, type MavDeckSettings } from '../services';
+import { useSerialSessionController, getSerialBackend, type SkyForgeSettings } from '../services';
 import type { Accessor, Setter } from 'solid-js';
 
 export function useAutoConnect(
   settingsReady: Accessor<boolean>,
-  _loadedSettings: Accessor<MavDeckSettings>,
-  _setLoadedSettings: Setter<MavDeckSettings>,
+  _loadedSettings: Accessor<SkyForgeSettings>,
+  _setLoadedSettings: Setter<SkyForgeSettings>,
 ): void {
   const serialController = useSerialSessionController();
 
