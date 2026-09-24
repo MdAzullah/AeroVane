@@ -58,6 +58,15 @@
                 </div>
             </section>
 
+            <section class="ai-analysis-panel" aria-labelledby="ai-analysis-title">
+                <div class="ai-analysis-header">
+                    <div><h2 id="ai-analysis-title">AI Safety Analysis</h2><p id="ai-analysis-status" aria-live="polite">Waiting for a BIN log…</p></div>
+                    <div class="ai-health"><span>Health score</span><strong id="ai-health-score">—</strong><small id="ai-record-count">0 records</small></div>
+                    <button type="button" onclick="export_ai_analysis()">Export JSON</button>
+                </div>
+                <div id="ai-fault-timeline" class="ai-fault-timeline"></div>
+            </section>
+
             <!-- Mobile Sidebar Toggle -->
             <button class="mobile-sidebar-toggle" onclick="toggle_mobile_sidebar()">☰ Signals & Messages Explorer</button>
 
@@ -110,6 +119,8 @@
     <script type="text/javascript" src="leaflet.js"></script>
     <script type="text/javascript" src="plotly-2.14.0.min.js"></script>
     <script type="text/javascript" src="dataflash.js"></script>
+    <script type="text/javascript" src="ai-analysis.js"></script>
+    <script type="text/javascript" src="ai-ui.js"></script>
     <script type="text/javascript" src="map.js"></script>
     <script type="text/javascript" src="navbar.js"></script>
     <script type="text/javascript" src="main.js"></script>

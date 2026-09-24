@@ -13,6 +13,18 @@ test.describe('Connection Lifecycle', () => {
     await expect(mavdeck.page.locator('[title="disconnected"]')).toBeVisible();
   });
 
+  test('AI Safety panel starts normal and is keyboard-accessible', async () => {
+    const safetyToggle = mavdeck.page.locator('.ai-safety-toggle');
+    await expect(safetyToggle).toBeVisible();
+    await expect(safetyToggle).toContainText('AI Safety');
+    await expect(safetyToggle).toContainText('NORMAL');
+    await expect(safetyToggle).toHaveAttribute('aria-expanded', 'false');
+    await safetyToggle.focus();
+    await safetyToggle.press('Enter');
+    await expect(safetyToggle).toHaveAttribute('aria-expanded', 'true');
+    await expect(mavdeck.page.getByText('No active faults detected.')).toBeVisible();
+  });
+
   test('start simulator transitions to connected', async () => {
     await mavdeck.startSimulator();
 

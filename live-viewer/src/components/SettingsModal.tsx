@@ -1,4 +1,4 @@
-import { createSignal, onMount, onCleanup, Show } from 'solid-js';
+import { createSignal, onMount, onCleanup, Show, For } from 'solid-js';
 import { appState, setAppState } from '../store';
 import packageJson from '../../package.json';
 import {
@@ -7,8 +7,9 @@ import {
   useSerialSessionController, useWorkerBridge, isSerialSupported,
   loadRemoteDialect, validateDialectUrl, normalizeGithubUrl,
   saveSettings, loadSettings, logDebugError,
+  SPOOF_SCENARIOS,
 } from '../services';
-import type { BaudRate, UnitProfile } from '../services';
+import type { BaudRate, UnitProfile, SpoofScenarioId } from '../services';
 import { parseFromFileMap } from '../mavlink/xml-parser';
 
 
@@ -42,6 +43,7 @@ export default function SettingsModal(props: SettingsModalProps) {
   const [activeTab, setActiveTab] = createSignal<SettingsTab>('general');
   const [importError, setImportError] = createSignal<string | null>(null);
   const [refreshing, setRefreshing] = createSignal(false);
+  const [spoofScenario, setSpoofScenario] = createSignal<SpoofScenarioId>('normal');
   const [dialectUrl, setDialectUrl] = createSignal('');
   const [urlSaving, setUrlSaving] = createSignal(false);
   let fileInputRef: HTMLInputElement | undefined;
@@ -576,6 +578,22 @@ export default function SettingsModal(props: SettingsModalProps) {
               <Divider />
 
               <SectionLabel>Simulator</SectionLabel>
+              <label class="block text-xs font-medium" style={{ color: 'var(--text-secondary)' }} for="simulator-scenario">
+                Fault scenario
+              </label>
+              <select
+                id="simulator-scenario"
+                class="w-full rounded px-2 py-1.5 text-sm"
+                style={{ 'background-color': 'var(--bg-hover)', color: 'var(--text-primary)', border: '1px solid var(--border)' }}
+                value={spoofScenario()}
+                disabled={simulatorRequested()}
+                onChange={event => setSpoofScenario(event.currentTarget.value as SpoofScenarioId)}
+              >
+                <For each={SPOOF_SCENARIOS}>{scenario => <option value={scenario.id}>{scenario.label}</option>}</For>
+              </select>
+              <p class="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                Injected faults begin after 5 seconds so the detectors first receive a normal baseline.
+              </p>
               <button
                 class="px-3 py-1.5 text-sm rounded border interactive-hover"
                 style={{ 'border-color': 'var(--border)', color: 'var(--text-primary)' }}
@@ -584,7 +602,7 @@ export default function SettingsModal(props: SettingsModalProps) {
                   if (simulatorRequested()) {
                     serialSessionController.disconnectLiveSession();
                   } else {
-                    serialSessionController.connectSpoof({ unloadLog: appState.logViewerState.isActive });
+                    serialSessionController.connectSpoof({ unloadLog: appState.logViewerState.isActive, scenario: spoofScenario() });
                   }
                 }}
               >

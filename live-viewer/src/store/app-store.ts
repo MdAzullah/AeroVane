@@ -10,6 +10,11 @@ import type {
 import { DEFAULT_BAUD_RATE, DEFAULT_SETTINGS } from '../services';
 import type { PlotTab, TimeWindow } from '../models';
 import { DEFAULT_TIME_WINDOW } from '../models';
+import type { FaultEvent, FaultRecord, FaultSeverity } from '../analysis';
+
+export interface AppFaultRecord extends FaultRecord {
+  acknowledged: boolean;
+}
 
 export interface AppState {
   connectionStatus: ConnectionStatus;
@@ -57,6 +62,16 @@ export interface AppState {
   connectedBaudRate: BaudRate | null;
   throughputBytesPerSec: number;
   updateAvailable: boolean;
+  activeFaults: AppFaultRecord[];
+  faultHistory: AppFaultRecord[];
+  aiSafetySoundEnabled: boolean;
+  faultAnalysisStatus: 'idle' | 'analyzing' | 'complete';
+  faultAnalysisRecordCount: number;
+  faultAnalysisMessageCount: number;
+  faultAnalysisStartedAtMs: number;
+  faultAnalysisEndedAtMs: number;
+  faultNavigationTargetMs: number | null;
+  faultNavigationRequest: number;
 }
 
 export function createInitialAppState(): AppState {
@@ -111,7 +126,140 @@ export function createInitialAppState(): AppState {
     connectedBaudRate: null,
     throughputBytesPerSec: 0,
     updateAvailable: false,
+    activeFaults: [],
+    faultHistory: [],
+    aiSafetySoundEnabled: false,
+    faultAnalysisStatus: 'idle',
+    faultAnalysisRecordCount: 0,
+    faultAnalysisMessageCount: 0,
+    faultAnalysisStartedAtMs: 0,
+    faultAnalysisEndedAtMs: 0,
+    faultNavigationTargetMs: null,
+    faultNavigationRequest: 0,
   };
+}
+
+const MAX_FAULT_HISTORY = 200;
+
+/** Apply one worker fault event while preserving local acknowledgement state. */
+export function applyFaultEvent(event: FaultEvent): void {
+  const existing = appState.activeFaults.find(fault => fault.id === event.fault.id);
+  const managed: AppFaultRecord = {
+    ...event.fault,
+    evidence: event.fault.evidence.map(item => ({ ...item })),
+    acknowledged: existing?.acknowledged ?? false,
+  };
+
+  if (event.type === 'cleared') {
+    batch(() => {
+      setAppState('activeFaults', faults => faults.filter(fault => fault.id !== event.fault.id));
+      setAppState('faultHistory', history => [managed, ...history].slice(0, MAX_FAULT_HISTORY));
+    });
+    return;
+  }
+
+  const index = appState.activeFaults.findIndex(fault => fault.id === event.fault.id);
+  if (index === -1) setAppState('activeFaults', faults => [...faults, managed]);
+  else setAppState('activeFaults', index, managed);
+}
+
+export function acknowledgeFault(faultId: string): void {
+  const index = appState.activeFaults.findIndex(fault => fault.id === faultId);
+  if (index !== -1) setAppState('activeFaults', index, 'acknowledged', true);
+}
+
+export function clearFaultHistory(): void {
+  setAppState('faultHistory', []);
+}
+
+/** A new live connection clears both active and previous-session fault state. */
+export function resetFaultState(): void {
+  batch(() => {
+    setAppState('activeFaults', []);
+    setAppState('faultHistory', []);
+    setAppState('faultAnalysisStatus', 'idle');
+    setAppState('faultAnalysisRecordCount', 0);
+    setAppState('faultAnalysisMessageCount', 0);
+    setAppState('faultAnalysisStartedAtMs', 0);
+    setAppState('faultAnalysisEndedAtMs', 0);
+    setAppState('faultNavigationTargetMs', null);
+  });
+}
+
+export function beginFaultAnalysis(recordCount: number): void {
+  batch(() => {
+    setAppState('activeFaults', []);
+    setAppState('faultHistory', []);
+    setAppState('faultAnalysisStatus', 'analyzing');
+    setAppState('faultAnalysisRecordCount', Math.max(0, recordCount));
+    setAppState('faultAnalysisMessageCount', 0);
+  });
+}
+
+export function completeFaultAnalysis(result: { faults: readonly FaultRecord[]; analyzedMessages: number; startedAtMs: number; endedAtMs: number }): void {
+  const managed = result.faults.map<AppFaultRecord>(fault => ({
+    ...fault,
+    evidence: fault.evidence.map(item => ({ ...item })),
+    acknowledged: false,
+  }));
+  batch(() => {
+    setAppState('activeFaults', managed.filter(fault => fault.state === 'active'));
+    setAppState('faultHistory', managed.filter(fault => fault.state === 'cleared').sort((a, b) => a.startedAtMs - b.startedAtMs));
+    setAppState('faultAnalysisStatus', 'complete');
+    setAppState('faultAnalysisMessageCount', Math.max(0, result.analyzedMessages));
+    setAppState('faultAnalysisStartedAtMs', result.startedAtMs);
+    setAppState('faultAnalysisEndedAtMs', result.endedAtMs);
+  });
+}
+
+export function requestFaultNavigation(timestampMs: number): void {
+  if (!Number.isFinite(timestampMs)) return;
+  batch(() => {
+    setAppState('activeTab', 'telemetry');
+    setAppState('faultNavigationTargetMs', timestampMs);
+    setAppState('faultNavigationRequest', value => value + 1);
+  });
+}
+
+export function selectFaultHealthScore(): number {
+  const penalties: Record<FaultSeverity, number> = { info: 2, caution: 5, warning: 12, critical: 25 };
+  const allFaults = [...appState.faultHistory, ...appState.activeFaults];
+  return Math.max(0, 100 - allFaults.reduce((total, fault) => total + penalties[fault.severity], 0));
+}
+
+export function buildFaultAnalysisExport(): object {
+  return {
+    schemaVersion: 1,
+    source: appState.logViewerState.sourceName,
+    generatedAt: new Date().toISOString(),
+    analysis: {
+      status: appState.faultAnalysisStatus,
+      healthScore: selectFaultHealthScore(),
+      analyzedMessages: appState.faultAnalysisMessageCount,
+      startedAtMs: appState.faultAnalysisStartedAtMs,
+      endedAtMs: appState.faultAnalysisEndedAtMs,
+    },
+    faults: [...appState.faultHistory, ...appState.activeFaults]
+      .sort((a, b) => a.startedAtMs - b.startedAtMs)
+      .map(({ acknowledged: _acknowledged, ...fault }) => fault),
+  };
+}
+
+const FAULT_SEVERITY_RANK: Record<FaultSeverity, number> = {
+  info: 0, caution: 1, warning: 2, critical: 3,
+};
+
+export function selectHighestFaultSeverity(): FaultSeverity | 'normal' {
+  let highest: FaultSeverity | 'normal' = 'normal';
+  let rank = -1;
+  for (const fault of appState.activeFaults) {
+    const nextRank = FAULT_SEVERITY_RANK[fault.severity];
+    if (nextRank > rank) {
+      highest = fault.severity;
+      rank = nextRank;
+    }
+  }
+  return highest;
 }
 
 export const [appState, setAppState] = createStore<AppState>(createInitialAppState());

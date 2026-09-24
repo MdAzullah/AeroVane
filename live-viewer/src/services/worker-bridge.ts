@@ -19,6 +19,7 @@ import type {
 import type { SerialPortIdentity } from './serial-probe-service';
 import type { BaudRate } from './baud-rates';
 import type { ParameterStateSnapshot, ParamSetResult } from './parameter-types';
+import type { FaultEvent, FaultRecord } from '../analysis';
 
 // Re-export protocol types so existing consumers don't need to change imports.
 export type { ConnectionConfig, ConnectionStatus } from '../workers/worker-protocol';
@@ -60,6 +61,10 @@ export class MavlinkWorkerBridge {
   private readonly ftpMetadataErrorEmitter = new EventEmitter<(error: string) => void>();
   private readonly ftpMetadataProgressEmitter = new EventEmitter<(progress: FtpMetadataProgressEvent) => void>();
   private readonly writeBytesEmitter = new EventEmitter<(data: Uint8Array) => void>();
+  private readonly faultEventEmitter = new EventEmitter<(event: FaultEvent) => void>();
+  private readonly faultResetEmitter = new EventEmitter<() => void>();
+  private readonly faultAnalysisStartedEmitter = new EventEmitter<(recordCount: number) => void>();
+  private readonly faultAnalysisCompleteEmitter = new EventEmitter<(result: FaultAnalysisResult) => void>();
   private initResolve: (() => void) | null = null;
   private lastUpdate: Map<string, { timestamps: Float64Array; values: Float64Array }> | null = null;
 
@@ -263,6 +268,24 @@ export class MavlinkWorkerBridge {
     return this.writeBytesEmitter.on(callback);
   }
 
+  /** Subscribe to live fault lifecycle events produced by the analysis worker. */
+  onFaultEvent(callback: (event: FaultEvent) => void): () => void {
+    return this.faultEventEmitter.on(callback);
+  }
+
+  /** Subscribe to analysis-session resets when a new connection starts. */
+  onFaultReset(callback: () => void): () => void {
+    return this.faultResetEmitter.on(callback);
+  }
+
+  onFaultAnalysisStarted(callback: (recordCount: number) => void): () => void {
+    return this.faultAnalysisStartedEmitter.on(callback);
+  }
+
+  onFaultAnalysisComplete(callback: (result: FaultAnalysisResult) => void): () => void {
+    return this.faultAnalysisCompleteEmitter.on(callback);
+  }
+
   /** Terminate the worker. */
   dispose(): void {
     this.worker.terminate();
@@ -396,6 +419,31 @@ export class MavlinkWorkerBridge {
         break;
       }
 
+      case 'faultEvent': {
+        this.faultEventEmitter.emit(msg.event);
+        break;
+      }
+
+      case 'faultReset': {
+        this.faultResetEmitter.emit();
+        break;
+      }
+
+      case 'faultAnalysisStarted': {
+        this.faultAnalysisStartedEmitter.emit(msg.recordCount);
+        break;
+      }
+
+      case 'faultAnalysisComplete': {
+        this.faultAnalysisCompleteEmitter.emit({
+          faults: msg.faults,
+          analyzedMessages: msg.analyzedMessages,
+          startedAtMs: msg.startedAtMs,
+          endedAtMs: msg.endedAtMs,
+        });
+        break;
+      }
+
       case 'error': {
         logDebugError('worker', msg.message);
         console.error('[MavlinkWorker]', msg.message);
@@ -403,4 +451,11 @@ export class MavlinkWorkerBridge {
       }
     }
   }
+}
+
+export interface FaultAnalysisResult {
+  faults: FaultRecord[];
+  analyzedMessages: number;
+  startedAtMs: number;
+  endedAtMs: number;
 }

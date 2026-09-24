@@ -68,8 +68,19 @@ describe('SettingsModal', () => {
     clickButton('Advanced');
     clickButton('Start Simulator');
 
-    expect(serialSessionController.connectSpoof).toHaveBeenCalledWith({ unloadLog: false });
+    expect(serialSessionController.connectSpoof).toHaveBeenCalledWith({ unloadLog: false, scenario: 'normal' });
 
+    dispose();
+  });
+
+  it('starts the simulator with the selected fault scenario', () => {
+    const dispose = render(() => <SettingsModal onClose={() => {}} />, document.body);
+    clickButton('Advanced');
+    const select = document.querySelector<HTMLSelectElement>('#simulator-scenario')!;
+    select.value = 'vibration';
+    select.dispatchEvent(new Event('change', { bubbles: true }));
+    clickButton('Start Simulator');
+    expect(serialSessionController.connectSpoof).toHaveBeenCalledWith({ unloadLog: false, scenario: 'vibration' });
     dispose();
   });
 

@@ -9,9 +9,11 @@
     "dev:live": "npm --prefix live-viewer run dev",
     "dev:saved": "python3 -m http.server 8080 --directory saved-log-viewer",
     "dev:bridge": "./bridge/mavlink-server 'fakesource://' wsserver://0.0.0.0:9988",
-    "build": "npm --prefix live-viewer run build",
-    "test": "npm --prefix live-viewer test",
+    "build:saved-ai": "./live-viewer/node_modules/@esbuild/linux-x64/bin/esbuild saved-log-viewer/ai-entry.ts --bundle --format=iife --platform=browser --target=es2020 --outfile=saved-log-viewer/ai-analysis.js",
+    "build": "npm run build:saved-ai && npm --prefix live-viewer run build",
+    "test:saved": "node --test saved-log-viewer/tests/*.test.mjs",
+    "test": "npm run test:saved && npm --prefix live-viewer test",
     "typecheck": "npm --prefix live-viewer run typecheck",
-    "verify": "npm --prefix live-viewer run verify"
+    "verify": "npm run build:saved-ai && npm run test:saved && npm --prefix live-viewer run verify"
   }
 }

@@ -355,6 +355,30 @@ describe('SpoofByteSource', () => {
   });
 
   describe('simulation model', () => {
+    it('injects the selected battery fault after the five-second baseline', async () => {
+      source = new SpoofByteSource(registry, 1, 1, '', 'battery');
+      const messages = collectMessages();
+      await source.connect();
+
+      vi.advanceTimersByTime(4_000);
+      const baseline = messages.filter(message => message.name === 'SYS_STATUS').at(-1)!;
+      expect(baseline.values.voltage_battery).toBeGreaterThan(10_500);
+
+      vi.advanceTimersByTime(2_000);
+      const injected = messages.filter(message => message.name === 'SYS_STATUS').at(-1)!;
+      expect(injected.values.voltage_battery).toBe(9_500);
+    });
+
+    it('stops telemetry and heartbeat for the link-loss scenario', async () => {
+      source = new SpoofByteSource(registry, 1, 1, '', 'link');
+      const messages = collectMessages();
+      await source.connect();
+      vi.advanceTimersByTime(5_000);
+      const countAtActivation = messages.length;
+      vi.advanceTimersByTime(4_000);
+      expect(messages).toHaveLength(countAtActivation);
+    });
+
     it('altitude stays bounded within [50, 100] meters', async () => {
       const messages = collectMessages();
       await source.connect();

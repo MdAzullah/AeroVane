@@ -10,6 +10,9 @@ import type { MessageStats } from '../services';
 import type { SerialPortIdentity } from '../services/serial-probe-service';
 import type { BaudRate } from '../services/baud-rates';
 import type { ParameterStateSnapshot, ParamSetResult } from '../services/parameter-types';
+import type { FaultEvent } from '../analysis';
+import type { FaultRecord } from '../analysis';
+import type { SpoofScenarioId } from '../services/spoof-scenarios';
 
 // ---------------------------------------------------------------------------
 // Shared types used by both directions
@@ -17,7 +20,7 @@ import type { ParameterStateSnapshot, ParamSetResult } from '../services/paramet
 
 /** Worker-safe connection config (no DOM objects — must be cloneable via postMessage). */
 export type ConnectionConfig =
-  | { type: 'spoof' }
+  | { type: 'spoof'; scenario?: SpoofScenarioId }
   | { type: 'webserial'; baudRate: number }
   | { type: 'websocket'; url: string };
 
@@ -83,4 +86,8 @@ export type WorkerEvent =
   | { type: 'ftpMetadataProgress'; progress: FtpMetadataProgressEvent }
   | { type: 'ftpMetadataResult'; json: string; crcValid: boolean }
   | { type: 'ftpMetadataError'; error: string }
+  | { type: 'faultEvent'; event: FaultEvent }
+  | { type: 'faultReset' }
+  | { type: 'faultAnalysisStarted'; recordCount: number }
+  | { type: 'faultAnalysisComplete'; faults: FaultRecord[]; analyzedMessages: number; startedAtMs: number; endedAtMs: number }
   | { type: 'writeBytes'; data: Uint8Array };

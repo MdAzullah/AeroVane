@@ -13,6 +13,7 @@ import { MavlinkMessageDecoder } from '../mavlink/decoder';
 import type { MavlinkMetadataRegistry } from '../mavlink/registry';
 import { SpoofParamResponder } from './spoof-param-responder';
 import { SpoofFtpResponder } from './spoof-ftp-responder';
+import type { SpoofScenarioId } from './spoof-scenarios';
 
 /** Status text entries with severity levels. */
 const STATUS_MESSAGES: ReadonlyArray<readonly [number, string]> = [
@@ -23,9 +24,6 @@ const STATUS_MESSAGES: ReadonlyArray<readonly [number, string]> = [
   [5, 'Altitude hold active'],
   [5, 'Navigation mode enabled'],
   [6, 'Sensor calibration complete'],
-  [4, 'Low battery warning'],
-  [3, 'Engine temperature high'],
-  [2, 'Critical: IMU failure'],
 ] as const;
 
 /** Degrees-to-radians conversion factor. */
@@ -74,17 +72,20 @@ export class SpoofByteSource implements IByteSource {
   private batteryVoltage = 12.6;
   private throttle = 50;
   private statusTextIndex = 0;
+  private readonly scenario: SpoofScenarioId;
 
   constructor(
     registry: MavlinkMetadataRegistry,
     systemId = 1,
     componentId = 1,
     metadataJson = '',
+    scenario: SpoofScenarioId = 'normal',
   ) {
     this.registry = registry;
     this.frameBuilder = new MavlinkFrameBuilder(registry);
     this.systemId = systemId;
     this.componentId = componentId;
+    this.scenario = scenario;
 
     // Loopback pipeline: parse outbound frames, decode, dispatch to responders
     this.inboundParser = new MavlinkFrameParser(registry);
@@ -219,6 +220,7 @@ export class SpoofByteSource implements IByteSource {
     this.simulationTime += 100;
     const timeBootMs = this.simulationTime;
     const timeInSeconds = this.simulationTime / 1000;
+    if (this.isScenarioActive('link')) return;
 
     // Update simulation state
     this.updateSimulationState(timeInSeconds);
@@ -239,29 +241,36 @@ export class SpoofByteSource implements IByteSource {
     });
 
     // ATTITUDE (#30)
-    this.emitMessage('ATTITUDE', {
-      time_boot_ms: timeBootMs,
-      roll: this.roll,
-      pitch: this.pitch,
-      yaw: this.yaw,
-      rollspeed: 0,
-      pitchspeed: 0,
-      yawspeed: 0,
-    });
+    if (!this.isScenarioActive('frozen')) {
+      this.emitMessage('ATTITUDE', {
+        time_boot_ms: timeBootMs, roll: this.roll, pitch: this.pitch, yaw: this.yaw,
+        rollspeed: 0, pitchspeed: 0, yawspeed: 0,
+      });
+    }
+
+    if (this.scenario === 'attitude') {
+      const targetRoll = this.isScenarioActive('attitude') ? this.roll + 1 : this.roll;
+      const targetPitch = this.isScenarioActive('attitude') ? this.pitch + 0.7 : this.pitch;
+      this.emitIfSupported('ATTITUDE_TARGET', {
+        time_boot_ms: timeBootMs, type_mask: 0, q: eulerToQuaternion(targetRoll, targetPitch, this.yaw),
+        body_roll_rate: 0, body_pitch_rate: 0, body_yaw_rate: 0, thrust: 0.5,
+      });
+    }
 
     // VFR_HUD (#74)
     this.emitMessage('VFR_HUD', {
       airspeed: this.groundSpeed,
       groundspeed: this.groundSpeed,
       heading: Math.round(this.heading),
-      throttle: this.throttle,
+      throttle: this.isScenarioActive('altitude') ? 90 : this.throttle,
       alt: this.altitude,
-      climb: 0,
+      climb: this.isScenarioActive('altitude') ? -4 : 0,
     });
   }
 
   private generateSlowTelemetry(): void {
     if (!this._isConnected) return;
+    if (this.isScenarioActive('link')) return;
 
     // Battery slow drain
     this.batteryVoltage -= 0.001;
@@ -272,7 +281,7 @@ export class SpoofByteSource implements IByteSource {
       onboard_control_sensors_enabled: 0x7FF,
       onboard_control_sensors_health: 0x7FF,
       load: 100,
-      voltage_battery: Math.round(this.batteryVoltage * 1000),
+      voltage_battery: Math.round((this.isScenarioActive('battery') ? 9.5 : this.batteryVoltage) * 1000),
       current_battery: -1,
       battery_remaining: 85,
       drop_rate_comm: 0,
@@ -282,10 +291,36 @@ export class SpoofByteSource implements IByteSource {
       errors_count3: 0,
       errors_count4: 0,
     });
+
+    if (this.scenario === 'gps') this.emitIfSupported('GPS_RAW_INT', {
+      time_usec: this.simulationTime * 1000, fix_type: this.isScenarioActive('gps') ? 1 : 3,
+      lat: Math.round(this.latitude * 1e7), lon: Math.round(this.longitude * 1e7),
+      alt: Math.round(this.altitude * 1000), eph: this.isScenarioActive('gps') ? 900 : 90,
+      epv: 120, vel: Math.round(this.groundSpeed * 100), cog: Math.round(this.heading * 100),
+      satellites_visible: this.isScenarioActive('gps') ? 3 : 14,
+    });
+    if (this.scenario === 'vibration') this.emitIfSupported('VIBRATION', {
+      time_usec: this.simulationTime * 1000,
+      vibration_x: this.isScenarioActive('vibration') ? 70 : 4,
+      vibration_y: this.isScenarioActive('vibration') ? 65 : 5,
+      vibration_z: this.isScenarioActive('vibration') ? 75 : 6,
+      clipping_0: 0, clipping_1: 0, clipping_2: 0,
+    });
+    if (this.scenario === 'ekf') this.emitIfSupported('EKF_STATUS_REPORT', {
+      flags: 0, velocity_variance: this.isScenarioActive('ekf') ? 3 : 0.2,
+      pos_horiz_variance: 0.2, pos_vert_variance: 0.2, compass_variance: 0.2,
+      terrain_alt_variance: 0.2, airspeed_variance: 0.2,
+    });
+    if (this.scenario === 'motor') this.emitIfSupported('ESC_STATUS', {
+      index: 0, time_usec: this.simulationTime * 1000,
+      rpm: this.isScenarioActive('motor') ? [3000, 3000, 1000, 3000] : [3000, 3050, 2980, 3020],
+      voltage: [12, 12, 12, 12], current: [5, 5, 5, 5],
+    });
   }
 
   private generateHeartbeat(): void {
     if (!this._isConnected) return;
+    if (this.isScenarioActive('link')) return;
 
     this.emitMessage('HEARTBEAT', {
       type: 2,              // MAV_TYPE_QUADROTOR
@@ -311,6 +346,7 @@ export class SpoofByteSource implements IByteSource {
 
   private generateStatusText(): void {
     if (!this._isConnected) return;
+    if (this.isScenarioActive('link')) return;
 
     const [severity, text] = STATUS_MESSAGES[this.statusTextIndex % STATUS_MESSAGES.length];
     this.statusTextIndex++;
@@ -360,9 +396,24 @@ export class SpoofByteSource implements IByteSource {
     this.throttle += Math.round((Math.random() - 0.5) * 10);
     this.throttle = clamp(this.throttle, 0, 100);
   }
+
+  private isScenarioActive(scenario: SpoofScenarioId): boolean {
+    return this.scenario === scenario && this.simulationTime >= 5_000;
+  }
+
+  private emitIfSupported(messageName: string, values: Record<string, number | string | number[]>): void {
+    if (this.registry.getMessageByName(messageName)) this.emitMessage(messageName, values);
+  }
 }
 
 /** Clamp a value to the range [min, max]. */
 function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
+}
+
+function eulerToQuaternion(roll: number, pitch: number, yaw: number): number[] {
+  const cr = Math.cos(roll / 2), sr = Math.sin(roll / 2);
+  const cp = Math.cos(pitch / 2), sp = Math.sin(pitch / 2);
+  const cy = Math.cos(yaw / 2), sy = Math.sin(yaw / 2);
+  return [cr * cp * cy + sr * sp * sy, sr * cp * cy - cr * sp * sy, cr * sp * cy + sr * cp * sy, cr * cp * sy - sr * sp * cy];
 }

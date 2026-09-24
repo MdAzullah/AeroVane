@@ -401,10 +401,12 @@ export class SerialSessionController {
     }
   }
 
-  connectSpoof(options?: { unloadLog?: boolean }): void {
+  connectSpoof(options?: { unloadLog?: boolean; scenario?: import('./spoof-scenarios').SpoofScenarioId }): void {
     this.prepareForLiveConnection(options?.unloadLog === true);
     this.setPendingLiveSourceType('spoof');
-    this.connectionManager.connect({ type: 'spoof' });
+    this.connectionManager.connect(options?.scenario
+      ? { type: 'spoof', scenario: options.scenario }
+      : { type: 'spoof' });
   }
 
   syncAutoConnect(options: AutoConnectOptions): void {

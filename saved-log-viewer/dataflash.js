@@ -180,6 +180,50 @@ class logfile {
         return list.sort((a, b) => a.name.localeCompare(b.name));
     }
 
+    /** Decode every DataFlash packet into a timestamp-ordered neutral record. */
+    get_records() {
+        if (Object.keys(this.msgtypes).length === 0 || this.totalMessages === 0) {
+            throw new Error("No supported DataFlash messages were found. The file may be corrupt or unsupported.");
+        }
+
+        const dv = new DataView(this.buffer);
+        const records = [];
+        for (const msgt of Object.values(this.msgtypes)) {
+            if (!msgt || !msgt.name) continue;
+            const lists = msgt.with_instances
+                ? Array.from(msgt.data.entries())
+                    .filter(([, offsets]) => Array.isArray(offsets) && offsets.length > 0)
+                    .map(([instance, offsets]) => ({ offsets, instance }))
+                : [{ offsets: msgt.data || [], instance: null }];
+
+            for (const group of lists) {
+                for (const offset of group.offsets) {
+                    const values = {};
+                    let timestampMs = null;
+                    for (let fieldIndex = 0; fieldIndex < msgt.subitemlist.length; fieldIndex++) {
+                        const fieldName = msgt.subitemlist[fieldIndex];
+                        const fieldOffset = offset + msgt.subitemoffset[fieldIndex];
+                        const reader = readfunc[msgt.fields[fieldIndex]];
+                        if (!reader || fieldOffset >= dv.byteLength) continue;
+                        try {
+                            const value = reader(dv, fieldOffset);
+                            values[fieldName] = value;
+                            if (fieldName === "TimeUS") timestampMs = Number(value) / 1000;
+                            else if (fieldName === "TimeMS" && timestampMs == null) timestampMs = Number(value);
+                        } catch (_) {
+                            // A truncated field should not prevent analysis of the remaining log.
+                        }
+                    }
+                    if (Number.isFinite(timestampMs)) {
+                        records.push({ name: msgt.name, instance: group.instance, timestampMs, values });
+                    }
+                }
+            }
+        }
+        records.sort((a, b) => a.timestampMs - b.timestampMs);
+        return records;
+    }
+
     find_timebase() {
         // Try GPS message first
         const gpstypeval = this.msgtype_name_hash["GPS"];

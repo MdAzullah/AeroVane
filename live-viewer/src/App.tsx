@@ -7,6 +7,7 @@ import ParametersView from './components/ParametersView';
 import StatusBar from './components/StatusBar';
 import HelpOverlay from './components/HelpOverlay';
 import DebugConsole from './components/DebugConsole';
+import AISafetyPanel from './components/AISafetyPanel';
 import { appState, setAppState } from './store';
 import {
   useBootstrap,
@@ -16,6 +17,7 @@ import {
   useLogSession,
   useKeyboardShortcuts,
   useStatusTextCapture,
+  useFaultEvents,
 } from './hooks';
 import { RuntimeServicesProvider, saveSettings } from './services';
 import type { SkyForgeSettings } from './services';
@@ -33,6 +35,7 @@ function AppContent(props: AppContentProps) {
   useLogSession();
   useKeyboardShortcuts();
   useStatusTextCapture();
+  useFaultEvents();
 
   function handleSelectTab(tabId: 'telemetry' | 'map' | 'parameters') {
     if (appState.activeTab === tabId) return;
@@ -64,6 +67,7 @@ function AppContent(props: AppContentProps) {
           <ParametersView />
         </Show>
       </main>
+      <AISafetyPanel />
       <DebugConsole />
       <StatusBar />
       <HelpOverlay />

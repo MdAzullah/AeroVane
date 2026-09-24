@@ -9,7 +9,18 @@ export {
   renamePlotTab,
   reorderPlotTabs,
   setActiveSubTab,
+  applyFaultEvent,
+  acknowledgeFault,
+  clearFaultHistory,
+  resetFaultState,
+  selectHighestFaultSeverity,
+  beginFaultAnalysis,
+  completeFaultAnalysis,
+  requestFaultNavigation,
+  selectFaultHealthScore,
+  buildFaultAnalysisExport,
   type AppState,
+  type AppFaultRecord,
 } from './app-store';
 export {
   selectStatusBarModel,

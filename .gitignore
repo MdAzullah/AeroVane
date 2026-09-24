@@ -40,3 +40,10 @@ Thumbs.db
 !.vscode/extensions.json
 !.vscode/settings.json
 .idea/
+
+# Plans and reports
+*_PLAN.txt
+*_PHASES.txt
+*_PLAN.md
+PHASE_*_REPORT.txt
+

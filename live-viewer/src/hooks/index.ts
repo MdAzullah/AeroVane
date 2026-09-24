@@ -7,3 +7,4 @@ export { useLogLibrary } from './use-log-library';
 export { useKeyboardShortcuts } from './use-keyboard-shortcuts';
 export { useParameters } from './use-parameters';
 export { useStatusTextCapture } from './use-status-text-capture';
+export { useFaultEvents } from './use-fault-events';

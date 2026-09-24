@@ -51,6 +51,8 @@ export type {
 } from './parameter-types';
 export { ParameterManager } from './parameter-manager';
 export { SpoofByteSource } from './spoof-byte-source';
+export { SPOOF_SCENARIOS, isSpoofScenarioId } from './spoof-scenarios';
+export type { SpoofScenarioId } from './spoof-scenarios';
 export { SpoofParamResponder } from './spoof-param-responder';
 export { TimeSeriesDataManager, type TimeSeriesManagerOptions } from './timeseries-manager';
 export {
@@ -81,6 +83,7 @@ export { BAUD_RATES, DEFAULT_BAUD_RATE, BAUD_PROBE_ORDER, PROBE_TIMEOUT_MS, isWe
 export { getSerialBackend, requestPort, getGrantedPorts, type SerialBackend, type PortLike } from './serial-backend';
 export { WebSerialByteSource, type SerialBytesCallback } from './webserial-byte-source';
 export { WorkerSerialByteSource } from './worker-serial-byte-source';
+export { playCriticalAlert } from './critical-alert-sound';
 export { WebSocketByteSource } from './websocket-byte-source';
 export { SerialSessionController, type AutoConnectOptions, type ManualConnectOptions } from './serial-session-controller';
 export {
@@ -99,6 +102,7 @@ export {
   type ConnectionConfig,
   type ConnectionStatus,
   type StatusTextEntry,
+  type FaultAnalysisResult,
 } from './worker-bridge';
 export {
   DEBUG_CONSOLE_SOURCES,

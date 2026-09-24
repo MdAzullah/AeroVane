@@ -4,6 +4,7 @@ import type { WorkerEvent } from '../worker-protocol';
 import { loadCommonDialectJson } from '../../test-helpers/load-dialect';
 import { MavlinkMetadataRegistry } from '../../mavlink/registry';
 import { MavlinkFrameBuilder } from '../../mavlink/frame-builder';
+import { FaultDetectionEngine } from '../../analysis';
 
 const commonJson = loadCommonDialectJson();
 
@@ -58,6 +59,23 @@ function buildTestPackets(dialectJson: string) {
   return { packets, timestamps };
 }
 
+function buildBatteryFaultPackets(dialectJson: string, startMs: number) {
+  const registry = new MavlinkMetadataRegistry();
+  registry.loadFromJsonString(dialectJson);
+  const builder = new MavlinkFrameBuilder(registry);
+  const buildBattery = (millivolts: number, sequence: number) => builder.buildFrame({
+    messageName: 'SYS_STATUS',
+    values: { voltage_battery: millivolts, current_battery: 100, battery_remaining: 50 },
+    systemId: 1,
+    componentId: 1,
+    sequence,
+  });
+  return {
+    packets: [buildBattery(10_400, 0), buildBattery(10_300, 1)],
+    timestamps: [startMs, startMs + 3_000],
+  };
+}
+
 describe('WorkerController', () => {
   beforeEach(() => { vi.useFakeTimers(); });
   afterEach(() => { vi.useRealTimers(); });
@@ -96,6 +114,20 @@ describe('WorkerController', () => {
       const statuses = collector.ofType('statusChange').map(e => e.status);
       expect(statuses).toContain('connecting');
       expect(statuses).toContain('connected');
+      expect(collector.ofType('faultReset')).toHaveLength(1);
+    });
+
+    it('forwards analysis faults through the worker protocol', async () => {
+      const collector = createEventCollector();
+      const controller = new WorkerController(collector.postEvent);
+      const engine = (controller as unknown as { faultEngine: FaultDetectionEngine }).faultEngine;
+
+      engine.processSample({ timestampMs: 0, source: 'simulation', values: { 'battery.voltage_v': 10.4 } });
+      engine.processSample({ timestampMs: 3_000, source: 'simulation', values: { 'battery.voltage_v': 10.3 } });
+
+      expect(collector.ofType('faultEvent')[0]).toMatchObject({
+        event: { type: 'created', fault: { detectorId: 'battery', key: 'low-voltage' } },
+      });
     });
 
     it('receives stats after spoof generates data', async () => {
@@ -257,6 +289,59 @@ describe('WorkerController', () => {
       expect(attitudeFreq).toBeGreaterThan(0);
       // Frequency should be count / durationSec
       expect(attitudeFreq).toBeCloseTo(3 / complete!.durationSec, 1);
+    });
+
+    it('analyzes faults using recorded timestamps and posts one completed timeline', async () => {
+      const collector = createEventCollector();
+      const controller = new WorkerController(collector.postEvent);
+      await controller.handleCommand({ type: 'init', dialectJson: commonJson });
+      const recordedStart = 1_700_000_000_000;
+      const { packets, timestamps } = buildBatteryFaultPackets(commonJson, recordedStart);
+
+      await controller.handleCommand({ type: 'loadLog', packets, timestamps, bufferCapacity: 1000 });
+
+      expect(collector.last('faultAnalysisStarted')).toMatchObject({ recordCount: 2 });
+      const analysis = collector.last('faultAnalysisComplete');
+      expect(analysis).toMatchObject({ analyzedMessages: 2, startedAtMs: recordedStart, endedAtMs: recordedStart + 3_000 });
+      expect(analysis?.faults).toContainEqual(expect.objectContaining({
+        detectorId: 'battery', key: 'low-voltage', startedAtMs: recordedStart + 3_000,
+      }));
+    });
+
+    it('does not retain faults when a second log is loaded', async () => {
+      const collector = createEventCollector();
+      const controller = new WorkerController(collector.postEvent);
+      await controller.handleCommand({ type: 'init', dialectJson: commonJson });
+      const faulty = buildBatteryFaultPackets(commonJson, 10_000);
+      await controller.handleCommand({ type: 'loadLog', ...faulty, bufferCapacity: 1000 });
+      const healthy = buildTestPackets(commonJson);
+      await controller.handleCommand({ type: 'loadLog', ...healthy, bufferCapacity: 1000 });
+
+      expect(collector.last('faultAnalysisComplete')?.faults).toEqual([]);
+    });
+
+    it('returns one compact result for a large log without per-sample fault events', async () => {
+      const collector = createEventCollector();
+      const controller = new WorkerController(collector.postEvent);
+      await controller.handleCommand({ type: 'init', dialectJson: commonJson });
+      const registry = new MavlinkMetadataRegistry();
+      registry.loadFromJsonString(commonJson);
+      const packet = new MavlinkFrameBuilder(registry).buildFrame({
+        messageName: 'ATTITUDE',
+        values: { time_boot_ms: 0, roll: 0.01, pitch: 0.02, yaw: 0, rollspeed: 0, pitchspeed: 0, yawspeed: 0 },
+        systemId: 1, componentId: 1, sequence: 0,
+      });
+      const count = 5_000;
+      await controller.handleCommand({
+        type: 'loadLog',
+        packets: Array.from({ length: count }, () => packet),
+        timestamps: Array.from({ length: count }, (_, index) => index * 20),
+        bufferCapacity: count,
+      });
+
+      expect(collector.ofType('faultAnalysisComplete')).toHaveLength(1);
+      expect(collector.last('faultAnalysisComplete')?.analyzedMessages).toBe(count);
+      expect(collector.ofType('faultEvent')).toHaveLength(0);
     });
 
     it('errors when registry not initialized', async () => {

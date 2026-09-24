@@ -23,6 +23,9 @@ function readfiles(files) {
                 const startTime = performance.now();
                 const buffer = event.target.result;
                 const lf = new logfile(buffer);
+                if (lf.totalMessages === 0 || lf.get_msgitem_list().length === 0) {
+                    throw new Error("No supported DataFlash messages were found. The file may be corrupt or unsupported.");
+                }
                 document.logfile = lf;
 
                 const parseDuration = ((performance.now() - startTime) / 1000).toFixed(2);
@@ -69,6 +72,8 @@ function readfiles(files) {
                     const mapCard = document.querySelector('.map-card');
                     if (mapCard) mapCard.style.display = "none";
                 }
+
+                run_dataflash_ai_analysis(lf, file.name);
 
             } catch (err) {
                 console.error("Error reading logfile:", err);

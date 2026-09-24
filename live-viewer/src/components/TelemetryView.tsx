@@ -45,6 +45,14 @@ export default function TelemetryView() {
   const interactionController = createPlotInteractionController();
   const interactionGroupId = 'telemetry-linked';
 
+  createEffect(on(() => appState.faultNavigationRequest, () => {
+    const targetMs = appState.faultNavigationTargetMs;
+    if (!appState.logViewerState.isActive || targetMs === null) return;
+    const targetSeconds = targetMs / 1_000;
+    interactionController.emitZoom({ min: targetSeconds - 5, max: targetSeconds + 5 }, '__fault_timeline__');
+    setAppState('isPaused', true);
+  }));
+
   // Bridge isPaused store flag <-> interaction controller so pause freezes charts
   // while data keeps flowing in the worker.
   createEffect(on(() => appState.isPaused, (paused) => {

@@ -47,6 +47,12 @@ import {
 } from './mavlink-worker-pipeline-helpers';
 import { ThroughputMonitor } from './throughput-monitor';
 import { DataActivityMonitor } from './data-activity-monitor';
+import {
+  COMMUNICATION_WATCHDOG_SIGNAL,
+  createDefaultFaultDetectors,
+  FaultDetectionEngine,
+  MavlinkTelemetryNormalizer,
+} from '../analysis';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -71,6 +77,7 @@ interface PipelineState {
   vehicleTrackUnsub: (() => void) | null;
   paramMessageUnsub: (() => void) | null;
   ftpMessageUnsub: (() => void) | null;
+  analysisMessageUnsub: (() => void) | null;
   statusTextAssembly: StatusTextAssemblyState;
 }
 
@@ -155,6 +162,7 @@ export class WorkerController {
     vehicleTrackUnsub: null,
     paramMessageUnsub: null,
     ftpMessageUnsub: null,
+    analysisMessageUnsub: null,
     statusTextAssembly: { partials: new Map() },
   };
 
@@ -172,9 +180,16 @@ export class WorkerController {
 
   private readonly throughputMonitor: ThroughputMonitor;
   private readonly dataActivityMonitor: DataActivityMonitor;
+  private readonly faultEngine = new FaultDetectionEngine(createDefaultFaultDetectors());
+  private readonly telemetryNormalizer = new MavlinkTelemetryNormalizer('live');
+  private analysisWatchdogTimer: ReturnType<typeof setInterval> | null = null;
 
   constructor(postEvent: PostEventFn) {
     this.postEvent = postEvent;
+
+    this.faultEngine.onFaultEvent(event => {
+      this.postEvent({ type: 'faultEvent', event });
+    });
 
     this.throughputMonitor = new ThroughputMonitor(bytesPerSec => {
       this.postEvent({ type: 'throughput', bytesPerSec });
@@ -226,7 +241,7 @@ export class WorkerController {
             const resp = await fetch('/params.json');
             if (resp.ok) metadataJson = await resp.text();
           } catch { /* spoof FTP will serve empty metadata */ }
-          source = this.pipeline.spoofSource = new SpoofByteSource(this.registry, 1, 1, metadataJson);
+          source = this.pipeline.spoofSource = new SpoofByteSource(this.registry, 1, 1, metadataJson, config.scenario);
         } else if (config.type === 'websocket') {
           source = this.pipeline.websocketSource = new WebSocketByteSource(config.url, () => {
             this.postEvent({ type: 'statusChange', status: 'error' });
@@ -256,6 +271,9 @@ export class WorkerController {
         this.activeVehicle = null;
         await this.cleanupService();
         await this.cleanupSerial();
+        this.telemetryNormalizer.setConnected(false);
+        this.faultEngine.reset();
+        this.postEvent({ type: 'faultReset' });
         clearMainThreadTelemetryState(this.pipeline, this.postEvent);
         this.postEvent({ type: 'statusChange', status: 'disconnected' });
         break;
@@ -276,6 +294,8 @@ export class WorkerController {
       case 'unloadLog': {
         this.cancelLogGraceTimer();
         await this.cleanupService();
+        this.faultEngine.reset();
+        this.postEvent({ type: 'faultReset' });
         clearMainThreadTelemetryState(this.pipeline, this.postEvent);
         if (!this.serial.suspendedForLog) {
           this.postEvent({ type: 'statusChange', status: 'disconnected' });
@@ -318,6 +338,8 @@ export class WorkerController {
 
         this.cancelLogGraceTimer();
         await this.cleanupService();
+        this.faultEngine.reset();
+        this.postEvent({ type: 'faultReset' });
         if (!this.serial.suspendedForLog) {
           await this.cleanupSerial();
         }
@@ -330,7 +352,54 @@ export class WorkerController {
 
         this.pipeline.tracker = new GenericMessageTracker();
         this.pipeline.timeseriesManager = new TimeSeriesDataManager({ bufferCapacity: this.pipeline.bufferCapacity });
-        batchProcessPackets(this.registry, this.pipeline.tracker, this.pipeline.timeseriesManager, packets, timestamps, this.postEvent);
+        this.postEvent({ type: 'faultAnalysisStarted', recordCount: packets.length });
+        const logEngine = new FaultDetectionEngine(createDefaultFaultDetectors());
+        const logNormalizer = new MavlinkTelemetryNormalizer('tlog');
+        const faultTimeline = new Map<string, ReturnType<typeof logEngine.getActiveFaults>[number]>();
+        let analyzedMessages = 0;
+        let analysisStartedAtMs = Number.POSITIVE_INFINITY;
+        let analysisEndedAtMs = Number.NEGATIVE_INFINITY;
+        let previousTimestampMs: number | undefined;
+        logEngine.onFaultEvent(event => {
+          faultTimeline.set(event.fault.id, {
+            ...event.fault,
+            evidence: event.fault.evidence.map(item => ({ ...item })),
+          });
+        });
+        batchProcessPackets(
+          this.registry,
+          this.pipeline.tracker,
+          this.pipeline.timeseriesManager,
+          packets,
+          timestamps,
+          this.postEvent,
+          (message, timestampMs) => {
+            if (previousTimestampMs !== undefined && timestampMs - previousTimestampMs > 1_000) {
+              for (let tickMs = previousTimestampMs + 1_000; tickMs < timestampMs; tickMs += 1_000) {
+                logEngine.processSample({
+                  timestampMs: tickMs,
+                  source: 'tlog',
+                  values: { [COMMUNICATION_WATCHDOG_SIGNAL]: 1 },
+                  units: { [COMMUNICATION_WATCHDOG_SIGNAL]: 'boolean' },
+                  flightPhase: logNormalizer.getFlightPhase(),
+                });
+              }
+            }
+            const normalized = logNormalizer.normalize(message, timestampMs);
+            if (normalized) logEngine.processSample(normalized);
+            analyzedMessages += 1;
+            analysisStartedAtMs = Math.min(analysisStartedAtMs, timestampMs);
+            analysisEndedAtMs = Math.max(analysisEndedAtMs, timestampMs);
+            previousTimestampMs = timestampMs;
+          },
+        );
+        this.postEvent({
+          type: 'faultAnalysisComplete',
+          faults: Array.from(faultTimeline.values()),
+          analyzedMessages,
+          startedAtMs: Number.isFinite(analysisStartedAtMs) ? analysisStartedAtMs : 0,
+          endedAtMs: Number.isFinite(analysisEndedAtMs) ? analysisEndedAtMs : 0,
+        });
 
         let durationSec = 0;
         const allFields = this.pipeline.timeseriesManager.getAvailableFields();
@@ -501,6 +570,10 @@ export class WorkerController {
   // -------------------------------------------------------------------------
 
   private setupService(source: SpoofByteSource | ExternalByteSource | WorkerSerialByteSource | WebSocketByteSource): void {
+    this.faultEngine.reset();
+    this.postEvent({ type: 'faultReset' });
+    this.telemetryNormalizer.reset();
+    this.stopAnalysisWatchdog();
     this.pipeline.tracker = new GenericMessageTracker();
     this.pipeline.timeseriesManager = new TimeSeriesDataManager({ bufferCapacity: this.pipeline.bufferCapacity });
     this.pipeline.service = new MavlinkService(this.registry!, source, this.pipeline.tracker, this.pipeline.timeseriesManager);
@@ -527,6 +600,20 @@ export class WorkerController {
         };
       }
     });
+
+    this.pipeline.analysisMessageUnsub = this.pipeline.service.onMessage(msg => {
+      const sample = this.telemetryNormalizer.normalize(msg, Date.now());
+      if (sample) this.faultEngine.processSample(sample);
+    });
+    this.analysisWatchdogTimer = setInterval(() => {
+      this.faultEngine.processSample({
+        timestampMs: Date.now(),
+        source: 'live',
+        values: { [COMMUNICATION_WATCHDOG_SIGNAL]: 1 },
+        units: { [COMMUNICATION_WATCHDOG_SIGNAL]: 'boolean' },
+        flightPhase: this.telemetryNormalizer.getFlightPhase(),
+      });
+    }, 1_000);
 
     this.pipeline.packetUnsub = this.pipeline.service.onPacket((packet, timestampUs) => {
       if (this.serial.serialSource) this.dataActivityMonitor.recordActivity();
@@ -560,6 +647,7 @@ export class WorkerController {
   }
 
   private resetPipelineConnection(): void {
+    this.stopAnalysisWatchdog();
     this.pipeline.service = null;
     this.pipeline.spoofSource = null;
     this.pipeline.externalSource = null;
@@ -574,6 +662,7 @@ export class WorkerController {
     this.pipeline.vehicleTrackUnsub = null;
     this.pipeline.paramMessageUnsub = null;
     this.pipeline.ftpMessageUnsub = null;
+    this.pipeline.analysisMessageUnsub = null;
     this.paramManager?.dispose();
     this.paramManager = null;
     this.metadataDownloader?.dispose();
@@ -588,6 +677,7 @@ export class WorkerController {
     this.pipeline.vehicleTrackUnsub?.();
     this.pipeline.paramMessageUnsub?.();
     this.pipeline.ftpMessageUnsub?.();
+    this.pipeline.analysisMessageUnsub?.();
     this.pipeline.statsUnsub = null;
     this.pipeline.updateUnsub = null;
     this.pipeline.statustextUnsub = null;
@@ -595,6 +685,14 @@ export class WorkerController {
     this.pipeline.vehicleTrackUnsub = null;
     this.pipeline.paramMessageUnsub = null;
     this.pipeline.ftpMessageUnsub = null;
+    this.pipeline.analysisMessageUnsub = null;
+  }
+
+  private stopAnalysisWatchdog(): void {
+    if (this.analysisWatchdogTimer !== null) {
+      clearInterval(this.analysisWatchdogTimer);
+      this.analysisWatchdogTimer = null;
+    }
   }
 
   private async resetPipeline(options: { disconnectSource?: boolean } = {}): Promise<void> {

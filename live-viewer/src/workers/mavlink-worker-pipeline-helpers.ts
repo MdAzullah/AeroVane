@@ -160,6 +160,7 @@ export function batchProcessPackets(
   packets: Uint8Array[],
   timestamps: number[],
   postEvent: PostEvent,
+  onMessage?: (message: Readonly<MavlinkMessage>, timestampMs: number) => void,
 ): void {
   const statusTextState: StatusTextAssemblyState = { partials: new Map() };
   const parser = new MavlinkFrameParser(registry);
@@ -172,6 +173,7 @@ export function batchProcessPackets(
     tracker.trackMessage(decoded);
     tsManager.processMessageWithTimestamp(decoded, currentTimestampMs);
     forwardStatusText(statusTextState, decoded, currentTimestampMs, postEvent);
+    onMessage?.(decoded, currentTimestampMs);
   });
 
   for (let i = 0; i < packets.length; i += 1) {

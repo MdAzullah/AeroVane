@@ -7,6 +7,7 @@ let takeoffMarker = null;
 let landingMarker = null;
 let droneHoverMarker = null;
 let currentGpsData = null;
+let aiFaultMarkers = [];
 
 function coord2dist(a, b) {
     const earthradius = 6378388.0; /* Earth Radius in meters */
@@ -126,6 +127,7 @@ function draw_flight_map(gpsds) {
     if (takeoffMarker) map.removeLayer(takeoffMarker);
     if (landingMarker) map.removeLayer(landingMarker);
     if (droneHoverMarker) map.removeLayer(droneHoverMarker);
+    clear_ai_fault_markers();
 
     // 1. Polyline Shadow + Glowing Flight Path
     flightPolyline = L.polyline(latlngs, {
@@ -192,6 +194,79 @@ function draw_flight_map(gpsds) {
     setTimeout(() => {
         map.invalidateSize();
     }, 100);
+}
+
+function clear_ai_fault_markers() {
+    if (leafletMap) aiFaultMarkers.forEach(marker => leafletMap.removeLayer(marker));
+    aiFaultMarkers = [];
+}
+
+function gps_time_as_ms(gpsds, index, bootTimeMs) {
+    const value = gpsds.time && gpsds.time[index];
+    if (value instanceof Date) return value.getTime();
+    if (typeof value === 'number' && Number.isFinite(value)) {
+        return bootTimeMs > 0 ? bootTimeMs + value * 1000 : value * 1000;
+    }
+    return null;
+}
+
+function find_nearest_gps_index(gpsds, faultTimestampMs, bootTimeMs) {
+    if (!gpsds || !gpsds.time || gpsds.time.length === 0) return -1;
+    const target = bootTimeMs > 0 ? bootTimeMs + faultTimestampMs : faultTimestampMs;
+    let nearestIndex = -1;
+    let nearestDistance = Infinity;
+    for (let index = 0; index < gpsds.time.length; index++) {
+        const gpsTime = gps_time_as_ms(gpsds, index, bootTimeMs);
+        if (gpsTime == null) continue;
+        const distance = Math.abs(gpsTime - target);
+        if (distance < nearestDistance) {
+            nearestDistance = distance;
+            nearestIndex = index;
+        }
+    }
+    return nearestIndex;
+}
+
+function draw_ai_fault_markers(analysis, bootTimeMs) {
+    clear_ai_fault_markers();
+    if (!leafletMap || !currentGpsData || !analysis || !analysis.faults) return;
+    const colors = { critical: '#ef4444', warning: '#f59e0b', caution: '#eab308', info: '#38bdf8' };
+
+    analysis.faults.forEach((fault, faultIndex) => {
+        const gpsIndex = find_nearest_gps_index(currentGpsData, fault.startedAtMs, bootTimeMs);
+        if (gpsIndex < 0 || !Number.isFinite(currentGpsData.lat[gpsIndex]) || !Number.isFinite(currentGpsData.lon[gpsIndex])) return;
+        const color = colors[fault.severity] || colors.info;
+        const marker = L.circleMarker([currentGpsData.lat[gpsIndex], currentGpsData.lon[gpsIndex]], {
+            radius: 4,
+            fillColor: color,
+            color: '#ffffff',
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.95
+        }).addTo(leafletMap);
+        marker.bindPopup(`
+            <div class="ai-map-popup">
+                <strong style="color:${color}">${escape_map_html(fault.message)}</strong><br>
+                <span>${escape_map_html(fault.severity.toUpperCase())} · ${escape_map_html(format_ai_time(fault.startedAtMs))}</span><br>
+                <span>${escape_map_html(fault.suggestedAction)}</span><br>
+                <button type="button" onclick="show_fault_on_graph(${faultIndex})">Show on graph</button>
+            </div>`);
+        aiFaultMarkers[faultIndex] = marker;
+    });
+}
+
+function show_fault_on_map(index) {
+    const marker = aiFaultMarkers[index];
+    if (!leafletMap || !marker) return;
+    leafletMap.setView(marker.getLatLng(), Math.max(leafletMap.getZoom(), 17));
+    marker.openPopup();
+    document.querySelector('.map-card')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function escape_map_html(value) {
+    return String(value).replace(/[&<>'"]/g, character => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+    })[character]);
 }
 
 function fit_flight_path() {
