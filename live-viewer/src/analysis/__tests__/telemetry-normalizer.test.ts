@@ -45,6 +45,16 @@ describe('MavlinkTelemetryNormalizer', () => {
     expect(sample.values['battery.temperature_c']).toBe(25.25);
     expect(sample.values).not.toHaveProperty('battery.current_a');
     expect(sample.values).not.toHaveProperty('battery.remaining_pct');
+    expect(sample.availability).toMatchObject({
+      'battery.voltage_v': true,
+      'battery.current_a': false,
+      'battery.remaining_pct': false,
+      'battery.temperature_c': true,
+    });
+    expect(sample.qualityFlags).toMatchObject({
+      'battery.current_a': ['missing_or_invalid'],
+      'battery.remaining_pct': ['missing_or_invalid'],
+    });
   });
 
   it('normalizes GPS position, accuracy, and speed', () => {
@@ -82,6 +92,9 @@ describe('MavlinkTelemetryNormalizer', () => {
       yaw: 0.2,
     }), 4_000)!;
     expect(sample.values).toEqual({ 'attitude.yaw_rad': 0.2 });
+    expect(sample.availability?.['attitude.roll_rad']).toBe(false);
+    expect(sample.availability?.['attitude.pitch_rad']).toBe(false);
+    expect(sample.availability?.['attitude.yaw_rad']).toBe(true);
   });
 
   it('preserves status text with its severity', () => {
@@ -136,11 +149,83 @@ describe('MavlinkTelemetryNormalizer', () => {
     expect(normalizer.getFlightPhase()).toBe('disconnected');
   });
 
+  it('retains HEARTBEAT identity and routes subsequent samples by system', () => {
+    const normalizer = new MavlinkTelemetryNormalizer();
+    const heartbeat = normalizer.normalize(message('HEARTBEAT', {
+      type: 2,
+      autopilot: 3,
+      base_mode: 128,
+      custom_mode: 7,
+      system_status: 4,
+      mavlink_version: 3,
+    }, 42), 10)!;
+
+    expect(heartbeat.vehicle).toEqual({
+      systemId: 42,
+      componentId: 1,
+      mavType: 2,
+      autopilot: 3,
+      family: 'multicopter',
+    });
+    expect(heartbeat.values).toMatchObject({
+      'vehicle.mav_type': 2,
+      'vehicle.autopilot': 3,
+      'flight.custom_mode': 7,
+      'vehicle.mavlink_version': 3,
+    });
+
+    const attitude = normalizer.normalize(message('ATTITUDE', { roll: 0.1 }, 42), 11)!;
+    expect(attitude.vehicle).toEqual(heartbeat.vehicle);
+    const otherVehicle = normalizer.normalize(message('ATTITUDE', { roll: 0.2 }, 43), 12)!;
+    expect(otherVehicle.vehicle).toBeUndefined();
+  });
+
+  it('does not fabricate identity from incomplete HEARTBEAT fields', () => {
+    const normalizer = new MavlinkTelemetryNormalizer();
+    const sample = normalizer.normalize(message('HEARTBEAT', { type: 1, base_mode: 0 }), 10)!;
+    expect(sample.vehicle).toBeUndefined();
+    expect(sample.values['vehicle.mav_type']).toBe(1);
+    expect(sample.values).not.toHaveProperty('vehicle.autopilot');
+  });
+
+  it('retains decoded AUTOPILOT_VERSION metadata for later samples', () => {
+    const normalizer = new MavlinkTelemetryNormalizer();
+    normalizer.normalize(message('HEARTBEAT', { type: 1, autopilot: 3, base_mode: 0 }, 7), 1);
+    const encoded = (4 << 24) | (5 << 16) | (6 << 8) | 192;
+    const version = normalizer.normalize(message('AUTOPILOT_VERSION', {
+      capabilities: 31,
+      flight_sw_version: encoded,
+      middleware_sw_version: 0,
+      os_sw_version: 0,
+      board_version: 9001,
+      vendor_id: 120,
+      product_id: 44,
+    }, 7), 2)!;
+    expect(version.textValues?.['vehicle.firmware_version']).toBe('4.5.6-rc');
+    expect(version.vehicle).toMatchObject({
+      family: 'fixed_wing',
+      firmwareVersion: '4.5.6-rc',
+      firmwareVersionEncoded: encoded,
+      boardVersion: 9001,
+      vendorId: 120,
+      productId: 44,
+    });
+    expect(normalizer.normalize(message('ATTITUDE', { roll: 0.1 }, 7), 3)?.vehicle).toEqual(version.vehicle);
+  });
+
+  it('does not invent firmware metadata before HEARTBEAT identity exists', () => {
+    const normalizer = new MavlinkTelemetryNormalizer();
+    const version = normalizer.normalize(message('AUTOPILOT_VERSION', { flight_sw_version: 1 << 24 }, 9), 1)!;
+    expect(version.vehicle).toBeUndefined();
+    expect(version.textValues?.['vehicle.firmware_version']).toBe('1.0.0-dev');
+  });
+
   it('resets retained flight state between sessions', () => {
     const normalizer = new MavlinkTelemetryNormalizer();
     normalizer.normalize(message('HEARTBEAT', { base_mode: 128 }), 1);
     normalizer.normalize(message('EXTENDED_SYS_STATE', { landed_state: 2 }), 2);
     normalizer.reset();
     expect(normalizer.getFlightPhase()).toBe('on_ground');
+    expect(normalizer.normalize(message('ATTITUDE', { roll: 0.1 }), 3)?.vehicle).toBeUndefined();
   });
 });

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://skyforge.local/schemas/dataset-registry.schema.json",
+  "title": "SkyForge dataset registry",
+  "type": "object",
+  "required": ["schema_version", "commercial_compatibility_required", "sources"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "commercial_compatibility_required": { "const": true },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "decision", "decision_reason", "license", "license_audit", "citation", "provenance", "vehicle_families", "allowed_uses", "checks"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]+$" },
+          "name": { "type": "string", "minLength": 1 },
+          "decision": { "enum": ["approved", "quarantined", "rejected"] },
+          "decision_reason": { "type": "string", "minLength": 1 },
+          "license": {
+            "type": "object",
+            "required": ["spdx", "reference", "commercial_use"],
+            "properties": {
+              "spdx": { "type": ["string", "null"] },
+              "reference": { "type": ["string", "null"] },
+              "commercial_use": { "enum": ["allowed", "prohibited", "unknown", "conditional"] }
+            }
+          },
+          "license_audit": {
+            "type": "object",
+            "required": ["reviewed_at", "evidence", "finding"],
+            "properties": {
+              "reviewed_at": { "type": "string", "format": "date" },
+              "evidence": { "type": "array", "minItems": 1, "items": { "type": "string", "format": "uri" } },
+              "finding": { "type": "string", "minLength": 1 }
+            }
+          },
+          "citation": { "type": "string", "minLength": 1 },
+          "provenance": { "type": "string", "minLength": 1 },
+          "vehicle_families": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+          "allowed_uses": { "type": "array", "items": { "enum": ["metadata_review", "parser_testing", "training", "evaluation"] } },
+          "checks": {
+            "type": "object",
+            "required": ["license", "provenance", "privacy", "integrity", "schema", "duplicates"],
+            "additionalProperties": false,
+            "properties": {
+              "license": { "type": "boolean" }, "provenance": { "type": "boolean" },
+              "privacy": { "type": "boolean" }, "integrity": { "type": "boolean" },
+              "schema": { "type": "boolean" }, "duplicates": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

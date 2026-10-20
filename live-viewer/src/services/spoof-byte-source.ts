@@ -13,7 +13,7 @@ import { MavlinkMessageDecoder } from '../mavlink/decoder';
 import type { MavlinkMetadataRegistry } from '../mavlink/registry';
 import { SpoofParamResponder } from './spoof-param-responder';
 import { SpoofFtpResponder } from './spoof-ftp-responder';
-import type { SpoofScenarioId } from './spoof-scenarios';
+import type { SpoofScenarioId, SimulationEnvironmentId, SimulationFlightProfileId } from './spoof-scenarios';
 
 /** Status text entries with severity levels. */
 const STATUS_MESSAGES: ReadonlyArray<readonly [number, string]> = [
@@ -73,6 +73,9 @@ export class SpoofByteSource implements IByteSource {
   private throttle = 50;
   private statusTextIndex = 0;
   private readonly scenario: SpoofScenarioId;
+  private readonly environment: SimulationEnvironmentId;
+  private readonly flightProfile: SimulationFlightProfileId;
+  private radioErrors = 0;
 
   constructor(
     registry: MavlinkMetadataRegistry,
@@ -80,12 +83,16 @@ export class SpoofByteSource implements IByteSource {
     componentId = 1,
     metadataJson = '',
     scenario: SpoofScenarioId = 'normal',
+    environment: SimulationEnvironmentId = 'calm',
+    flightProfile: SimulationFlightProfileId = 'cruise',
   ) {
     this.registry = registry;
     this.frameBuilder = new MavlinkFrameBuilder(registry);
     this.systemId = systemId;
     this.componentId = componentId;
     this.scenario = scenario;
+    this.environment = environment;
+    this.flightProfile = flightProfile;
 
     // Loopback pipeline: parse outbound frames, decode, dispatch to responders
     this.inboundParser = new MavlinkFrameParser(registry);
@@ -266,6 +273,28 @@ export class SpoofByteSource implements IByteSource {
       alt: this.altitude,
       climb: this.isScenarioActive('altitude') ? -4 : 0,
     });
+
+    // Keep common sensor families available in every simulation so plots and
+    // detectors are useful without requiring a matching fault scenario.
+    const vibration = this.environment === 'storm' ? 18 : this.environment === 'mountain' ? 10 : 4;
+    const vibrationFault = this.isScenarioActive('vibration');
+    const compassFault = this.isScenarioActive('compass');
+    this.emitIfSupported('SCALED_IMU', {
+      time_boot_ms: timeBootMs,
+      xacc: Math.round(Math.sin(timeInSeconds * 1.7) * vibration),
+      yacc: Math.round(Math.cos(timeInSeconds * 1.3) * vibration),
+      zacc: 1000 + Math.round(Math.sin(timeInSeconds * 2.1) * vibration),
+      xgyro: Math.round(this.roll * 1000), ygyro: Math.round(this.pitch * 1000), zgyro: Math.round(0.26 * 1000),
+      xmag: compassFault ? 1200 : 220, ymag: compassFault ? -900 : 35, zmag: compassFault ? 700 : 410,
+      temperature: this.environment === 'mountain' ? 1200 : this.environment === 'storm' ? 1800 : 2600,
+    });
+    this.emitIfSupported('VIBRATION', {
+      time_usec: this.simulationTime * 1000,
+      vibration_x: vibrationFault ? 70 : vibration,
+      vibration_y: vibrationFault ? 65 : vibration * 1.1,
+      vibration_z: vibrationFault ? 75 : vibration * 1.2,
+      clipping_0: vibrationFault ? 2 : 0, clipping_1: 0, clipping_2: vibrationFault ? 1 : 0,
+    });
   }
 
   private generateSlowTelemetry(): void {
@@ -282,8 +311,8 @@ export class SpoofByteSource implements IByteSource {
       onboard_control_sensors_health: 0x7FF,
       load: 100,
       voltage_battery: Math.round((this.isScenarioActive('battery') ? 9.5 : this.batteryVoltage) * 1000),
-      current_battery: -1,
-      battery_remaining: 85,
+      current_battery: Math.round((6 + this.throttle * 0.12) * 100),
+      battery_remaining: Math.max(0, Math.round(100 - this.simulationTime / 120_000)),
       drop_rate_comm: 0,
       errors_comm: 0,
       errors_count1: 0,
@@ -291,23 +320,31 @@ export class SpoofByteSource implements IByteSource {
       errors_count3: 0,
       errors_count4: 0,
     });
+    const displayedVoltage = this.isScenarioActive('battery') ? 9.5 : this.batteryVoltage;
+    const cellVoltage = Math.round(displayedVoltage * 1000 / 3);
+    this.emitIfSupported('BATTERY_STATUS', {
+      id: 0, battery_function: 1, type: 3,
+      temperature: this.environment === 'storm' ? 1800 : 2800,
+      voltages: [cellVoltage, cellVoltage, cellVoltage, 65535, 65535, 65535, 65535, 65535, 65535, 65535],
+      current_battery: Math.round((6 + this.throttle * 0.12) * 100),
+      current_consumed: Math.round(this.simulationTime / 1000 * 3),
+      energy_consumed: Math.round(this.simulationTime / 1000 * 1.2),
+      battery_remaining: Math.max(0, Math.round(100 - this.simulationTime / 120_000)),
+      time_remaining: Math.max(0, Math.round(1200 - this.simulationTime / 1000)),
+      charge_state: this.isScenarioActive('battery') ? 2 : 1,
+      voltages_ext: [0, 0, 0, 0], mode: 0, fault_bitmask: 0,
+    });
 
-    if (this.scenario === 'gps') this.emitIfSupported('GPS_RAW_INT', {
+    const urbanGps = this.environment === 'urban';
+    this.emitIfSupported('GPS_RAW_INT', {
       time_usec: this.simulationTime * 1000, fix_type: this.isScenarioActive('gps') ? 1 : 3,
       lat: Math.round(this.latitude * 1e7), lon: Math.round(this.longitude * 1e7),
-      alt: Math.round(this.altitude * 1000), eph: this.isScenarioActive('gps') ? 900 : 90,
+      alt: Math.round(this.altitude * 1000), eph: this.isScenarioActive('gps') ? 900 : urbanGps ? 240 : 90,
       epv: 120, vel: Math.round(this.groundSpeed * 100), cog: Math.round(this.heading * 100),
-      satellites_visible: this.isScenarioActive('gps') ? 3 : 14,
+      satellites_visible: this.isScenarioActive('gps') ? 3 : urbanGps ? 8 : 14,
     });
-    if (this.scenario === 'vibration') this.emitIfSupported('VIBRATION', {
-      time_usec: this.simulationTime * 1000,
-      vibration_x: this.isScenarioActive('vibration') ? 70 : 4,
-      vibration_y: this.isScenarioActive('vibration') ? 65 : 5,
-      vibration_z: this.isScenarioActive('vibration') ? 75 : 6,
-      clipping_0: 0, clipping_1: 0, clipping_2: 0,
-    });
-    if (this.scenario === 'ekf') this.emitIfSupported('EKF_STATUS_REPORT', {
-      flags: 0, velocity_variance: this.isScenarioActive('ekf') ? 3 : 0.2,
+    this.emitIfSupported('EKF_STATUS_REPORT', {
+      flags: 831, velocity_variance: this.isScenarioActive('ekf') ? 3 : 0.2,
       pos_horiz_variance: 0.2, pos_vert_variance: 0.2, compass_variance: 0.2,
       terrain_alt_variance: 0.2, airspeed_variance: 0.2,
     });
@@ -315,6 +352,36 @@ export class SpoofByteSource implements IByteSource {
       index: 0, time_usec: this.simulationTime * 1000,
       rpm: this.isScenarioActive('motor') ? [3000, 3000, 1000, 3000] : [3000, 3050, 2980, 3020],
       voltage: [12, 12, 12, 12], current: [5, 5, 5, 5],
+    });
+
+    const pressureDrift = this.isScenarioActive('barometer') ? (this.simulationTime - 5_000) / 8_000 : 0;
+    const environmentPressure = this.environment === 'mountain' ? 820 : this.environment === 'storm' ? 985 : 1013.25;
+    this.emitIfSupported('SCALED_PRESSURE', {
+      time_boot_ms: this.simulationTime, press_abs: environmentPressure - this.altitude * 0.12 + pressureDrift,
+      press_diff: this.groundSpeed * this.groundSpeed * 0.006, temperature: this.environment === 'mountain' ? 900 : 2300,
+      temperature_press_diff: 2200,
+    });
+    const weakRadio = this.isScenarioActive('radio');
+    if (weakRadio) this.radioErrors += 4;
+    this.emitIfSupported('RADIO_STATUS', {
+      rssi: weakRadio ? 35 : this.environment === 'urban' ? 110 : 190,
+      remrssi: weakRadio ? 28 : 180, txbuf: weakRadio ? 18 : 92,
+      noise: weakRadio ? 90 : this.environment === 'urban' ? 70 : 35,
+      remnoise: weakRadio ? 95 : 38, rxerrors: this.radioErrors, fixed: Math.floor(this.radioErrors / 2),
+    });
+    const windSpeed = this.environment === 'storm' ? 14 : this.environment === 'mountain' ? 8 : this.environment === 'coastal' ? 6 : 1.5;
+    this.emitIfSupported('WIND_COV', {
+      time_usec: this.simulationTime * 1000,
+      wind_x: windSpeed + Math.sin(this.simulationTime / 700) * (this.environment === 'storm' ? 5 : 0.8),
+      wind_y: windSpeed * 0.45, wind_z: this.environment === 'mountain' ? -2 : 0,
+      var_horiz: this.environment === 'storm' ? 5 : 0.8, var_vert: this.environment === 'storm' ? 2 : 0.3,
+      wind_alt: this.altitude, horiz_accuracy: 0.5, vert_accuracy: 0.5,
+    });
+    this.emitIfSupported('NAV_CONTROLLER_OUTPUT', {
+      nav_roll: this.roll / DEG_TO_RAD, nav_pitch: this.pitch / DEG_TO_RAD,
+      nav_bearing: Math.round(this.heading), target_bearing: Math.round((this.heading + 15) % 360),
+      wp_dist: Math.max(0, Math.round(500 - (this.simulationTime / 100))),
+      alt_error: 75 - this.altitude, aspd_error: 15 - this.groundSpeed, xtrack_error: Math.sin(this.simulationTime / 3000) * 2,
     });
   }
 
@@ -362,26 +429,31 @@ export class SpoofByteSource implements IByteSource {
   // -------------------------------------------------------------------
 
   private updateSimulationState(timeInSeconds: number): void {
+    const profile = this.flightProfile === 'hover'
+      ? { minSpeed: 0.2, maxSpeed: 2, speedNoise: 0.08, turnRate: 4, attitudeNoise: 0.025, rollLimit: 6, pitchLimit: 5 }
+      : this.flightProfile === 'aggressive'
+        ? { minSpeed: 12, maxSpeed: 35, speedNoise: 0.9, turnRate: 28, attitudeNoise: 0.18, rollLimit: 38, pitchLimit: 28 }
+        : { minSpeed: 5, maxSpeed: 25, speedNoise: 0.6, turnRate: 15, attitudeNoise: 0.1, rollLimit: 20, pitchLimit: 15 };
     // Altitude random walk bounded [50, 100]m
     this.altitude += (Math.random() - 0.5) * 0.1;  // +-0.05
     this.altitude = clamp(this.altitude, 50, 100);
 
     // Groundspeed random walk bounded [5, 25] m/s
-    this.groundSpeed += (Math.random() - 0.5) * 0.6;  // +-0.3
-    this.groundSpeed = clamp(this.groundSpeed, 5, 25);
+    this.groundSpeed += (Math.random() - 0.5) * profile.speedNoise;
+    this.groundSpeed = clamp(this.groundSpeed, profile.minSpeed, profile.maxSpeed);
 
     // Heading: figure-8 pattern
-    const baseHeading = (timeInSeconds * 15) % 360;
+    const baseHeading = (timeInSeconds * profile.turnRate) % 360;
     const headingVariation = 30 * Math.sin(timeInSeconds * 0.5);
     this.heading = ((baseHeading + headingVariation) % 360 + 360) % 360;
 
     // Roll random walk bounded [-20deg, 20deg] in radians
-    this.roll += (Math.random() - 0.5) * 0.1;  // +-0.05 rad
-    this.roll = clamp(this.roll, -20 * DEG_TO_RAD, 20 * DEG_TO_RAD);
+    this.roll += (Math.random() - 0.5) * profile.attitudeNoise;
+    this.roll = clamp(this.roll, -profile.rollLimit * DEG_TO_RAD, profile.rollLimit * DEG_TO_RAD);
 
     // Pitch random walk bounded [-15deg, 15deg] in radians
-    this.pitch += (Math.random() - 0.5) * 0.1;  // +-0.05 rad
-    this.pitch = clamp(this.pitch, -15 * DEG_TO_RAD, 15 * DEG_TO_RAD);
+    this.pitch += (Math.random() - 0.5) * profile.attitudeNoise;
+    this.pitch = clamp(this.pitch, -profile.pitchLimit * DEG_TO_RAD, profile.pitchLimit * DEG_TO_RAD);
 
     // Yaw follows heading
     this.yaw = this.heading * DEG_TO_RAD;

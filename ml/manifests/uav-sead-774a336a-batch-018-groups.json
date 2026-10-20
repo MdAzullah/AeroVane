@@ -1,0 +1,35 @@
+{
+  "created_at": "2026-09-27T05:18:00Z",
+  "grouping_method": "keyed_pseudonymous_collection_group",
+  "privacy_note": "Collection paths are represented only by keyed opaque group IDs.",
+  "records": [
+    {
+      "flight_id": "flight-091",
+      "group_id": "grp-0a61c7c0e4400be1bc75",
+      "sha256": "2d47a9e091f73bef3c2f328ff750cef0c610aef6e725c501095b5f2d47fea66c"
+    },
+    {
+      "flight_id": "flight-092",
+      "group_id": "grp-63cc97a1987f3b7242c8",
+      "sha256": "11a01837ccc70ad6f4f91d98409cc25516150c4ad6ef082c3327e083802d95d9"
+    },
+    {
+      "flight_id": "flight-093",
+      "group_id": "grp-e4f362edcccfab4077e4",
+      "sha256": "c5d205bb6f3c2f704a201faeffc04e8ea0b014ce6952e8ffb4b96ce2102d5776"
+    },
+    {
+      "flight_id": "flight-094",
+      "group_id": "grp-3a0e7075d8f85bb2d868",
+      "sha256": "7b39af57b33b33a4fa6fa7e3ac86df925b553b9ce3098252299f0ff29635f876"
+    },
+    {
+      "flight_id": "flight-095",
+      "group_id": "grp-f90a6f8133d2705882ff",
+      "sha256": "3142d38f7bcd78291ab421c1e9a74009d906452c30b4cd36b9744d52cd3bf56b"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "source_id": "uav-sead",
+  "source_version": "774a336a1d1d06b248927a35c2ea1f6869e9e1a4"
+}

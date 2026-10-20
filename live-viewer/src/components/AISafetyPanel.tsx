@@ -1,5 +1,5 @@
 import { createEffect, createMemo, createSignal, For, Show } from 'solid-js';
-import type { FaultSeverity } from '../analysis';
+import { presentFaultNotification, type FaultSeverity } from '../analysis';
 import {
   acknowledgeFault,
   appState,
@@ -139,12 +139,13 @@ export default function AISafetyPanel() {
 }
 
 function FaultCard(props: { fault: AppFaultRecord; history: boolean; logMode: boolean }) {
+  const presented = () => presentFaultNotification(props.fault);
   return (
     <article class="ai-fault-card" data-severity={props.fault.severity}>
       <div class="ai-fault-heading">
         <div>
           <span class="ai-fault-severity">{props.fault.severity.toUpperCase()}</span>
-          <strong>{props.fault.message}</strong>
+          <strong>{presented().title}</strong>
         </div>
         <time dateTime={new Date(props.fault.updatedAtMs).toISOString()}>{props.logMode ? formatLogOffset(props.fault.startedAtMs) : formatTime(props.fault.updatedAtMs)}</time>
       </div>
@@ -153,15 +154,23 @@ function FaultCard(props: { fault: AppFaultRecord; history: boolean; logMode: bo
         <span aria-hidden="true"> · </span>
         {props.history ? 'Cleared' : props.fault.acknowledged ? 'Acknowledged' : 'Needs attention'}
       </div>
-      <For each={props.fault.evidence}>
+      <p class="ai-fault-summary">{presented().summary}</p>
+      <p class="ai-fault-urgency"><strong>What to do now:</strong> {presented().urgency}</p>
+      <span class="ai-fault-source">{presented().sourceLabel}</span>
+      <Show when={presented().evidence.length > 0}>
+        <p class="ai-fault-section-label">Why this warning appeared</p>
+      </Show>
+      <For each={presented().evidence}>
         {evidence => (
           <p class="ai-fault-evidence">
-            {evidence.description}: <strong>{formatNumber(evidence.value)} {evidence.unit ?? ''}</strong>
-            <Show when={evidence.threshold !== undefined}> (limit {formatNumber(evidence.threshold!)} {evidence.unit ?? ''})</Show>
+            <strong>{evidence.label}:</strong> {formatNumber(evidence.value)} {evidence.unit ?? ''}
+            <Show when={evidence.threshold !== undefined}>; warning level {formatNumber(evidence.threshold!)} {evidence.unit ?? ''}</Show>
+            <span> — {evidence.description}</span>
           </p>
         )}
       </For>
-      <p class="ai-fault-action"><span>Recommended:</span> {props.fault.suggestedAction}</p>
+      <p class="ai-fault-section-label">Recommended actions</p>
+      <ol class="ai-fault-actions-list"><For each={presented().actions}>{action => <li>{action}</li>}</For></ol>
       <Show when={!props.history && !props.fault.acknowledged}>
         <button class="ai-fault-acknowledge" onClick={() => acknowledgeFault(props.fault.id)}>
           Acknowledge

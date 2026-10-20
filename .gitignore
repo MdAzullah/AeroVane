@@ -5,6 +5,7 @@ node_modules/
 
 # Build outputs
 dist/
+skyforge-dist/
 dev-dist/
 build/
 *.tsbuildinfo
@@ -45,5 +46,15 @@ Thumbs.db
 *_PLAN.txt
 *_PHASES.txt
 *_PLAN.md
+*_HANDOFF.txt
 PHASE_*_REPORT.txt
+PHASE_*_REPORT.md
+PHASE_*_STATUS.md
+PHASE_*_EXIT.md
 
+# ML datasets and generated model artefacts (manifests stay versioned under ml/)
+data/
+artifacts/
+/models/
+__pycache__/
+*.py[cod]

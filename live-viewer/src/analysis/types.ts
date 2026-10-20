@@ -1,5 +1,48 @@
 /** Source that produced a normalized telemetry sample. */
-export type TelemetrySource = 'live' | 'tlog' | 'dataflash' | 'simulation';
+export type TelemetrySource = 'live' | 'tlog' | 'dataflash' | 'simulation' | 'ulog';
+
+/** Frozen ML routing families. `unknown` always falls back to rules-only. */
+export type VehicleFamily =
+  | 'multicopter'
+  | 'fixed_wing'
+  | 'vtol_hybrid'
+  | 'ground_rover'
+  | 'surface_vessel'
+  | 'submersible'
+  | 'lighter_than_air_other'
+  | 'unknown';
+
+/** Identity retained from MAVLink HEARTBEAT for family-specific analysis. */
+export interface VehicleIdentity {
+  systemId: number;
+  componentId: number;
+  mavType: number;
+  autopilot: number;
+  family: VehicleFamily;
+  firmwareVersion?: string;
+  firmwareVersionEncoded?: number;
+  boardVersion?: number;
+  vendorId?: number;
+  productId?: number;
+}
+
+/** Source-provided airframe configuration; fields are intentionally not inferred. */
+export interface FrameMetadata {
+  airframeId?: number;
+  allocatorAirframe?: number;
+  frameClass?: number;
+  frameType?: number;
+  vtolFrameClass?: number;
+  vtolFrameType?: number;
+}
+
+/** Why a canonical signal should not be consumed as an ordinary measurement. */
+export type SignalQualityFlag =
+  | 'missing_or_invalid'
+  | 'source_reported_unavailable'
+  | 'out_of_range'
+  | 'stale'
+  | 'estimated';
 
 /** Flight phase values shared by live and saved-log analysis. */
 export type FlightPhase =
@@ -25,7 +68,13 @@ export interface TelemetrySample {
   units?: Readonly<Record<string, string>>;
   /** Non-numeric evidence such as a MAVLink STATUSTEXT message. */
   textValues?: Readonly<Record<string, string>>;
+  /** Presence mask. A false entry is never represented by a fabricated zero. */
+  availability?: Readonly<Record<string, boolean>>;
+  /** Per-signal quality information, keyed by canonical signal name. */
+  qualityFlags?: Readonly<Record<string, readonly SignalQualityFlag[]>>;
   vehicleId?: string;
+  vehicle?: Readonly<VehicleIdentity>;
+  frame?: Readonly<FrameMetadata>;
   flightPhase?: FlightPhase;
 }
 

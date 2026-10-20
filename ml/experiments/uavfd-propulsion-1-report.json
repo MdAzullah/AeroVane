@@ -1,0 +1,491 @@
+{
+  "accepted": false,
+  "candidates": [
+    {
+      "max_depth": 3,
+      "min_samples_leaf": 8,
+      "validation": {
+        "f1": 0.8926553672316384,
+        "false_warning_rate": 0.375,
+        "fn": 4,
+        "fp": 15,
+        "precision": 0.8404255319148937,
+        "recall": 0.9518072289156626,
+        "samples": 123,
+        "tn": 25,
+        "tp": 79
+      }
+    },
+    {
+      "max_depth": 3,
+      "min_samples_leaf": 16,
+      "validation": {
+        "f1": 0.8749999999999999,
+        "false_warning_rate": 0.4,
+        "fn": 6,
+        "fp": 16,
+        "precision": 0.8279569892473119,
+        "recall": 0.927710843373494,
+        "samples": 123,
+        "tn": 24,
+        "tp": 77
+      }
+    },
+    {
+      "max_depth": 3,
+      "min_samples_leaf": 24,
+      "validation": {
+        "f1": 0.8749999999999999,
+        "false_warning_rate": 0.4,
+        "fn": 6,
+        "fp": 16,
+        "precision": 0.8279569892473119,
+        "recall": 0.927710843373494,
+        "samples": 123,
+        "tn": 24,
+        "tp": 77
+      }
+    },
+    {
+      "max_depth": 3,
+      "min_samples_leaf": 32,
+      "validation": {
+        "f1": 0.8800000000000001,
+        "false_warning_rate": 0.375,
+        "fn": 6,
+        "fp": 15,
+        "precision": 0.8369565217391305,
+        "recall": 0.927710843373494,
+        "samples": 123,
+        "tn": 25,
+        "tp": 77
+      }
+    },
+    {
+      "max_depth": 4,
+      "min_samples_leaf": 8,
+      "validation": {
+        "f1": 0.858974358974359,
+        "false_warning_rate": 0.15,
+        "fn": 16,
+        "fp": 6,
+        "precision": 0.9178082191780822,
+        "recall": 0.8072289156626506,
+        "samples": 123,
+        "tn": 34,
+        "tp": 67
+      }
+    },
+    {
+      "max_depth": 4,
+      "min_samples_leaf": 16,
+      "validation": {
+        "f1": 0.838709677419355,
+        "false_warning_rate": 0.175,
+        "fn": 18,
+        "fp": 7,
+        "precision": 0.9027777777777778,
+        "recall": 0.7831325301204819,
+        "samples": 123,
+        "tn": 33,
+        "tp": 65
+      }
+    },
+    {
+      "max_depth": 4,
+      "min_samples_leaf": 24,
+      "validation": {
+        "f1": 0.838709677419355,
+        "false_warning_rate": 0.175,
+        "fn": 18,
+        "fp": 7,
+        "precision": 0.9027777777777778,
+        "recall": 0.7831325301204819,
+        "samples": 123,
+        "tn": 33,
+        "tp": 65
+      }
+    },
+    {
+      "max_depth": 4,
+      "min_samples_leaf": 32,
+      "validation": {
+        "f1": 0.8441558441558441,
+        "false_warning_rate": 0.15,
+        "fn": 18,
+        "fp": 6,
+        "precision": 0.9154929577464789,
+        "recall": 0.7831325301204819,
+        "samples": 123,
+        "tn": 34,
+        "tp": 65
+      }
+    },
+    {
+      "max_depth": 5,
+      "min_samples_leaf": 8,
+      "validation": {
+        "f1": 0.8823529411764707,
+        "false_warning_rate": 0.3,
+        "fn": 8,
+        "fp": 12,
+        "precision": 0.8620689655172413,
+        "recall": 0.9036144578313253,
+        "samples": 123,
+        "tn": 28,
+        "tp": 75
+      }
+    },
+    {
+      "max_depth": 5,
+      "min_samples_leaf": 16,
+      "validation": {
+        "f1": 0.8720930232558138,
+        "false_warning_rate": 0.35,
+        "fn": 8,
+        "fp": 14,
+        "precision": 0.8426966292134831,
+        "recall": 0.9036144578313253,
+        "samples": 123,
+        "tn": 26,
+        "tp": 75
+      }
+    },
+    {
+      "max_depth": 5,
+      "min_samples_leaf": 24,
+      "validation": {
+        "f1": 0.8720930232558138,
+        "false_warning_rate": 0.35,
+        "fn": 8,
+        "fp": 14,
+        "precision": 0.8426966292134831,
+        "recall": 0.9036144578313253,
+        "samples": 123,
+        "tn": 26,
+        "tp": 75
+      }
+    },
+    {
+      "max_depth": 5,
+      "min_samples_leaf": 32,
+      "validation": {
+        "f1": 0.8395061728395061,
+        "false_warning_rate": 0.275,
+        "fn": 15,
+        "fp": 11,
+        "precision": 0.8607594936708861,
+        "recall": 0.8192771084337349,
+        "samples": 123,
+        "tn": 29,
+        "tp": 68
+      }
+    },
+    {
+      "max_depth": 6,
+      "min_samples_leaf": 8,
+      "validation": {
+        "f1": 0.858974358974359,
+        "false_warning_rate": 0.15,
+        "fn": 16,
+        "fp": 6,
+        "precision": 0.9178082191780822,
+        "recall": 0.8072289156626506,
+        "samples": 123,
+        "tn": 34,
+        "tp": 67
+      }
+    },
+    {
+      "max_depth": 6,
+      "min_samples_leaf": 16,
+      "validation": {
+        "f1": 0.8535031847133757,
+        "false_warning_rate": 0.175,
+        "fn": 16,
+        "fp": 7,
+        "precision": 0.9054054054054054,
+        "recall": 0.8072289156626506,
+        "samples": 123,
+        "tn": 33,
+        "tp": 67
+      }
+    },
+    {
+      "max_depth": 6,
+      "min_samples_leaf": 24,
+      "validation": {
+        "f1": 0.8624999999999999,
+        "false_warning_rate": 0.2,
+        "fn": 14,
+        "fp": 8,
+        "precision": 0.8961038961038961,
+        "recall": 0.8313253012048193,
+        "samples": 123,
+        "tn": 32,
+        "tp": 69
+      }
+    },
+    {
+      "max_depth": 6,
+      "min_samples_leaf": 32,
+      "validation": {
+        "f1": 0.8395061728395061,
+        "false_warning_rate": 0.275,
+        "fn": 15,
+        "fp": 11,
+        "precision": 0.8607594936708861,
+        "recall": 0.8192771084337349,
+        "samples": 123,
+        "tn": 29,
+        "tp": 68
+      }
+    },
+    {
+      "max_depth": 7,
+      "min_samples_leaf": 8,
+      "validation": {
+        "f1": 0.9090909090909091,
+        "false_warning_rate": 0.175,
+        "fn": 8,
+        "fp": 7,
+        "precision": 0.9146341463414634,
+        "recall": 0.9036144578313253,
+        "samples": 123,
+        "tn": 33,
+        "tp": 75
+      }
+    },
+    {
+      "max_depth": 7,
+      "min_samples_leaf": 16,
+      "validation": {
+        "f1": 0.9036144578313253,
+        "false_warning_rate": 0.2,
+        "fn": 8,
+        "fp": 8,
+        "precision": 0.9036144578313253,
+        "recall": 0.9036144578313253,
+        "samples": 123,
+        "tn": 32,
+        "tp": 75
+      }
+    },
+    {
+      "max_depth": 7,
+      "min_samples_leaf": 24,
+      "validation": {
+        "f1": 0.846153846153846,
+        "false_warning_rate": 0.175,
+        "fn": 17,
+        "fp": 7,
+        "precision": 0.9041095890410958,
+        "recall": 0.7951807228915663,
+        "samples": 123,
+        "tn": 33,
+        "tp": 66
+      }
+    },
+    {
+      "max_depth": 7,
+      "min_samples_leaf": 32,
+      "validation": {
+        "f1": 0.8395061728395061,
+        "false_warning_rate": 0.275,
+        "fn": 15,
+        "fp": 11,
+        "precision": 0.8607594936708861,
+        "recall": 0.8192771084337349,
+        "samples": 123,
+        "tn": 29,
+        "tp": 68
+      }
+    }
+  ],
+  "experiment": "uav-fd-propulsion-1",
+  "fault_family": "propulsion_actuator",
+  "features": [
+    "accel_magnitude_mps2_mean",
+    "accel_magnitude_mps2_std",
+    "accel_magnitude_mps2_max",
+    "gyro_magnitude_radps_mean",
+    "gyro_magnitude_radps_std",
+    "gyro_magnitude_radps_max",
+    "vibration_magnitude_mps2_mean",
+    "vibration_magnitude_mps2_std",
+    "vibration_magnitude_mps2_max",
+    "attitude_tracking_error_deg_mean",
+    "attitude_tracking_error_deg_max",
+    "motor_rpm_spread_pct_mean",
+    "motor_rpm_spread_pct_max"
+  ],
+  "inventory": [
+    {
+      "file": "NO_FAULT1.mat",
+      "label": 0,
+      "md5": "065e36e917d0e6188a3b766e17a720c7",
+      "split": "train",
+      "windows": 27
+    },
+    {
+      "file": "NO_FAULT2.mat",
+      "label": 0,
+      "md5": "828e8d88d73feea4bfd8268a51355803",
+      "split": "train",
+      "windows": 64
+    },
+    {
+      "file": "NO_FAULT3.mat",
+      "label": 0,
+      "md5": "5bb0fef01e1f8ca392de9aacb75fc325",
+      "split": "train",
+      "windows": 49
+    },
+    {
+      "file": "NO_FAULT4.mat",
+      "label": 0,
+      "md5": "65097e327521038f3d0c099c3afe8b69",
+      "split": "train",
+      "windows": 40
+    },
+    {
+      "file": "NO_FAULT5.mat",
+      "label": 0,
+      "md5": "22488aa7ed8fee78c0568149abc8efc0",
+      "split": "validation",
+      "windows": 40
+    },
+    {
+      "file": "NO_FAULT6.mat",
+      "label": 0,
+      "md5": "068260a2e75c28fcdc6372057d232e88",
+      "split": "test",
+      "windows": 43
+    },
+    {
+      "file": "FAULT_M1_5.mat",
+      "label": 1,
+      "md5": "ad0fcc0d989e7fc728a0b2289c890a1e",
+      "split": "train",
+      "windows": 74
+    },
+    {
+      "file": "FAULT_M2_5.mat",
+      "label": 1,
+      "md5": "753b7e5214dd1f125bba9d563eca6831",
+      "split": "train",
+      "windows": 43
+    },
+    {
+      "file": "FAULT_M3_5.mat",
+      "label": 1,
+      "md5": "644663756532fa9771fdff1fa2f85f42",
+      "split": "train",
+      "windows": 74
+    },
+    {
+      "file": "FAULT_M4_5.mat",
+      "label": 1,
+      "md5": "54e8ab4e6b682a0156847adc7f09bbad",
+      "split": "train",
+      "windows": 30
+    },
+    {
+      "file": "FAULT_M5_5.mat",
+      "label": 1,
+      "md5": "8fd7fef15d431fc17b8fe29fec3d0cb5",
+      "split": "validation",
+      "windows": 35
+    },
+    {
+      "file": "FAULT_M6_5.mat",
+      "label": 1,
+      "md5": "45a93738602695151627eb500ec662e2",
+      "split": "test",
+      "windows": 39
+    },
+    {
+      "file": "FAULT_M1_10.mat",
+      "label": 1,
+      "md5": "4e70d881431959585bb9737686f5f079",
+      "split": "train",
+      "windows": 52
+    },
+    {
+      "file": "FAULT_M2_10.mat",
+      "label": 1,
+      "md5": "fd3792291191532383461b1cfb4ff752",
+      "split": "train",
+      "windows": 60
+    },
+    {
+      "file": "FAULT_M3_10.mat",
+      "label": 1,
+      "md5": "ad20d6c8d668777e3efb7d7937c56b8a",
+      "split": "train",
+      "windows": 44
+    },
+    {
+      "file": "FAULT_M4_10.mat",
+      "label": 1,
+      "md5": "76cde4e92881f3ec0f02d2af40a516c9",
+      "split": "train",
+      "windows": 40
+    },
+    {
+      "file": "FAULT_M5_10.mat",
+      "label": 1,
+      "md5": "8f362ddf49bdaf2844e0b1e3292cfa68",
+      "split": "validation",
+      "windows": 48
+    },
+    {
+      "file": "FAULT_M6_10.mat",
+      "label": 1,
+      "md5": "0791d6044f6803f948eca4c675d92f91",
+      "split": "test",
+      "windows": 56
+    }
+  ],
+  "license": "CC-BY-4.0",
+  "limitations": [
+    "18 flights from one hexarotor",
+    "chipped-propeller conditions only",
+    "not validated for VTOL"
+  ],
+  "persistence_windows": 2,
+  "real_flight_data": true,
+  "release_authorized": false,
+  "schema_version": "1.0.0",
+  "selected": {
+    "max_depth": 7,
+    "min_samples_leaf": 8
+  },
+  "source": "10.5281/zenodo.7648996",
+  "stride_seconds": 2.5,
+  "test": {
+    "f1": 0.8433734939759036,
+    "false_warning_rate": 0.023255813953488372,
+    "fn": 25,
+    "fp": 1,
+    "precision": 0.9859154929577465,
+    "recall": 0.7368421052631579,
+    "samples": 138,
+    "tn": 42,
+    "tp": 70
+  },
+  "test_evaluations": 1,
+  "test_raw_windows": {
+    "f1": 0.8729281767955801,
+    "false_warning_rate": 0.16279069767441862,
+    "fn": 16,
+    "fp": 7,
+    "precision": 0.9186046511627907,
+    "recall": 0.8315789473684211,
+    "samples": 138,
+    "tn": 36,
+    "tp": 79
+  },
+  "vehicle_family": "multicopter",
+  "window_seconds": 5.0
+}

@@ -1,0 +1,110 @@
+{
+  "created_at": "2026-09-27T05:15:00Z",
+  "inventory": "ml/manifests/uav-sead-774a336a-batch-015-inventory.json",
+  "label_provenance": "expert_review",
+  "records": [
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-076",
+      "ranges_ms": [
+        {
+          "end": 94412.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 87328.0
+        },
+        {
+          "end": 139734.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 132811.0
+        }
+      ],
+      "sha256": "45333aaa6f451b6d56418c56eb36bbc519a3fd33d38954804cb867e0c1d510e4",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-077",
+      "ranges_ms": [
+        {
+          "end": 129393.0,
+          "source_class": "Mechanical",
+          "source_signal": "Vibration",
+          "start": 125001.0
+        },
+        {
+          "end": 145253.0,
+          "source_class": "Mechanical",
+          "source_signal": "Vibration",
+          "start": 143301.0
+        }
+      ],
+      "sha256": "ac8248d1da279028d26b1397d1fd958e372795f55648d28a4a6828837b756286",
+      "source_classes": [
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-078",
+      "ranges_ms": [
+        {
+          "end": 327556.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 317880.0
+        },
+        {
+          "end": 352639.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 329341.0
+        }
+      ],
+      "sha256": "5d8a92741ea8786cf27cb768a23eb6442c0cec767f475413a3a8d8e4ed6b822b",
+      "source_classes": [
+        "External Position",
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-079",
+      "ranges_ms": [],
+      "sha256": "29347a7bafd018e0ab1ffa93b85ed1e0f4805234d3152dfd488b2e0ddf09bafd",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-080",
+      "ranges_ms": [],
+      "sha256": "91d4e550d986abcc7c63a897e22f7248022704ef35ce29250a8f9ea2cfdabe3e",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "source_id": "uav-sead",
+  "source_version": "774a336a1d1d06b248927a35c2ea1f6869e9e1a4"
+}

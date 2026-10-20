@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://skyforge.local/schemas/split-manifest.schema.json",
+  "title": "SkyForge leakage-safe split manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "created_at", "frozen_at", "status", "source_id", "source_version", "training_authorized", "records"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "frozen_at": { "type": ["string", "null"], "format": "date-time" },
+    "status": { "enum": ["draft", "frozen"] },
+    "source_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]+$" },
+    "source_version": { "type": "string", "minLength": 1 },
+    "training_authorized": { "type": "boolean" },
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["flight_id", "sha256", "group_id", "split", "reason"],
+        "properties": {
+          "flight_id": { "type": "string", "pattern": "^flight-[0-9]{3,}$" },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "group_id": { "type": "string", "pattern": "^grp-[a-z0-9-]+$" },
+          "split": { "enum": ["train", "validation", "test", "excluded"] },
+          "reason": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

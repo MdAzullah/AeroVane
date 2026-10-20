@@ -10,6 +10,8 @@ export { MotorImbalanceFaultDetector } from './motor-imbalance-detector';
 export { TemperatureFaultDetector } from './temperature-detector';
 export { StatusTextFaultDetector } from './status-text-detector';
 export { MlAnomalyDetector } from './ml-anomaly-detector';
+export { RealAnomalyDetector } from './real-anomaly-detector';
+export { BasicSensorFaultDetector } from './basic-sensor-detector';
 export {
   DEFAULT_BATTERY_DETECTOR_CONFIG,
   DEFAULT_GPS_DETECTOR_CONFIG,

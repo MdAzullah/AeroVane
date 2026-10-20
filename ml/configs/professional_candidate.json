@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0.0",
+  "experiment": "skyforge-professional-candidate-1",
+  "random_seed": 9341,
+  "development_splits": ["train", "validation"],
+  "forbidden_splits": ["test", "excluded"],
+  "group_folds": 5,
+  "candidates": {
+    "extra_trees": [
+      {"trees": 300, "max_depth": 8, "min_samples_leaf": 8},
+      {"trees": 500, "max_depth": 12, "min_samples_leaf": 5}
+    ],
+    "random_forest": [
+      {"trees": 300, "max_depth": 8, "min_samples_leaf": 8},
+      {"trees": 500, "max_depth": 12, "min_samples_leaf": 5}
+    ]
+  },
+  "validation_gate": {
+    "recall_min": 0.65,
+    "false_warning_rate_max": 0.15,
+    "feature_coverage_min": 0.95
+  },
+  "release_policy": {
+    "fresh_test_required": true,
+    "viewer_promotion_allowed": false,
+    "advisory_only": true,
+    "component_diagnosis_allowed": false
+  }
+}

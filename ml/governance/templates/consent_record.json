@@ -1,0 +1,20 @@
+{
+  "consent_id": "random-nonidentifying-id",
+  "consent_version": "1.0.0",
+  "granted_at": "YYYY-MM-DD",
+  "contributor_receipt_issued": false,
+  "data_description": null,
+  "permitted_uses": [],
+  "model_distribution_permission": "not_granted",
+  "retention_expires_at": "YYYY-MM-DD",
+  "sharing_scope": "skyforge_maintainers_only",
+  "commercial_use": "not_granted",
+  "withdrawal_method_presented": false,
+  "privacy_notice_presented": false,
+  "adult_and_authorized_to_contribute": false,
+  "review": {
+    "submitted_by": null,
+    "independent_approver": null,
+    "approved_at": null
+  }
+}

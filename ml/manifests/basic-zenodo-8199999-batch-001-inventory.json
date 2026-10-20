@@ -1,0 +1,10 @@
+{
+  "schema_version":"1.0.0","source_id":"basic-zenodo-8199999","source_version":"1","total_bytes":169973409,"unique_files":5,"duplicates":0,
+  "records":[
+    {"flight_id":"basic-flight-001","bytes":34222280,"md5":"7001d6227bd0952616ac141de4ab2c20","sha256":"8c4a56ef4b4a61bec26d85ce81d0654647624982a03fa199b7d5dfc299dd4570"},
+    {"flight_id":"basic-flight-002","bytes":29442325,"md5":"56543b4eb4f04c2579f24f0871aa5ac3","sha256":"52b9053eba45188ce0757ebca27bfa9b25217aee81aedf28e97ad342ee5c5aa6"},
+    {"flight_id":"basic-flight-003","bytes":24579640,"md5":"ae3891b9d5a28f1e6c87f57de51eed5f","sha256":"4953e0a9460f8daae2f5bbdaba0149d9090ebcb5b54dcac9fea6eb0a232f9ae2"},
+    {"flight_id":"basic-flight-004","bytes":40246786,"md5":"3ddd523645f7d6341bd8ae287060fe90","sha256":"81f136227e7f66cf59ea485cc6a0d23cfa0fb90c01d5ee073e762285d30c8ce3"},
+    {"flight_id":"basic-flight-005","bytes":41482378,"md5":"baf88d2cbc9d178d33ab1696e0c1f4b5","sha256":"787b590ec36ea901b40949b10bc005dc56729588fed98b3cf7ec45930c43c9fb"}
+  ]
+}

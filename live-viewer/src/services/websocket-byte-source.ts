@@ -18,11 +18,17 @@ export class WebSocketByteSource implements IByteSource {
   private readonly callbacks = new Set<ByteCallback>();
   private _isConnected = false;
   private readonly url: string;
-  private readonly onDisconnect?: () => void;
+  private retryTimer: ReturnType<typeof setTimeout> | null = null;
+  private stableTimer: ReturnType<typeof setTimeout> | null = null;
+  private manuallyDisconnected = false;
+  private retryCount = 0;
+  private generation = 0;
+  private lastPacketAt: number | null = null;
+  private readonly onLifecycle?: (event: WebSocketLifecycleEvent) => void;
 
-  constructor(url: string, onDisconnect?: () => void) {
+  constructor(url: string, onLifecycle?: (event: WebSocketLifecycleEvent) => void) {
     this.url = url;
-    this.onDisconnect = onDisconnect;
+    this.onLifecycle = onLifecycle;
   }
 
   get isConnected(): boolean {
@@ -35,59 +41,80 @@ export class WebSocketByteSource implements IByteSource {
   }
 
   connect(): Promise<void> {
+    this.manuallyDisconnected = false;
+    this.clearRetryTimer();
+    const generation = ++this.generation;
     return new Promise((resolve, reject) => {
-      let settled = false;
-      let socket: WebSocket;
-
-      try {
-        socket = new WebSocket(this.url);
-      } catch (err) {
-        reject(err instanceof Error ? err : new Error('Failed to create WebSocket'));
-        return;
-      }
-
-      socket.binaryType = 'arraybuffer';
-
-      socket.onopen = () => {
-        this._isConnected = true;
-        settled = true;
-        resolve();
-      };
-
-      socket.onmessage = (event: MessageEvent) => {
-        if (!this._isConnected) return;
-        const data = event.data instanceof ArrayBuffer
-          ? new Uint8Array(event.data)
-          : null;
-        if (!data) return; // ignore non-binary frames (e.g. text/JSON status messages)
-        for (const cb of this.callbacks) {
-          cb(data);
-        }
-      };
-
-      socket.onerror = () => {
-        if (!settled) {
-          settled = true;
-          reject(new Error(`WebSocket connection failed: ${this.url}`));
-        }
-      };
-
-      socket.onclose = () => {
-        const wasConnected = this._isConnected;
-        this._isConnected = false;
-        if (!settled) {
-          settled = true;
-          reject(new Error(`WebSocket closed before connecting: ${this.url}`));
-        } else if (wasConnected) {
-          this.onDisconnect?.();
-        }
-      };
-
-      this.socket = socket;
+      this.openSocket(generation, resolve, reject);
     });
   }
 
+  private openSocket(generation: number, resolve?: () => void, reject?: (error: Error) => void): void {
+    if (this.manuallyDisconnected || generation !== this.generation) return;
+    let socket: WebSocket;
+    try {
+      socket = new WebSocket(this.url);
+    } catch (err) {
+      const error = err instanceof Error ? err : new Error('Failed to create WebSocket');
+      reject?.(error);
+      this.onLifecycle?.({ state: 'failed', retryCount: this.retryCount, reason: error.message, lastPacketAt: this.lastPacketAt });
+      return;
+    }
+
+    this.socket = socket;
+    socket.binaryType = 'arraybuffer';
+
+    socket.onopen = () => {
+      if (generation !== this.generation || socket !== this.socket) return;
+      this._isConnected = true;
+      this.onLifecycle?.({ state: 'connected', retryCount: this.retryCount, lastPacketAt: this.lastPacketAt });
+      resolve?.();
+      this.clearStableTimer();
+      this.stableTimer = setTimeout(() => { this.retryCount = 0; }, 10_000);
+    };
+
+    socket.onmessage = (event: MessageEvent) => {
+      if (!this._isConnected || socket !== this.socket) return;
+      const data = event.data instanceof ArrayBuffer ? new Uint8Array(event.data) : null;
+      if (!data) return;
+      this.lastPacketAt = Date.now();
+      for (const cb of this.callbacks) cb(data);
+    };
+
+    socket.onerror = () => {
+      if (socket.readyState !== WebSocket.CLOSED) socket.close();
+    };
+
+    socket.onclose = (event: CloseEvent) => {
+      if (generation !== this.generation || socket !== this.socket) return;
+      this._isConnected = false;
+      this.clearStableTimer();
+      if (this.manuallyDisconnected) return;
+      this.retryCount += 1;
+      const delayMs = Math.min(10_000, 1_000 * (2 ** Math.min(this.retryCount - 1, 4)));
+      this.onLifecycle?.({ state: 'reconnecting', retryCount: this.retryCount, delayMs, closeCode: event.code, reason: event.reason || 'Socket closed', lastPacketAt: this.lastPacketAt });
+      this.retryTimer = setTimeout(() => {
+        this.retryTimer = null;
+        this.openSocket(generation, resolve, reject);
+      }, delayMs);
+    };
+  }
+
+  private clearRetryTimer(): void {
+    if (this.retryTimer !== null) clearTimeout(this.retryTimer);
+    this.retryTimer = null;
+  }
+
+  private clearStableTimer(): void {
+    if (this.stableTimer !== null) clearTimeout(this.stableTimer);
+    this.stableTimer = null;
+  }
+
   async disconnect(): Promise<void> {
+    this.manuallyDisconnected = true;
+    this.generation += 1;
+    this.clearRetryTimer();
+    this.clearStableTimer();
     this._isConnected = false;
     this.callbacks.clear();
     try {
@@ -104,4 +131,13 @@ export class WebSocketByteSource implements IByteSource {
     }
     this.socket.send(data);
   }
+}
+
+export interface WebSocketLifecycleEvent {
+  state: 'connected' | 'reconnecting' | 'failed';
+  retryCount: number;
+  delayMs?: number;
+  closeCode?: number;
+  reason?: string;
+  lastPacketAt: number | null;
 }

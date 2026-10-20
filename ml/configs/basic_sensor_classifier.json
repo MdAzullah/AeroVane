@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "experiment": "basic-simulated-sensor-classifier-1",
+  "random_seed": 9341,
+  "splits": {
+    "train_groups": ["basic-location-01", "basic-location-02", "basic-location-03", "basic-location-04", "basic-location-05", "basic-location-06"],
+    "validation_groups": ["basic-location-07", "basic-location-08"],
+    "test_groups": ["basic-location-09", "basic-location-10"]
+  },
+  "classes": ["normal", "gps_failure", "accelerometer_failure", "gyroscope_failure", "compass_failure", "barometer_failure"],
+  "hidden_units": [128, 64],
+  "dropout": 0.2,
+  "learning_rate": 0.001,
+  "weight_decay": 0.0001,
+  "batch_size": 256,
+  "maximum_epochs": 200,
+  "early_stopping_patience": 20,
+  "unknown_confidence_threshold": 0.65,
+  "claims": {
+    "simulation_only": true,
+    "real_flight_accuracy": false,
+    "automatic_control": false,
+    "component_diagnosis": false
+  }
+}

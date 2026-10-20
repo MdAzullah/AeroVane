@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "incident_id": "basic-batch-001-byte-total",
+  "detected_at": "2026-09-29",
+  "severity": "low",
+  "summary": "The proposal and authorization understated the sum of five individually authorized files by 900000 bytes.",
+  "impact": "The exact five intended files were downloaded and every individual size and MD5 matched official Zenodo metadata. No training or evaluation occurred.",
+  "containment": "Training remains prohibited. The total was corrected and the downloader now requires equality between the calculated candidate sum, proposal total, and authorization maximum before network access.",
+  "status": "contained",
+  "follow_up": "Add a regression test for byte-sum validation before authorizing Batch 002."
+}

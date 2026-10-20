@@ -1,0 +1,118 @@
+.aviation-layer {
+  position: fixed;
+  z-index: 1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.aircraft { position: absolute; opacity: 0; will-change: transform, opacity; }
+.aircraft svg { display: block; overflow: visible; }
+
+.drone-flight {
+  top: 16%;
+  left: 0;
+  width: 90px;
+  color: #8cecff;
+  filter: drop-shadow(0 12px 12px #0008);
+  animation: drone-mission 28s 1.5s cubic-bezier(.42, 0, .58, 1) infinite;
+}
+.drone { width: 90px; overflow: visible; }
+.drone .body { fill: url(#droneBody); stroke: #9ceeff; stroke-width: .75; }
+.drone .canopy { fill: #071018; stroke: #6fcde3; stroke-width: .65; }
+.drone .camera { fill: #172c36; stroke: #83dff3; stroke-width: .6; }
+.drone .lens { fill: #76efff; filter: drop-shadow(0 0 3px #60e8ff); }
+.drone .arms { fill: #102832; stroke: #72cfe1; stroke-width: 2.4; stroke-linecap: round; }
+.drone .rotors {
+  fill: #92edff;
+  opacity: .24;
+  filter: blur(.8px) drop-shadow(0 0 3px #7deaff);
+  animation: rotor-disc .12s linear infinite alternate;
+}
+.rotor-wash {
+  position: absolute;
+  left: 12%;
+  top: 70%;
+  width: 76%;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #63ddff13, transparent 68%);
+  filter: blur(5px);
+  animation: wash-pulse 1s ease-in-out infinite;
+}
+.flight-trail {
+  position: absolute;
+  z-index: -1;
+  top: 48%;
+  left: 88%;
+  width: 150px;
+  height: 1px;
+  background: linear-gradient(90deg, #70e5ff55, transparent);
+  filter: blur(.3px);
+}
+.flight-trail::after {
+  content: "";
+  position: absolute;
+  inset: -5px 0;
+  background: inherit;
+  opacity: .18;
+  filter: blur(5px);
+}
+.nav-light {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  animation: strobe 1.8s steps(1) infinite;
+}
+.nav-light.red { left: 7px; top: 19px; background: #ff536d; box-shadow: 0 0 10px 3px #ff405d; }
+.nav-light.green { right: 7px; top: 19px; background: #55f5ae; box-shadow: 0 0 10px 3px #38e99a; animation-delay: -.9s; }
+.nav-light.white { left: 49%; bottom: 10px; background: white; box-shadow: 0 0 9px 2px #c8f8ff; animation-delay: -.35s; }
+
+.plane-flight {
+  top: 29%;
+  left: 0;
+  color: #aaa3d7;
+  filter: blur(.15px);
+  animation: distant-pass 44s 8s linear infinite;
+}
+.plane { width: 70px; }
+.plane-body { fill: url(#planeBody); opacity: .74; }
+.plane-highlight { fill: #e8ebff; opacity: .3; }
+.plane-flight .flight-trail {
+  left: auto;
+  right: 91%;
+  top: 60%;
+  width: 190px;
+  height: 2px;
+  opacity: .22;
+  background: linear-gradient(90deg, transparent, #b4acff66);
+}
+
+@keyframes drone-mission {
+  0%, 7% { opacity: 0; transform: translate3d(108vw, 0, 0) scale(.72) rotate(-7deg); }
+  12% { opacity: .62; }
+  25% { transform: translate3d(88vw, 22px, 0) scale(.82) rotate(4deg); }
+  39% { transform: translate3d(73vw, -8px, 0) scale(.94) rotate(-3deg); }
+  52% { opacity: .74; transform: translate3d(61vw, 14px, 0) scale(1.02) rotate(2deg); }
+  62% { opacity: .5; transform: translate3d(52vw, -2px, 0) scale(.96) rotate(-1deg); }
+  68%, 100% { opacity: 0; transform: translate3d(46vw, 8px, 0) scale(.9) rotate(0); }
+}
+@keyframes distant-pass {
+  0%, 12% { opacity: 0; transform: translate3d(-12vw, 28px, 0) scale(.48) rotate(-3deg); }
+  17% { opacity: .15; }
+  45% { opacity: .25; transform: translate3d(46vw, -24px, 0) scale(.6) rotate(-1deg); }
+  73% { opacity: .16; }
+  84%, 100% { opacity: 0; transform: translate3d(110vw, -68px, 0) scale(.7) rotate(2deg); }
+}
+@keyframes rotor-disc { to { opacity: .42; transform: scaleX(1.06); } }
+@keyframes wash-pulse { 50% { opacity: .35; transform: scale(1.12); } }
+@keyframes strobe { 0%, 8% { opacity: 1; } 9%, 100% { opacity: .08; } }
+
+@media (max-width: 760px) {
+  .plane-flight { display: none; }
+  .drone-flight { top: 12%; width: 68px; animation-duration: 34s; }
+  .drone { width: 68px; }
+  .flight-trail { width: 85px; }
+}
+@media (prefers-reduced-motion: reduce) { .aviation-layer { display: none; } }
+

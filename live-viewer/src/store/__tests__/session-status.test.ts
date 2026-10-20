@@ -13,7 +13,7 @@ describe('selectStatusBarModel', () => {
 
     const model = selectStatusBarModel(state, true);
 
-    expect(model.headline).toBe('No Data');
+    expect(model.headline).toBe('Connected — no telemetry');
     expect(model.badges.map(b => b.label)).toEqual(['Paused', 'Waiting for Data']);
     expect(model.details).toContain('500000 baud');
     expect(model.details).toContain('ardupilotmega');

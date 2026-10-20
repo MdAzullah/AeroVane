@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://skyforge.local/schemas/portable-tree-model.schema.json",
+  "title": "SkyForge portable binary decision-tree model",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "model_kind", "version", "advisory_only", "features", "imputation_medians", "persistence_windows", "decision_threshold", "lineage", "tree"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "model_kind": {"const": "binary-decision-tree"},
+    "version": {"type": "string", "minLength": 1},
+    "advisory_only": {"const": true},
+    "features": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "imputation_medians": {"type": "array", "minItems": 1, "items": {"type": "number"}},
+    "persistence_windows": {"type": "integer", "minimum": 1},
+    "decision_threshold": {"type": "number", "minimum": 0, "maximum": 1},
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["experiment", "report_sha256", "config_sha256"],
+      "properties": {
+        "experiment": {"type": "string", "minLength": 1},
+        "report_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "config_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "tree": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["feature_index", "threshold", "left", "right", "anomaly_probability"],
+      "properties": {
+        "feature_index": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": -1}},
+        "threshold": {"type": "array", "minItems": 1, "items": {"type": "number"}},
+        "left": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": -1}},
+        "right": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": -1}},
+        "anomaly_probability": {"type": "array", "minItems": 1, "items": {"type": "number", "minimum": 0, "maximum": 1}}
+      }
+    }
+  }
+}

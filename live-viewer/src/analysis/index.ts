@@ -1,9 +1,13 @@
 export { FaultDetectionEngine } from './fault-engine';
 export { MavlinkTelemetryNormalizer } from './telemetry-normalizer';
+export { routeMavTypeToVehicleFamily } from './vehicle-family';
+export { createCommunicationWatchdogSample } from './watchdog-sample';
 export { createDefaultFaultDetectors } from './default-detectors';
 export { createSpoofScenarioReplay } from './spoof-scenario-fixtures';
+export { presentFaultNotification, type PresentedFault } from './fault-presentation';
 export {
   BatteryFaultDetector,
+  BasicSensorFaultDetector,
   CommunicationFaultDetector,
   GpsFaultDetector,
   COMMUNICATION_WATCHDOG_SIGNAL,
@@ -56,7 +60,11 @@ export type {
   FaultRecord,
   FaultSeverity,
   FaultState,
+  FrameMetadata,
   FlightPhase,
+  SignalQualityFlag,
   TelemetrySample,
   TelemetrySource,
+  VehicleFamily,
+  VehicleIdentity,
 } from './types';

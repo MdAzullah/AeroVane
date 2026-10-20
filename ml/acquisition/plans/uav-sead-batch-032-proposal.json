@@ -1,0 +1,75 @@
+{
+  "download_authorized": false,
+  "maximum_bytes": 536870912,
+  "maximum_files": 5,
+  "records": [
+    {
+      "candidate_id": "candidate-001",
+      "group_id": "grp-7914dba28e409f9af778",
+      "label": "anomalous",
+      "locator_token": "src-ec6c0c5939c326fa7705",
+      "range_count": 1,
+      "size_bytes": 17048661,
+      "source_classes": [
+        "External Position"
+      ]
+    },
+    {
+      "candidate_id": "candidate-002",
+      "group_id": "grp-2916c9a60a06112999a7",
+      "label": "anomalous",
+      "locator_token": "src-ce79d67e54513d8fcc12",
+      "range_count": 1,
+      "size_bytes": 17870854,
+      "source_classes": [
+        "External Position"
+      ]
+    },
+    {
+      "candidate_id": "candidate-003",
+      "group_id": "grp-b35b5b9337b88408fc4d",
+      "label": "anomalous",
+      "locator_token": "src-59bcabffe3c929e87925",
+      "range_count": 1,
+      "size_bytes": 22773933,
+      "source_classes": [
+        "External Position"
+      ]
+    },
+    {
+      "candidate_id": "candidate-004",
+      "group_id": "grp-b236f8084c1894b6f4b5",
+      "label": "normal",
+      "locator_token": "src-b007d399bb906e986fcc",
+      "range_count": 0,
+      "size_bytes": 3225093,
+      "source_classes": [
+        "Normal"
+      ]
+    },
+    {
+      "candidate_id": "candidate-005",
+      "group_id": "grp-9235acd25eb6835b66e5",
+      "label": "normal",
+      "locator_token": "src-94d774a25a58fd9a67c9",
+      "range_count": 0,
+      "size_bytes": 3229760,
+      "source_classes": [
+        "Normal"
+      ]
+    }
+  ],
+  "schema_version": "1.0.0",
+  "source_id": "uav-sead",
+  "source_version": "774a336a1d1d06b248927a35c2ea1f6869e9e1a4",
+  "status": "proposal_only",
+  "summary": {
+    "file_count": 5,
+    "group_count": 5,
+    "labels": {
+      "anomalous": 3,
+      "normal": 2
+    },
+    "total_bytes": 64148301
+  }
+}

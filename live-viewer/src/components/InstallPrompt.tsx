@@ -52,8 +52,8 @@ export default function InstallPrompt() {
         </button>
       </Show>
 
-      {/* Update: only when installed as PWA and update available */}
-      <Show when={isStandalone() && appState.updateAvailable}>
+      {/* Make updates actionable in both browser and installed PWA modes. */}
+      <Show when={appState.updateAvailable}>
         <button
           onClick={() => updateSW?.(true)}
           class="px-3 py-1 rounded text-sm font-medium transition-colors"

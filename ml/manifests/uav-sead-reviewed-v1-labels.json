@@ -1,0 +1,3132 @@
+{
+  "created_at": "2026-09-27T10:10:00Z",
+  "inventory": "ml/manifests/uav-sead-reviewed-v1-inventory.json",
+  "label_provenance": "expert_review",
+  "records": [
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-001",
+      "ranges_ms": [],
+      "sha256": "536c1e7a8889aa0d8a7c95d3d17270a040a16d34a267de925d16d7389919b04c",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-002",
+      "ranges_ms": [],
+      "sha256": "f42eadf04f8ccd59ddd02a91c880ce315408a975710e9e969ed44be1597f6401",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-003",
+      "ranges_ms": [
+        {
+          "end": 143814.367,
+          "source_class": "Mechanical",
+          "source_signal": "Battery",
+          "start": 141276.02
+        },
+        {
+          "end": 144184.539,
+          "source_class": "Altitude",
+          "source_signal": "Roll Rate",
+          "start": 142227.9
+        }
+      ],
+      "sha256": "91a8e6ac4d8c08aa100b6be35b9ddd2f624022799557cea0651f8bd5dd002a5c",
+      "source_classes": [
+        "Altitude",
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-004",
+      "ranges_ms": [],
+      "sha256": "5a5efc410805129a9cf29df64d314edd334c50780a5d0ae9c4349058b9d13751",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": "Source class is Uncategorized and has no anomaly ranges.",
+      "fault_family": null,
+      "flight_id": "flight-005",
+      "ranges_ms": [],
+      "sha256": "2ee6e18a40d72c1afe07ec7c3450bc3b54835d012c8aa54e1785e72c302ff708",
+      "source_classes": [
+        "Uncategorized"
+      ],
+      "training_eligible": false,
+      "window_label": "unknown"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-006",
+      "ranges_ms": [
+        {
+          "end": 188457.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.Y",
+          "start": 154988.0
+        },
+        {
+          "end": 188457.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.Y",
+          "start": 167342.0
+        },
+        {
+          "end": 239672.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.Y",
+          "start": 208673.0
+        },
+        {
+          "end": 239447.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.Y",
+          "start": 210470.0
+        },
+        {
+          "end": 292235.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.Y",
+          "start": 265729.0
+        },
+        {
+          "end": 292459.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.Y",
+          "start": 268649.0
+        },
+        {
+          "end": 292010.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.X",
+          "start": 288416.0
+        },
+        {
+          "end": 292235.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.X",
+          "start": 289090.0
+        },
+        {
+          "end": 340530.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.Y",
+          "start": 308857.0
+        },
+        {
+          "end": 340305.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.Y",
+          "start": 309980.0
+        }
+      ],
+      "sha256": "cbe844319e7bb26a790b3d591d146e25a94fe83893ce758a52ce0185e9ea15e2",
+      "source_classes": [
+        "Global Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-007",
+      "ranges_ms": [
+        {
+          "end": 585575.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 576398.0
+        },
+        {
+          "end": 600579.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Controls",
+          "start": 591256.0
+        },
+        {
+          "end": 604803.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Controls",
+          "start": 602764.0
+        },
+        {
+          "end": 617330.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 613106.0
+        },
+        {
+          "end": 620098.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Controls",
+          "start": 616602.0
+        },
+        {
+          "end": 627235.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Controls",
+          "start": 621991.0
+        },
+        {
+          "end": 634227.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Controls",
+          "start": 629566.0
+        }
+      ],
+      "sha256": "d10ddb571acf61d790b5ac0f4301c17c5a827f5f8858eb016c9f4903f105b677",
+      "source_classes": [
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-008",
+      "ranges_ms": [
+        {
+          "end": 40445.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 30901.0
+        },
+        {
+          "end": 53134.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 48625.0
+        },
+        {
+          "end": 65719.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 62048.0
+        },
+        {
+          "end": 86903.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 83337.0
+        },
+        {
+          "end": 112281.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 110289.0
+        },
+        {
+          "end": 121405.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 117106.0
+        }
+      ],
+      "sha256": "cdadf077d09c65e939207eb26be0baf16522a10b7fce58be57d3fb41c89d1109",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-009",
+      "ranges_ms": [],
+      "sha256": "c731cdec25ba505a7b4ff59c411095ccbb49ec8f6f74ccebc29f27497ba13d94",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-010",
+      "ranges_ms": [],
+      "sha256": "c97e59d669f41deb05bde2c3264411de00ba9b6a9b6fd26a0a38d09564e17ffa",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-011",
+      "ranges_ms": [
+        {
+          "end": 65587.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 63424.0
+        },
+        {
+          "end": 69973.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 67692.0
+        },
+        {
+          "end": 73598.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 72370.0
+        },
+        {
+          "end": 77750.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 76522.0
+        },
+        {
+          "end": 81960.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 80790.0
+        },
+        {
+          "end": 86111.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 84649.0
+        }
+      ],
+      "sha256": "3b69cd67c6bed52d5c170ccb24e0d362184fd85362d85ffd12e0712cad0715d0",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-012",
+      "ranges_ms": [
+        {
+          "end": 148382.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.X",
+          "start": 146704.0
+        },
+        {
+          "end": 151869.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.X",
+          "start": 150965.0
+        },
+        {
+          "end": 160780.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.X",
+          "start": 158585.0
+        },
+        {
+          "end": 208434.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.Y",
+          "start": 201848.0
+        },
+        {
+          "end": 220703.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.Y",
+          "start": 219283.0
+        }
+      ],
+      "sha256": "391946d8372d62a44e2966c3c6679dc9ce404177d6a79539f12703183f5eae8a",
+      "source_classes": [
+        "Global Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-013",
+      "ranges_ms": [
+        {
+          "end": 155643.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.Y",
+          "start": 110050.0
+        },
+        {
+          "end": 206153.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.Y",
+          "start": 163019.0
+        },
+        {
+          "end": 241912.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.Y",
+          "start": 212635.0
+        },
+        {
+          "end": 267614.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.Y",
+          "start": 243253.0
+        },
+        {
+          "end": 312984.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.Y",
+          "start": 269849.0
+        }
+      ],
+      "sha256": "8c02fb720337ed8f36f605a90c136aabdfe7518516ea88c12906a19450e21b8d",
+      "source_classes": [
+        "Global Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-014",
+      "ranges_ms": [],
+      "sha256": "075a188eb64e44c188ecbca770f426ae1421a0bc9cb8014de97d05e757f253ed",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-015",
+      "ranges_ms": [],
+      "sha256": "424d165c9fae3db987289ba70130649d71fbb491fbb2da53d1e0b65715f10a52",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": "Source annotation rejected during range validation: annotation range [298907.0, 351481.0] is outside parsed flight [84842.341, 351412.272]",
+      "fault_family": null,
+      "flight_id": "flight-016",
+      "ranges_ms": [],
+      "sha256": "75700c82baecf7cf13a6389f2adc1c26bd463abba55e68d26ad5bf1d50e5b175",
+      "source_classes": [
+        "Global Position"
+      ],
+      "training_eligible": false,
+      "window_label": "unknown"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-017",
+      "ranges_ms": [
+        {
+          "end": 464248.0,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 458232.0
+        },
+        {
+          "end": 512178.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 509220.0
+        },
+        {
+          "end": 516257.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 513605.0
+        },
+        {
+          "end": 525129.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 519010.0
+        },
+        {
+          "end": 523497.0,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 519622.0
+        }
+      ],
+      "sha256": "9f75aec514ed411cecd3229f7bf894c44dae5b3bfacc5b4eacb0e6697bc3f223",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-018",
+      "ranges_ms": [
+        {
+          "end": 92767.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.X",
+          "start": 79738.0
+        },
+        {
+          "end": 167956.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.X",
+          "start": 156497.0
+        },
+        {
+          "end": 193071.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.X",
+          "start": 186165.0
+        },
+        {
+          "end": 199664.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.X",
+          "start": 196054.0
+        },
+        {
+          "end": 212379.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.X",
+          "start": 206885.0
+        }
+      ],
+      "sha256": "2b58009a6301c2fc9a5c3286086d8fcea2acb9313fc9b4a66e98ab7ee50e03af",
+      "source_classes": [
+        "Global Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-019",
+      "ranges_ms": [],
+      "sha256": "d664906734126874242e91a406e2d68ffdbf0244411f3e0676d8f6ac75a5975d",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-020",
+      "ranges_ms": [],
+      "sha256": "1aaf929e1896420e5e52ebda960c7790747e8d31133482a6a6d7beb7e14d520d",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-021",
+      "ranges_ms": [
+        {
+          "end": 103862.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 102149.0
+        },
+        {
+          "end": 108917.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Controls",
+          "start": 105833.0
+        },
+        {
+          "end": 108874.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 106947.0
+        },
+        {
+          "end": 113243.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Controls",
+          "start": 111915.0
+        }
+      ],
+      "sha256": "f2e9aee5482d538df7e03982ff7235552b744502e8a84f50fb885698f757ccf9",
+      "source_classes": [
+        "External Position",
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-022",
+      "ranges_ms": [
+        {
+          "end": 195725.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 188380.0
+        },
+        {
+          "end": 195439.0,
+          "source_class": "Mechanical",
+          "source_signal": "Raw Acceleration",
+          "start": 194389.0
+        },
+        {
+          "end": 202688.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 196583.0
+        },
+        {
+          "end": 205836.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 204786.0
+        }
+      ],
+      "sha256": "0bf1763a75ec9210fe70e7bdb78441fe98ea61db0d3026c11a9e2623f596f206",
+      "source_classes": [
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-023",
+      "ranges_ms": [
+        {
+          "end": 171279.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 164383.0
+        },
+        {
+          "end": 174775.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 173221.0
+        },
+        {
+          "end": 180409.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 175649.0
+        },
+        {
+          "end": 186042.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 183128.0
+        }
+      ],
+      "sha256": "030195bb314ce0dd04d49b0c6625286b150b3093d163a9f752ea84d49664fa35",
+      "source_classes": [
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-024",
+      "ranges_ms": [],
+      "sha256": "1b3b1507233c0648dfc810bbd415c57c198cd38665a070d9a82c0ab4469757a0",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-025",
+      "ranges_ms": [],
+      "sha256": "419d37fb9be9838523d288adc117af0c9810246ad1f081806ab90d693c9716bc",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-026",
+      "ranges_ms": [
+        {
+          "end": 88338.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 82240.0
+        },
+        {
+          "end": 120493.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 115226.0
+        },
+        {
+          "end": 144331.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 137817.0
+        },
+        {
+          "end": 181198.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 174961.0
+        }
+      ],
+      "sha256": "5b9f957698e4ed2da74dfcf4bdc2a29d8c428eff992910100343d7292fc5b872",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-027",
+      "ranges_ms": [
+        {
+          "end": 219939.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 216344.0
+        },
+        {
+          "end": 229230.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 228077.0
+        },
+        {
+          "end": 241913.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 239743.0
+        },
+        {
+          "end": 245982.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 244693.0
+        }
+      ],
+      "sha256": "b6b14ed8fe00a973f27492fd82c429f2eba2ea44a3c9b1efbfe8d51fe4db53fb",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-028",
+      "ranges_ms": [
+        {
+          "end": 82659.0,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 80210.0
+        },
+        {
+          "end": 93729.0,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 92162.0
+        },
+        {
+          "end": 97942.0,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 96178.0
+        },
+        {
+          "end": 115968.0,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 114988.0
+        }
+      ],
+      "sha256": "d4f38896f9a708a34404707a962b0a6424e29f84d394e63c271562206e8f500b",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-029",
+      "ranges_ms": [],
+      "sha256": "4395991571c9b67729441ba41bac14e8bc4fd25f5dc20457e32c1bfd856095ee",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-030",
+      "ranges_ms": [],
+      "sha256": "93dbb8636ab19f53312b36e4addecd46836e90ff8aa01c3dd53f08f985b70ebb",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-031",
+      "ranges_ms": [
+        {
+          "end": 371015.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 362181.0
+        },
+        {
+          "end": 482538.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 467447.0
+        },
+        {
+          "end": 493212.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 487323.0
+        },
+        {
+          "end": 555782.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 517872.0
+        }
+      ],
+      "sha256": "404b317045e76c0b50cffa3076f6e8c9f9bde5623cbb90fc0e626e2d50997d73",
+      "source_classes": [
+        "Altitude",
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-032",
+      "ranges_ms": [
+        {
+          "end": 1740786.293,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 1719471.529
+        },
+        {
+          "end": 1727144.846,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 1722881.903
+        },
+        {
+          "end": 1739081.106,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 1722881.903
+        },
+        {
+          "end": 1815814.275,
+          "source_class": "External Position",
+          "source_signal": "Velocity",
+          "start": 1729702.603
+        }
+      ],
+      "sha256": "6e90910e466663288fddb0fa7f48a1c5be145018652565fc4a986f37e6b888a3",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-033",
+      "ranges_ms": [
+        {
+          "end": 68152.78,
+          "source_class": "Global Position",
+          "source_signal": "Position.X",
+          "start": 66617.756
+        },
+        {
+          "end": 70857.346,
+          "source_class": "Global Position",
+          "source_signal": "Position.X",
+          "start": 69322.321
+        },
+        {
+          "end": 82041.093,
+          "source_class": "Global Position",
+          "source_signal": "Position.X",
+          "start": 72538.564
+        }
+      ],
+      "sha256": "342053b82aefb8b0ee518c3c6feb17504912f560c778832448b5f9397fc21da4",
+      "source_classes": [
+        "Global Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-034",
+      "ranges_ms": [],
+      "sha256": "954a04d55f8adcce4efda75534a724454359cff5ed00f6a65c7f8f67785077e7",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-035",
+      "ranges_ms": [],
+      "sha256": "6b7158828142800e4e3a4735c420ccab76d5a38184f3e1c4743a24208771365c",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-036",
+      "ranges_ms": [
+        {
+          "end": 437713.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 427243.0
+        },
+        {
+          "end": 439027.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 438042.0
+        },
+        {
+          "end": 440259.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 439191.0
+        }
+      ],
+      "sha256": "6473ed2d77e2078bdfba2efaed587d9ff2495a1283455c956f11556313578fae",
+      "source_classes": [
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-037",
+      "ranges_ms": [
+        {
+          "end": 421317.13,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 418527.09
+        },
+        {
+          "end": 428650.957,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 426817.499
+        },
+        {
+          "end": 428890.103,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 426976.931
+        }
+      ],
+      "sha256": "ed7ab5cfbec6dad9be50ba04693a574c9180c2d409186cf2dbf4427040159b1e",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-038",
+      "ranges_ms": [
+        {
+          "end": 146798.729,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 126802.857
+        },
+        {
+          "end": 166500.555,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 151062.564
+        },
+        {
+          "end": 173851.975,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 165177.298
+        }
+      ],
+      "sha256": "9cee7394d676a24b2aaada334b45603b1d3f111a47b44c957765964007bda135",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-039",
+      "ranges_ms": [],
+      "sha256": "24662542d9a919cd7968e1afc4b515ed8f87a0f996bf049856491f24db983de8",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-040",
+      "ranges_ms": [],
+      "sha256": "22c263209fd8accca1a7a9c44a4ec3235f70a5af32144989fee91c0980f3b366",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-041",
+      "ranges_ms": [
+        {
+          "end": 2455776.687,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 2454027.64
+        },
+        {
+          "end": 2460499.102,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 2459274.767
+        },
+        {
+          "end": 2482886.839,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 2479563.669
+        }
+      ],
+      "sha256": "c0a0378108f775049c7ed928572b828c97d90c845d9f47641f172456e4c181c2",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-042",
+      "ranges_ms": [
+        {
+          "end": 176542.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.X",
+          "start": 154883.0
+        },
+        {
+          "end": 192617.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.X",
+          "start": 179788.0
+        },
+        {
+          "end": 212466.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.X",
+          "start": 195032.0
+        }
+      ],
+      "sha256": "b188117b6315bd85eac12e627fe6a74add03d49752d44bf1bb33931378046fda",
+      "source_classes": [
+        "Global Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-043",
+      "ranges_ms": [
+        {
+          "end": 1540463.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 1538581.0
+        },
+        {
+          "end": 1543552.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 1541706.0
+        },
+        {
+          "end": 1547210.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 1544937.0
+        }
+      ],
+      "sha256": "12c411107a085ce298ac5f80a290256f7e81b939b511a4dd8c3e36101d6c5032",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-044",
+      "ranges_ms": [],
+      "sha256": "ab23996193fb340f811508eccd5035cca98707b50046b3062854a70dc2a3ed6e",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-045",
+      "ranges_ms": [],
+      "sha256": "fc1e9ed9c1569ed06f1bb5727d4d0d019692906c66956a86373a1467ab660219",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": "Source annotation rejected during range validation: annotation range [778595.432, 869927.364] is outside parsed flight [764588.929, 869854.051]",
+      "fault_family": null,
+      "flight_id": "flight-046",
+      "ranges_ms": [],
+      "sha256": "5ff84ab0d4fb195125524f14828e3f580e76b33dcd9e49203d1639829bceb7ef",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": false,
+      "window_label": "unknown"
+    },
+    {
+      "exclusion_reason": "Source annotation rejected during range validation: annotation range [287621.0, 306182.0] is outside parsed flight [78620.591, 305386.685]",
+      "fault_family": null,
+      "flight_id": "flight-047",
+      "ranges_ms": [],
+      "sha256": "dc12f2a71029ba18ccd1f1ac7e206db895c3d1ec9fa13626d241b1bc7318a8b0",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": false,
+      "window_label": "unknown"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-048",
+      "ranges_ms": [
+        {
+          "end": 144926.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.X",
+          "start": 141826.0
+        },
+        {
+          "end": 294718.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.Y",
+          "start": 283296.0
+        },
+        {
+          "end": 321968.0,
+          "source_class": "Global Position",
+          "source_signal": "Position.X",
+          "start": 317236.0
+        }
+      ],
+      "sha256": "d36e1b7bc7c228e73594ba2643782a5730d648070be92c86b9c44883b400bce0",
+      "source_classes": [
+        "Global Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-049",
+      "ranges_ms": [],
+      "sha256": "5f69cfd1799bda3303c22b4635bb2ff68c41a5025071fbee80bd9bfa25a62a1d",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-050",
+      "ranges_ms": [],
+      "sha256": "0a343a799cf47d48328fe93a6f61f2330a5ce9ae141631cdf77214ab205fa264",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-051",
+      "ranges_ms": [
+        {
+          "end": 89901.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 89211.0
+        },
+        {
+          "end": 105669.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 97139.0
+        },
+        {
+          "end": 111701.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 109892.0
+        }
+      ],
+      "sha256": "a6b8cdc3caa1d00bcd279838a291f764f26bb81d74d45076692d21520096f10f",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-052",
+      "ranges_ms": [
+        {
+          "end": 243687.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Controls",
+          "start": 237607.0
+        },
+        {
+          "end": 251425.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Controls",
+          "start": 245622.0
+        },
+        {
+          "end": 263032.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Controls",
+          "start": 258887.0
+        }
+      ],
+      "sha256": "35513dbe11e3b126ca8c03e88fcc31eda95a4e2078b0f727b82d083ab0dc2be9",
+      "source_classes": [
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-053",
+      "ranges_ms": [
+        {
+          "end": 283141.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 236862.0
+        },
+        {
+          "end": 333266.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 285135.0
+        },
+        {
+          "end": 379403.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 362885.0
+        }
+      ],
+      "sha256": "1bb57bbb686201ab7cb6bf1b9548a25a153a1df137c6a0734bb315122f046ba0",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-054",
+      "ranges_ms": [],
+      "sha256": "ef4d2519a497eb9d22b8ed4faf801996bbf78c874f68ee520733f5dee280eb41",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-055",
+      "ranges_ms": [],
+      "sha256": "521da8cb8f4adc6155ca4ceef0d92177ae235d0579681d06ff00d7bc8a0b7901",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-056",
+      "ranges_ms": [
+        {
+          "end": 82192.615,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 62135.477
+        },
+        {
+          "end": 97520.832,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 62787.739
+        }
+      ],
+      "sha256": "7f610c3b40db578d25138094d82d6ef57c0c71e65d214af0d6cb492cf763e1ab",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-057",
+      "ranges_ms": [
+        {
+          "end": 151072.632,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 131403.873
+        },
+        {
+          "end": 271013.505,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 222805.773
+        }
+      ],
+      "sha256": "a1ab51c12cd48741b077892759840a7358e7d3f16c5c8b9c6a5a48ee6fa7a6b7",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-058",
+      "ranges_ms": [
+        {
+          "end": 149403.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 141668.0
+        },
+        {
+          "end": 148228.0,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 145951.0
+        }
+      ],
+      "sha256": "fa6e5527030b83a95be74f3b504c60910cee272d90035d9f572c10d936966245",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-059",
+      "ranges_ms": [],
+      "sha256": "07b9c4a364cf4a2522db7de400e8a161d9e112b3c35a50b201a45436906509f7",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-060",
+      "ranges_ms": [],
+      "sha256": "a339d0bb65b79ca05a4e997b5864608788851822c536d79679a6e8b64118f385",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-061",
+      "ranges_ms": [
+        {
+          "end": 1114268.039,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 1109627.798
+        },
+        {
+          "end": 1110756.504,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 1109753.207
+        }
+      ],
+      "sha256": "95f709254490840330618fe9e1e8d3f66c7754072f6d9da2eefb5aef542e4bef",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-062",
+      "ranges_ms": [
+        {
+          "end": 270889.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 222469.0
+        },
+        {
+          "end": 230247.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 227719.0
+        }
+      ],
+      "sha256": "bd6f8e7fb572c4b74c82856f96e7dd4b7983a95284afc15d1fbf20a99aacdc29",
+      "source_classes": [
+        "Altitude",
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-063",
+      "ranges_ms": [
+        {
+          "end": 493164.0,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 480568.0
+        },
+        {
+          "end": 493384.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 486838.0
+        }
+      ],
+      "sha256": "1627ff31e2dddc10bb7e96ce7bf076a5128fb451360c332b38f5c7d67cf190e7",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-064",
+      "ranges_ms": [],
+      "sha256": "e7d95e4f84a0693cf42536379adec701fee518622117cbd568032d0be365a423",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-065",
+      "ranges_ms": [],
+      "sha256": "85947186fe2e8222c8c754d3c924b561b6541af3e0c85d1c1da4e7295fae3e04",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-066",
+      "ranges_ms": [
+        {
+          "end": 201739.0,
+          "source_class": "External Position",
+          "source_signal": "Actuator Controls",
+          "start": 200846.0
+        },
+        {
+          "end": 204193.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 200846.0
+        }
+      ],
+      "sha256": "8cac65a18f4fb80625ebcaebc188dadb837c6c69a1f4a8d92cb689f814046e62",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-067",
+      "ranges_ms": [
+        {
+          "end": 92586.0,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 85182.0
+        },
+        {
+          "end": 103836.0,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 97560.0
+        }
+      ],
+      "sha256": "10bd3b9b6c5ed7a0c1cd128c16fa25561df65aa385161c9528736f93f86467a0",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-068",
+      "ranges_ms": [
+        {
+          "end": 64531.0,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 61548.0
+        },
+        {
+          "end": 69319.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 66232.0
+        }
+      ],
+      "sha256": "d4f872c578a108a1818bc8d8b38775ecb3b1338bb97f276a7efbdff446b1320e",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-069",
+      "ranges_ms": [],
+      "sha256": "30c5ca76e11eccc0f1bda6b9ffa91f9d95b6a49e777eba0e79eaa1998c79e3b2",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-070",
+      "ranges_ms": [],
+      "sha256": "58cc53f0aaddf91b4515c1754601beb4ade320a3d506f09d6dfdc6c66be2fdcc",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-071",
+      "ranges_ms": [
+        {
+          "end": 186145.399,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 182615.011
+        },
+        {
+          "end": 189806.546,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 187452.954
+        }
+      ],
+      "sha256": "e85ec54ecd45a373ae3b3bcc24af985db5538d72e7a59fcac9ea7d70474b38c3",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": "Source annotation rejected during range validation: annotation range [208591.0, 213482.0] is outside parsed flight [117294.405, 213352.37]",
+      "fault_family": null,
+      "flight_id": "flight-072",
+      "ranges_ms": [],
+      "sha256": "3b06a15aed92ece5c2499e2d694f2a9c2425d44a8cae7c9721b74eee312d302f",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": false,
+      "window_label": "unknown"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-073",
+      "ranges_ms": [
+        {
+          "end": 1525458.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 1523252.0
+        },
+        {
+          "end": 1532881.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 1530824.0
+        }
+      ],
+      "sha256": "3fa3a61620797b143df9639c4f27a83a83e1964555640fa1a7e9522d54665866",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-074",
+      "ranges_ms": [],
+      "sha256": "9eba896483612580c6f5749d64e5f1f898c3a885a423726ba00c682d9b626e71",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-075",
+      "ranges_ms": [],
+      "sha256": "2483dc00415e2d5589d46638110655d42d324e0c3bf17aef43723c4cbb7473f3",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-076",
+      "ranges_ms": [
+        {
+          "end": 94412.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 87328.0
+        },
+        {
+          "end": 139734.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 132811.0
+        }
+      ],
+      "sha256": "45333aaa6f451b6d56418c56eb36bbc519a3fd33d38954804cb867e0c1d510e4",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-077",
+      "ranges_ms": [
+        {
+          "end": 129393.0,
+          "source_class": "Mechanical",
+          "source_signal": "Vibration",
+          "start": 125001.0
+        },
+        {
+          "end": 145253.0,
+          "source_class": "Mechanical",
+          "source_signal": "Vibration",
+          "start": 143301.0
+        }
+      ],
+      "sha256": "ac8248d1da279028d26b1397d1fd958e372795f55648d28a4a6828837b756286",
+      "source_classes": [
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-078",
+      "ranges_ms": [
+        {
+          "end": 327556.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 317880.0
+        },
+        {
+          "end": 352639.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 329341.0
+        }
+      ],
+      "sha256": "5d8a92741ea8786cf27cb768a23eb6442c0cec767f475413a3a8d8e4ed6b822b",
+      "source_classes": [
+        "External Position",
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-079",
+      "ranges_ms": [],
+      "sha256": "29347a7bafd018e0ab1ffa93b85ed1e0f4805234d3152dfd488b2e0ddf09bafd",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-080",
+      "ranges_ms": [],
+      "sha256": "91d4e550d986abcc7c63a897e22f7248022704ef35ce29250a8f9ea2cfdabe3e",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": "Source annotation rejected during range validation: annotation range [106059.0, 117237.0] is outside parsed flight [74618.992, 117129.718]",
+      "fault_family": null,
+      "flight_id": "flight-081",
+      "ranges_ms": [],
+      "sha256": "3b44dd1629ee5069e7efe12b36d306517c13f3c14eff3fa7f4cee35b1859b67b",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": false,
+      "window_label": "unknown"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-082",
+      "ranges_ms": [
+        {
+          "end": 261483.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 259525.0
+        },
+        {
+          "end": 305196.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 260504.0
+        }
+      ],
+      "sha256": "5b200971c043b28de4b6d55d7d96aed2a3126b1c38c2a96502de17d2278dd243",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-083",
+      "ranges_ms": [
+        {
+          "end": 155259.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 152360.0
+        },
+        {
+          "end": 223440.0,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 218471.0
+        }
+      ],
+      "sha256": "4f2147d01a6a59155ec05754ee0d9ac3b589f869738835c69c9502f50cf39b30",
+      "source_classes": [
+        "Altitude",
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-084",
+      "ranges_ms": [],
+      "sha256": "b2f5154d32a2a2467c80f186f56dcf59a63eb7980c1f1a69b80f7b686ee6592f",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-085",
+      "ranges_ms": [],
+      "sha256": "ba64a8580a6752448e9bb8e38b094260081e84e241acff943518b53da6d19ff3",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-086",
+      "ranges_ms": [
+        {
+          "end": 748786.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 740943.0
+        },
+        {
+          "end": 753958.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 749476.0
+        }
+      ],
+      "sha256": "b5f0b521bbe21b814a8bf6ee8e276fcd946d59bbaaa8eb501a73fe91899863e7",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-087",
+      "ranges_ms": [
+        {
+          "end": 223994.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Controls",
+          "start": 220129.0
+        },
+        {
+          "end": 228687.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 224823.0
+        }
+      ],
+      "sha256": "c1676be3078408b43af018a8e905f16673cdf9a1fb35adcb67a63115df93b625",
+      "source_classes": [
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-088",
+      "ranges_ms": [
+        {
+          "end": 351082.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 288561.0
+        },
+        {
+          "end": 397021.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 391720.0
+        }
+      ],
+      "sha256": "208a94c2dc068dc8620f9bab5d7bfac4e1afd0c857cbb9a1642e51fe588c950f",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-089",
+      "ranges_ms": [],
+      "sha256": "0931803a0f3763aeed2528ea7778cb97e2a45e4f45c4acb7fc993ddfdd8b29ec",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-090",
+      "ranges_ms": [],
+      "sha256": "be02230a37efe6a7a2e804417cdf32c58c74d32582b7b6075ddd2ceddfa70cb9",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-091",
+      "ranges_ms": [
+        {
+          "end": 255450.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Controls",
+          "start": 242498.0
+        },
+        {
+          "end": 264032.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Controls",
+          "start": 256074.0
+        }
+      ],
+      "sha256": "2d47a9e091f73bef3c2f328ff750cef0c610aef6e725c501095b5f2d47fea66c",
+      "source_classes": [
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-092",
+      "ranges_ms": [
+        {
+          "end": 328649.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 322562.0
+        },
+        {
+          "end": 375371.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 356287.0
+        }
+      ],
+      "sha256": "11a01837ccc70ad6f4f91d98409cc25516150c4ad6ef082c3327e083802d95d9",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-093",
+      "ranges_ms": [
+        {
+          "end": 117171.802,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 90187.302
+        }
+      ],
+      "sha256": "c5d205bb6f3c2f704a201faeffc04e8ea0b014ce6952e8ffb4b96ce2102d5776",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-094",
+      "ranges_ms": [],
+      "sha256": "7b39af57b33b33a4fa6fa7e3ac86df925b553b9ce3098252299f0ff29635f876",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-095",
+      "ranges_ms": [],
+      "sha256": "3142d38f7bcd78291ab421c1e9a74009d906452c30b4cd36b9744d52cd3bf56b",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-096",
+      "ranges_ms": [
+        {
+          "end": 183751.801,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 162596.739
+        }
+      ],
+      "sha256": "cfef1be72a7073fe28766aa9ffeb9d38338f2bc2065ae296614ebb76706385dc",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-097",
+      "ranges_ms": [
+        {
+          "end": 187199.948,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 145626.9
+        }
+      ],
+      "sha256": "edc28d9bdbb5e6f3c9d9016b08be4b2e412d14660456afa28990a378f9cd0075",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-098",
+      "ranges_ms": [
+        {
+          "end": 176924.412,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 65252.968
+        }
+      ],
+      "sha256": "5eb7d0755a7a87a4b6e821ba2ed9cd38415dc37567024e1ef557e420299f5198",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-099",
+      "ranges_ms": [],
+      "sha256": "fb9efde8bd3766762dc85c3495851afb4e1c3c3af8a3886d037d877353907a37",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-100",
+      "ranges_ms": [],
+      "sha256": "0ed4de396ae5cc9d8883233a09bd3cb1a3313ea78de9161e96eca477dc8f5c3a",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-101",
+      "ranges_ms": [
+        {
+          "end": 207415.436,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 116206.25
+        }
+      ],
+      "sha256": "26e63c2764d5f64f0b9d3fbb44938ed20ee9498754b951fbb9a3b3dbd0e38c42",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-102",
+      "ranges_ms": [
+        {
+          "end": 319223.913,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 227685.173
+        }
+      ],
+      "sha256": "3e63f116cdcdd0af1373f10896ffe89faafaac51ef0f218407f2e2d48403197e",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-103",
+      "ranges_ms": [
+        {
+          "end": 608023.651,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 586418.197
+        }
+      ],
+      "sha256": "35cfbaa691f9b352b4a1c13203663e6783eb3d3a8996d507ea817119d5a1d8bb",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-104",
+      "ranges_ms": [],
+      "sha256": "14fadd7fc9a152fef8cc9eb54fad74186e2b049a39efba495534e0222622f950",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-105",
+      "ranges_ms": [],
+      "sha256": "02d842a57f3d3e2409629b97544ff0fa7fd8fefb2cf1badf404302d870d2c6a2",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-106",
+      "ranges_ms": [
+        {
+          "end": 204748.502,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 180393.562
+        }
+      ],
+      "sha256": "69f21c56b8f4d4498aec66349429bbaf4c18827e1975795ef6eba839cff39eb8",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-107",
+      "ranges_ms": [
+        {
+          "end": 169981.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 168525.0
+        }
+      ],
+      "sha256": "ede0c04337ffaf1f9b798b7369129f9eb6e813c09750da5b3a8addfb9ba75576",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-108",
+      "ranges_ms": [
+        {
+          "end": 82321.315,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 59181.929
+        }
+      ],
+      "sha256": "fcf55277e3f57827aa4e50ae42cda876589908b8e6c610c8794c88c84b6a3ab1",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-109",
+      "ranges_ms": [],
+      "sha256": "f1ebcc0448ace72324344edb2d119739fb7d119dff784b7e1f64948813f66022",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-110",
+      "ranges_ms": [],
+      "sha256": "3bfc28a5222fcb9191104164fc5883ea593b3dedeba5896a7981a14f2d18122c",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-111",
+      "ranges_ms": [
+        {
+          "end": 116782.143,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 81235.74
+        }
+      ],
+      "sha256": "0794cd15f94c8e304686251a0102ba8c5f4b03dfdde4d8908d32a90b92c98d4b",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-112",
+      "ranges_ms": [
+        {
+          "end": 189382.751,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 153409.858
+        }
+      ],
+      "sha256": "665234b10f7138a9e6e54dc5254bacd105bde8584144f15827bd7ef15a56e4a2",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-113",
+      "ranges_ms": [
+        {
+          "end": 2032316.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 2025410.0
+        }
+      ],
+      "sha256": "6b853b7f6ea4142fa6a92cd2c2eb95d250c21e2cb3ef580b530b718e17e8d54b",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-114",
+      "ranges_ms": [],
+      "sha256": "14aec90c3a52101d262dda169018d3ae928aa1260393e2270abc170d9f6aab5b",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-115",
+      "ranges_ms": [],
+      "sha256": "6afe7fffe6232615c2101643da7b61f2be9a3ea72eae9d0be2f4343d301a553f",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-116",
+      "ranges_ms": [
+        {
+          "end": 111648.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 83756.0
+        }
+      ],
+      "sha256": "e996d8db8f47d34b50dded6e4564954f83e47e3a7b5de86dfac96d51999d444e",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-117",
+      "ranges_ms": [
+        {
+          "end": 279830.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 275075.0
+        }
+      ],
+      "sha256": "83c928aa9112998160e6be94ec8831c4e9c265fe3e8ddb9920e1564ea0748bf4",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-118",
+      "ranges_ms": [
+        {
+          "end": 199877.693,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 196348.689
+        }
+      ],
+      "sha256": "1d52691943cebd26506f8700346e042f0068ce7ba6f3a627520d257de3a60f7b",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-119",
+      "ranges_ms": [],
+      "sha256": "d6f858d54b6db7167c3bd1301edd5c8ebe6b4d05f712953c60fa068557b00600",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-120",
+      "ranges_ms": [],
+      "sha256": "1cda93e55fe7aaf6f55827ceeb0a8dac038aa948c4af9057627e483d6341c4ed",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-121",
+      "ranges_ms": [
+        {
+          "end": 72371.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 67214.0
+        }
+      ],
+      "sha256": "9582b9c15c1382a99f345315ead1d2471133e54967bed4401a6d2f2b76b1e39c",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-122",
+      "ranges_ms": [
+        {
+          "end": 3968032.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 3965352.0
+        }
+      ],
+      "sha256": "808131d9b2f3c9ed2b16b636b0424fdba2935ca2956efdcb7202eac19953e632",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-123",
+      "ranges_ms": [
+        {
+          "end": 92352.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 83983.0
+        }
+      ],
+      "sha256": "b6211ab37c514f2b011f8c4b086c4b468ec6d818612c3a2b0af0c270e4c27516",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-124",
+      "ranges_ms": [],
+      "sha256": "b1c7b4ae3ab4595fe018044d1696733aa7ce50a9dea594a8c1ea1119d18b7874",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-125",
+      "ranges_ms": [],
+      "sha256": "f50af2f9f5b50f06e6fcd737ae404186b9f13bf9cdec958251a6a6d96ca354f7",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-126",
+      "ranges_ms": [
+        {
+          "end": 175689.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 173654.0
+        }
+      ],
+      "sha256": "f90f3e5b04c6b24189168ff768ecbc1eabd5ecfff777e8033b6bc6b815adae60",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-127",
+      "ranges_ms": [
+        {
+          "end": 90529.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 85832.0
+        }
+      ],
+      "sha256": "6dd967b678673fc532aa6b4825e43c9d4f03ce5635dcd5dd3e8f23e1526f31c1",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-128",
+      "ranges_ms": [
+        {
+          "end": 189642.784,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 135590.819
+        }
+      ],
+      "sha256": "cfb07b3fe5a33bfc1c5cd8e2664ddbc10ebecb391af28dbc7c595f6c5377768b",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-129",
+      "ranges_ms": [],
+      "sha256": "23519b777c635a06d2246c4aa95518cf5496824db2e50ab5086f629336e7be37",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-130",
+      "ranges_ms": [],
+      "sha256": "d76eec8035d200eac24f876c765bb107fca55f0376feecc02217d808c6716771",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-131",
+      "ranges_ms": [
+        {
+          "end": 297031.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 284267.0
+        }
+      ],
+      "sha256": "d71c6de5592c5631f0da0f0c2334e0fdd39e91aab469ebe2dc6b5b2498e7f063",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-132",
+      "ranges_ms": [
+        {
+          "end": 180358.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 179589.0
+        }
+      ],
+      "sha256": "c0a141fbb6a2a9012bf85f721c7cbf8bc2c10b06ff655c7219d91e727d14a371",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-133",
+      "ranges_ms": [
+        {
+          "end": 274588.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 273462.0
+        }
+      ],
+      "sha256": "a231705909b09d526f797bfa0c12924c8be575bed1718fd5a7c4670b678675ca",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-134",
+      "ranges_ms": [],
+      "sha256": "7d1b5d0c7a777186419c5fb6c3643dcd396bad432902d7da03ee0ba4a825060b",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-135",
+      "ranges_ms": [],
+      "sha256": "8c0561f9ae5bc4bd8f4b215042fc9fd5cd296e37ec22a315d7ff5dbdaa87df46",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-136",
+      "ranges_ms": [
+        {
+          "end": 211364.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 207991.0
+        }
+      ],
+      "sha256": "40a8932ec4653968e2917e8a910ce29bf23cd82bfb26b6d16657b24262ef8c99",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-137",
+      "ranges_ms": [
+        {
+          "end": 3251304.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 3158745.0
+        }
+      ],
+      "sha256": "ac9ede9a151ec6b95d6bab410e696abba843a2a7f5b521c6722d48ae9f110cdf",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-138",
+      "ranges_ms": [
+        {
+          "end": 57176.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 50787.0
+        }
+      ],
+      "sha256": "e3d1388ff0eb98e54db3497cd1dd064c84e66de2096352ac02dbf8e34c190fde",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-139",
+      "ranges_ms": [],
+      "sha256": "c584fc575ec2c98f46a6c922d3a5e05464ccdf7b391cb88c38cff7f9cb3c4cbc",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-140",
+      "ranges_ms": [],
+      "sha256": "d4f0eaab3eddb0ca34b491d80d5218f06a63825c0394638fdbc2f70516c6eeaf",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-141",
+      "ranges_ms": [
+        {
+          "end": 319002.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 313375.0
+        }
+      ],
+      "sha256": "888ffe79a73b559799b70b808e4fe92fb532f817bfb7f0dfa0154add7a6a5652",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-142",
+      "ranges_ms": [
+        {
+          "end": 219300.844,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 148325.488
+        }
+      ],
+      "sha256": "ee4babb8166f4c9b0c3bb1e433cea101e8dd886afe31983828d532236dcaab98",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-143",
+      "ranges_ms": [
+        {
+          "end": 229242.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 180165.0
+        }
+      ],
+      "sha256": "89b5390ec39ad603fba80d8f0889933c2fabfff89d93341b09bc62b17e595eb1",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-144",
+      "ranges_ms": [],
+      "sha256": "4755e4952e5abfd62b3e1cb88b32a2d0c48957f3b91aa3a69acc880b67157629",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-145",
+      "ranges_ms": [],
+      "sha256": "4b52a55d8a6b3300d3d0a271f725b2828cb165fbf8a79ca5130ad0dc930e9917",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-146",
+      "ranges_ms": [
+        {
+          "end": 66774.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 54334.0
+        }
+      ],
+      "sha256": "04c6472655de85fc2e7955fb2214ad29ed00eef08e83f1491dd7c67f7186d869",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-147",
+      "ranges_ms": [
+        {
+          "end": 137528.0,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 118885.0
+        }
+      ],
+      "sha256": "a7dfefb90004bad5cb089e8be8bd7cc40d84ec05d05e785f5a68d5ef2e20049a",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-148",
+      "ranges_ms": [
+        {
+          "end": 107283.943,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 53668.94
+        }
+      ],
+      "sha256": "dbb81a01c0d576148bbd232b512934d13c8700c9fddb65868ca6047ceb02beb2",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-149",
+      "ranges_ms": [],
+      "sha256": "492d6cad27c16b29e15c0454f7780a10dc09362f1544bab24b9d693c9e35a568",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-150",
+      "ranges_ms": [],
+      "sha256": "76b5c109c79def3ba2b3bed4a28a2174ab558084eb5b2aff10a2cf4b59ac2c06",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-151",
+      "ranges_ms": [
+        {
+          "end": 188449.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 186152.0
+        }
+      ],
+      "sha256": "9a0a54c0e91d949c81e5178e273ff418ce9801fcede1a4a40bd67135e519883b",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-152",
+      "ranges_ms": [
+        {
+          "end": 213489.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 211951.0
+        }
+      ],
+      "sha256": "9a25ae09acf4edd19626a51b8fed458d3bfe9bace57c5ab42a9ad2b3a54d97c9",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-153",
+      "ranges_ms": [
+        {
+          "end": 212614.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 204935.0
+        }
+      ],
+      "sha256": "861a25c8af1c091d08ad4e5b8994aeb212924cdf15499737a6c721d64edc2c07",
+      "source_classes": [
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-154",
+      "ranges_ms": [],
+      "sha256": "bc84ab816e41821ed5056b1caff4fff73571b0493893058dcbbbd0479025b70d",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-155",
+      "ranges_ms": [],
+      "sha256": "c93a6cdf9279d9ef1314f39deff341ad53c2f5ebb895ecf538a707af9cf6bda5",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "source_id": "uav-sead-reviewed-v1",
+  "source_version": "b31c3513415e85b4601cc33db5867bcf8121ba22d1f25e96c8c5dee2f75e007f"
+}

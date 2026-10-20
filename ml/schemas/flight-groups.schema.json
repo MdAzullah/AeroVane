@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://skyforge.local/schemas/flight-groups.schema.json",
+  "title": "SkyForge privacy-safe flight groups",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "created_at", "source_id", "source_version", "grouping_method", "privacy_note", "records"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "source_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]+$" },
+    "source_version": { "type": "string", "minLength": 1 },
+    "grouping_method": { "enum": ["conservative_single_pilot_cohort", "keyed_pseudonymous_collection_group", "preserved_mixed_cohort_grouping"] },
+    "privacy_note": { "type": "string", "minLength": 1 },
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["flight_id", "sha256", "group_id"],
+        "properties": {
+          "flight_id": { "type": "string", "pattern": "^flight-[0-9]{3,}$" },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "group_id": { "type": "string", "pattern": "^grp-[a-z0-9-]+$" }
+        }
+      }
+    }
+  }
+}

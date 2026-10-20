@@ -13,7 +13,7 @@ import type { UnitProfile } from './unit-display';
 const SETTINGS_KEY = 'skyforge-settings-v1';
 const LEGACY_SETTINGS_KEY = 'mavdeck-settings-v1';
 
-export type MapLayerType = 'street' | 'satellite' | 'hybrid';
+export type MapLayerType = 'street' | 'satellite' | 'hybrid' | 'offline';
 
 export interface SkyForgeSettings {
   activeTab: string;

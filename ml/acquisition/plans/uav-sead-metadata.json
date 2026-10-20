@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "source_id": "uav-sead",
+  "mode": "metadata_only",
+  "payload_download_allowed": false,
+  "frozen_revision": "774a336a1d1d06b248927a35c2ea1f6869e9e1a4",
+  "repository_last_modified": "2026-05-19T17:48:03Z",
+  "repository_reported_bytes": 29779885670,
+  "repository_gated_at_review": false,
+  "license_text_sha256": "9ba9550ad48438d0836ddab3da480b3b69ffa0aac7b7878b5a0039e7ab429411",
+  "references": [
+    "https://huggingface.co/datasets/aykutkabaoglu/uav-flight-anomaly-dataset",
+    "https://doi.org/10.57967/hf/7772",
+    "https://arxiv.org/abs/2602.13900"
+  ],
+  "required_before_pilot": [
+    "validate a bounded pilot authorization"
+  ],
+  "pilot_limits": {
+    "maximum_flights": 5,
+    "maximum_download_bytes": 1073741824,
+    "bulk_download_allowed": false
+  }
+}

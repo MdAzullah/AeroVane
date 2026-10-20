@@ -1,0 +1,9 @@
+# PX4's official ULog parser. Keep ingestion dependencies isolated from the app.
+pyulog==1.2.2
+# Experiment runners use deterministic, pinned CPU estimators.
+numpy==1.26.4
+scipy==1.11.4
+scikit-learn==1.7.2
+joblib==1.6.0
+# BASiC simulation classifier; install the CUDA wheel matching the host driver.
+torch==2.14.0

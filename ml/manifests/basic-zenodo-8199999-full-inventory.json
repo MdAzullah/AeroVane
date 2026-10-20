@@ -1,0 +1,571 @@
+{
+  "license": "CC-BY-4.0",
+  "real_flight_claim_authorized": false,
+  "record_id": "8199999",
+  "records": [
+    {
+      "bytes": 34222280,
+      "class": "normal",
+      "flight_id": "basic-flight-001",
+      "group_id": "basic-location-01",
+      "sha256": "8c4a56ef4b4a61bec26d85ce81d0654647624982a03fa199b7d5dfc299dd4570",
+      "upstream_md5": "7001d6227bd0952616ac141de4ab2c20"
+    },
+    {
+      "bytes": 29442325,
+      "class": "rc_failure",
+      "flight_id": "basic-flight-002",
+      "group_id": "basic-location-01",
+      "sha256": "52b9053eba45188ce0757ebca27bfa9b25217aee81aedf28e97ad342ee5c5aa6",
+      "upstream_md5": "56543b4eb4f04c2579f24f0871aa5ac3"
+    },
+    {
+      "bytes": 24579640,
+      "class": "gps_failure",
+      "flight_id": "basic-flight-003",
+      "group_id": "basic-location-01",
+      "sha256": "4953e0a9460f8daae2f5bbdaba0149d9090ebcb5b54dcac9fea6eb0a232f9ae2",
+      "upstream_md5": "ae3891b9d5a28f1e6c87f57de51eed5f"
+    },
+    {
+      "bytes": 40246786,
+      "class": "accelerometer_failure",
+      "flight_id": "basic-flight-004",
+      "group_id": "basic-location-01",
+      "sha256": "81f136227e7f66cf59ea485cc6a0d23cfa0fb90c01d5ee073e762285d30c8ce3",
+      "upstream_md5": "3ddd523645f7d6341bd8ae287060fe90"
+    },
+    {
+      "bytes": 41482378,
+      "class": "gyroscope_failure",
+      "flight_id": "basic-flight-005",
+      "group_id": "basic-location-01",
+      "sha256": "787b590ec36ea901b40949b10bc005dc56729588fed98b3cf7ec45930c43c9fb",
+      "upstream_md5": "baf88d2cbc9d178d33ab1696e0c1f4b5"
+    },
+    {
+      "bytes": 35422481,
+      "class": "compass_failure",
+      "flight_id": "basic-flight-006",
+      "group_id": "basic-location-01",
+      "sha256": "97f7bacd797b00ec346327db7db871dfad4f366794916667a52ceab3a821bf36",
+      "upstream_md5": "f2d59edad824fb591c259fc8c99ba06f"
+    },
+    {
+      "bytes": 33514887,
+      "class": "barometer_failure",
+      "flight_id": "basic-flight-007",
+      "group_id": "basic-location-01",
+      "sha256": "7c69e156e27b53650dc4fc5a359b9cd800a612a30df7b1c02fb4ff4748c18d8f",
+      "upstream_md5": "8f28760f505c21c373af9dcaefda9fb5"
+    },
+    {
+      "bytes": 24554087,
+      "class": "normal",
+      "flight_id": "basic-flight-008",
+      "group_id": "basic-location-02",
+      "sha256": "1514917180b73328ad22b309da46ab6a9bea5737f21172074c95f8383fec93b5",
+      "upstream_md5": "562b0f5747683101d4044e4eba253d55"
+    },
+    {
+      "bytes": 25081937,
+      "class": "rc_failure",
+      "flight_id": "basic-flight-009",
+      "group_id": "basic-location-02",
+      "sha256": "0c4742a64c730b01ca3c9766d57deb0b044443a4b46c344570d93e88d73b05a7",
+      "upstream_md5": "19154b0e38bbfaacedb37b76d16bb395"
+    },
+    {
+      "bytes": 22532595,
+      "class": "gps_failure",
+      "flight_id": "basic-flight-010",
+      "group_id": "basic-location-02",
+      "sha256": "55d1eb0e10309a8b2c3ec1c30c3f0ad064db7e5833ee02f5dd398b704f955184",
+      "upstream_md5": "4460f92480f0517aa5af1a8dffd2b638"
+    },
+    {
+      "bytes": 33660412,
+      "class": "accelerometer_failure",
+      "flight_id": "basic-flight-011",
+      "group_id": "basic-location-02",
+      "sha256": "e0ca0f4ce40577d6eed8e4eff0a11f46fe03b1ed21d7481c46ad072ceef94be2",
+      "upstream_md5": "5138245b547d40d35f32e924028e8565"
+    },
+    {
+      "bytes": 34219619,
+      "class": "gyroscope_failure",
+      "flight_id": "basic-flight-012",
+      "group_id": "basic-location-02",
+      "sha256": "48cc729f01410cb65f603fac275476d3dc0158b8b80a6c6e76c28dddff15d05b",
+      "upstream_md5": "be4ef1095393ec210c79265619c0f28a"
+    },
+    {
+      "bytes": 49179031,
+      "class": "compass_failure",
+      "flight_id": "basic-flight-013",
+      "group_id": "basic-location-02",
+      "sha256": "e88e78e994ca863ea82999916e58c5c0a92da484fd861f4ff06fd403fff1e6d4",
+      "upstream_md5": "5111a480032bf221a1a1c30e61b3db57"
+    },
+    {
+      "bytes": 24749197,
+      "class": "barometer_failure",
+      "flight_id": "basic-flight-014",
+      "group_id": "basic-location-02",
+      "sha256": "c7b64c1718a7e156e701433e8bc6565c386de117465d95752d9b5e2b7bc4de6e",
+      "upstream_md5": "d71556396eb04ffdeaf3d9cbf37937c4"
+    },
+    {
+      "bytes": 27752576,
+      "class": "normal",
+      "flight_id": "basic-flight-015",
+      "group_id": "basic-location-03",
+      "sha256": "8f507b8a1259d27a205a64092b16cea88c195f229a9e9b05296ca2d99f27c061",
+      "upstream_md5": "4eee91daf402ff5b90ccf02928081043"
+    },
+    {
+      "bytes": 27887645,
+      "class": "rc_failure",
+      "flight_id": "basic-flight-016",
+      "group_id": "basic-location-03",
+      "sha256": "082701f41c6ed05beeff4df9d1c0780d367f78b350857dd25946c6aacd17e6af",
+      "upstream_md5": "02daf032986998f21fa234d928b198ad"
+    },
+    {
+      "bytes": 28026193,
+      "class": "gps_failure",
+      "flight_id": "basic-flight-017",
+      "group_id": "basic-location-03",
+      "sha256": "b2589063d5377fab121b8cb8213a8bcbbb9e35a5fcc9c691701a3002bfeb2894",
+      "upstream_md5": "c3f70f87ec8d735d23e1c9c95ea9efff"
+    },
+    {
+      "bytes": 53685204,
+      "class": "accelerometer_failure",
+      "flight_id": "basic-flight-018",
+      "group_id": "basic-location-03",
+      "sha256": "a8d0fcb7054fb848c16d7b9e012f3465156bfe8666bd65b3f4096a02195aea61",
+      "upstream_md5": "efaa803e281ea1a6170d2ef9c3ec3eb5"
+    },
+    {
+      "bytes": 38053843,
+      "class": "gyroscope_failure",
+      "flight_id": "basic-flight-019",
+      "group_id": "basic-location-03",
+      "sha256": "14e077df695ae3aadde7805e8525c4e025a2dfe7edbac480b429544efbcfa044",
+      "upstream_md5": "ebc1eef9c0a0bb54ce65b43340ca728d"
+    },
+    {
+      "bytes": 30017251,
+      "class": "compass_failure",
+      "flight_id": "basic-flight-020",
+      "group_id": "basic-location-03",
+      "sha256": "13389ccde3f1b42718e01d7ed13e8bc3994df31ba0899b732f4cef497a86e591",
+      "upstream_md5": "86d28f3b7f39edbe6bf88f022e602b07"
+    },
+    {
+      "bytes": 27449131,
+      "class": "barometer_failure",
+      "flight_id": "basic-flight-021",
+      "group_id": "basic-location-03",
+      "sha256": "a934213c6fdabc685b792e67edaabcd7ed07eb469876756c311df1e8bd9b8674",
+      "upstream_md5": "59ac09f459c929624daa6910ffd8e173"
+    },
+    {
+      "bytes": 34097892,
+      "class": "normal",
+      "flight_id": "basic-flight-022",
+      "group_id": "basic-location-04",
+      "sha256": "674b3b5acc0070caa6e8d4b2261b406390d90a178f36c39595f32f842f825ff0",
+      "upstream_md5": "c19f699f997cb4669dcd237a4afc4dc4"
+    },
+    {
+      "bytes": 30355528,
+      "class": "rc_failure",
+      "flight_id": "basic-flight-023",
+      "group_id": "basic-location-04",
+      "sha256": "79ca19620a1d877089ba90e6b7100adcad416132032ed0f05b303350720c9ff6",
+      "upstream_md5": "03cb50e8861e65aaa5c1ee26d82d1f0b"
+    },
+    {
+      "bytes": 30945353,
+      "class": "gps_failure",
+      "flight_id": "basic-flight-024",
+      "group_id": "basic-location-04",
+      "sha256": "b0149ccdde5a119d822f50a124e367f23eb3dfbe6eeba0e9fd72936ba75db518",
+      "upstream_md5": "cd879639fc57d7cfb75ccfde59cb05ad"
+    },
+    {
+      "bytes": 45385575,
+      "class": "accelerometer_failure",
+      "flight_id": "basic-flight-025",
+      "group_id": "basic-location-04",
+      "sha256": "c4fa8880e9b20140e2e4b10c4eda1811e73e0ee0511b7ca8cfa152f7661a7ef0",
+      "upstream_md5": "23c01fb207b0e3cf484a89b0dd1af61d"
+    },
+    {
+      "bytes": 43894014,
+      "class": "gyroscope_failure",
+      "flight_id": "basic-flight-026",
+      "group_id": "basic-location-04",
+      "sha256": "9af5d466a458d2d710f194d9263225edb3cee99373dfa4c4f978abd5995f7af6",
+      "upstream_md5": "a8e9f9fd5952c6f610a1230ed3f4949e"
+    },
+    {
+      "bytes": 33595012,
+      "class": "compass_failure",
+      "flight_id": "basic-flight-027",
+      "group_id": "basic-location-04",
+      "sha256": "219a0410058a72042bb798fd70ca42b4475217153df78133ffa40363c4a68f41",
+      "upstream_md5": "849f7f9969cc5050ec36f89d38f15aec"
+    },
+    {
+      "bytes": 36220937,
+      "class": "barometer_failure",
+      "flight_id": "basic-flight-028",
+      "group_id": "basic-location-04",
+      "sha256": "eaa39eae6e3e8d065b22c21be4139e0fe8fec7ea6651b742ee30ceada6655d65",
+      "upstream_md5": "ff06bd9e6483b9847811aa160ddd4b25"
+    },
+    {
+      "bytes": 52423030,
+      "class": "normal",
+      "flight_id": "basic-flight-029",
+      "group_id": "basic-location-05",
+      "sha256": "0ce39917bd0479f61ddac5f246270bb5f925606467839d662fcd45e85cdccbef",
+      "upstream_md5": "7e07e3c029f2d571b66af03998f6aef5"
+    },
+    {
+      "bytes": 39554513,
+      "class": "rc_failure",
+      "flight_id": "basic-flight-030",
+      "group_id": "basic-location-05",
+      "sha256": "ea2ba5792509760bdad944192cacf658dcf2319675dace142a683f192bbcb037",
+      "upstream_md5": "9af89d323d21382fb2a11e3f2b7ef62d"
+    },
+    {
+      "bytes": 47469018,
+      "class": "gps_failure",
+      "flight_id": "basic-flight-031",
+      "group_id": "basic-location-05",
+      "sha256": "e82fc0c536374addc2d307504235d75e5655716390fd4722ca88461bba1f19a7",
+      "upstream_md5": "8640241d62dd2eb4d3ec5b3dfb70ad99"
+    },
+    {
+      "bytes": 68115688,
+      "class": "accelerometer_failure",
+      "flight_id": "basic-flight-032",
+      "group_id": "basic-location-05",
+      "sha256": "145f3908e35261bd3c22dcafbeb8d678cb00f28eb02de32c48bce5cc1dd1224f",
+      "upstream_md5": "3b9f605f5766ff3127eda915a74a5431"
+    },
+    {
+      "bytes": 58770377,
+      "class": "gyroscope_failure",
+      "flight_id": "basic-flight-033",
+      "group_id": "basic-location-05",
+      "sha256": "483e16b06cdc02a60343f78b8ae242d6654558f407ce83bd2d344b15a995c7e6",
+      "upstream_md5": "f1797a1b795d9ef465cd28d3660dcf9f"
+    },
+    {
+      "bytes": 51577616,
+      "class": "compass_failure",
+      "flight_id": "basic-flight-034",
+      "group_id": "basic-location-05",
+      "sha256": "117c1e979cc6d7b0ad5bac11108a3b47452cbdf6393f879ee217cf05053fa0f7",
+      "upstream_md5": "33bb0d8c0cd2555fb2c8b29bd6fb8a41"
+    },
+    {
+      "bytes": 52016077,
+      "class": "barometer_failure",
+      "flight_id": "basic-flight-035",
+      "group_id": "basic-location-05",
+      "sha256": "5293e996109424267156c990a137b06f90b4cab79e5ffacc2a4c28a322be4fd5",
+      "upstream_md5": "3c16c1fe20907da660f8409d75b103d5"
+    },
+    {
+      "bytes": 80764200,
+      "class": "normal",
+      "flight_id": "basic-flight-036",
+      "group_id": "basic-location-06",
+      "sha256": "f4d8a5718fe45e0bd5ecb0bf5542028ee369a27940cdf795af9cc9af08674e41",
+      "upstream_md5": "6d6f8cfb023a722f5d44d9f5b9b7cd0b"
+    },
+    {
+      "bytes": 33397262,
+      "class": "rc_failure",
+      "flight_id": "basic-flight-037",
+      "group_id": "basic-location-06",
+      "sha256": "b42d562f3ffb8609161e63583d198f4c792eaa981e1d6458da82ed9d29ba737b",
+      "upstream_md5": "321b4377eaecba7e7dc55e4b1e87aefc"
+    },
+    {
+      "bytes": 28130900,
+      "class": "gps_failure",
+      "flight_id": "basic-flight-038",
+      "group_id": "basic-location-06",
+      "sha256": "c1a4d872bc65b6fed808b21a9c494f4fbf85f4a71ad9dcbb7f884b2ae3109599",
+      "upstream_md5": "2117848677c61dfa25bcc4bd6f79e14c"
+    },
+    {
+      "bytes": 51385655,
+      "class": "accelerometer_failure",
+      "flight_id": "basic-flight-039",
+      "group_id": "basic-location-06",
+      "sha256": "e24710fbb1520874b8640d97d6223e270f6983da971626da6c369e66c918d85b",
+      "upstream_md5": "efb1953f1fe363a4d5bfc161f3718f73"
+    },
+    {
+      "bytes": 47862675,
+      "class": "gyroscope_failure",
+      "flight_id": "basic-flight-040",
+      "group_id": "basic-location-06",
+      "sha256": "bb2a4f9ddad63a1944c8ab9bce3c385d58f6e9101e2664020cf2aff96393ae54",
+      "upstream_md5": "4c0191b4e705ffb5012420a5baf5f5bc"
+    },
+    {
+      "bytes": 68626524,
+      "class": "compass_failure",
+      "flight_id": "basic-flight-041",
+      "group_id": "basic-location-06",
+      "sha256": "2d91c0f98aa5eb115597e4a3613486c4bd8ac740f9588aa48010fed160abd249",
+      "upstream_md5": "8aa40622017bbfc43049c2ae347c20e2"
+    },
+    {
+      "bytes": 45341500,
+      "class": "barometer_failure",
+      "flight_id": "basic-flight-042",
+      "group_id": "basic-location-06",
+      "sha256": "ff245d36f06aae84c95c936fa81c40d9b6a5c016db681524042eda368ce80366",
+      "upstream_md5": "f48a22c44700ff170bbb16209ab894ae"
+    },
+    {
+      "bytes": 28956320,
+      "class": "normal",
+      "flight_id": "basic-flight-043",
+      "group_id": "basic-location-07",
+      "sha256": "a8ad772cd4a725021b65e70450c12d7657f6eb5b3fd28ce868154fa8935347ea",
+      "upstream_md5": "8bd2cb42e35ba058e987b7861ff08f8b"
+    },
+    {
+      "bytes": 24526809,
+      "class": "rc_failure",
+      "flight_id": "basic-flight-044",
+      "group_id": "basic-location-07",
+      "sha256": "bd51babafdd4af146076a024cbf09b22beb742ca82999e2b12ba7a863ac727a0",
+      "upstream_md5": "25e8b6f013d5bcbcebdd44c9bd4c3135"
+    },
+    {
+      "bytes": 24301769,
+      "class": "gps_failure",
+      "flight_id": "basic-flight-045",
+      "group_id": "basic-location-07",
+      "sha256": "97a8f65768dece25b9a8047113db9c5d6dd4b65068004c19660efd0254166838",
+      "upstream_md5": "fefbd0c527cfedf111da885d76bd1a8e"
+    },
+    {
+      "bytes": 37065497,
+      "class": "accelerometer_failure",
+      "flight_id": "basic-flight-046",
+      "group_id": "basic-location-07",
+      "sha256": "a6119878206c4c177f7096fa19e9a5e1c5b39f2f17d364bdf28ce7a84a7b2623",
+      "upstream_md5": "cf288527092febb0085c92bd310afdd6"
+    },
+    {
+      "bytes": 43146665,
+      "class": "gyroscope_failure",
+      "flight_id": "basic-flight-047",
+      "group_id": "basic-location-07",
+      "sha256": "eeaa32871c1115347bc48ead990613f64bf245cf67c8a8efe6ccfaf418763e67",
+      "upstream_md5": "b9d24c2248c282a92eb5cab01556fa57"
+    },
+    {
+      "bytes": 28690192,
+      "class": "compass_failure",
+      "flight_id": "basic-flight-048",
+      "group_id": "basic-location-07",
+      "sha256": "e3287a5f9d301ec398f2d7b3a50e4c5e191a8074405d2dfca4384abd80576284",
+      "upstream_md5": "220ee2a8db71d3cddf325b8385661640"
+    },
+    {
+      "bytes": 28305878,
+      "class": "barometer_failure",
+      "flight_id": "basic-flight-049",
+      "group_id": "basic-location-07",
+      "sha256": "fb9196c4b4c446844137a87d867bde8a0201c6eb8fa944ec5c56f36336d18e46",
+      "upstream_md5": "a9784abe82b80b4beed13c5f7a405313"
+    },
+    {
+      "bytes": 41621076,
+      "class": "normal",
+      "flight_id": "basic-flight-050",
+      "group_id": "basic-location-08",
+      "sha256": "199fc133c5f2d0920f5ad2e09445e1a1f88c4e7c4dc205cc68210699145a1199",
+      "upstream_md5": "3094e0e099ebcb6171ebdb5413274029"
+    },
+    {
+      "bytes": 28901732,
+      "class": "rc_failure",
+      "flight_id": "basic-flight-051",
+      "group_id": "basic-location-08",
+      "sha256": "5daea8a9412d9354eb976831d4b437a6354835755049b600301bbd440da0f3ee",
+      "upstream_md5": "73179d968c4d43fd5a4f1da5bfcef298"
+    },
+    {
+      "bytes": 27660531,
+      "class": "gps_failure",
+      "flight_id": "basic-flight-052",
+      "group_id": "basic-location-08",
+      "sha256": "9affed82691ee676cc5858a985bf985fe0336f51a3e8d2767c602a80799fc447",
+      "upstream_md5": "fe1cc71c8ec92d0c09a4a6f824808455"
+    },
+    {
+      "bytes": 52723762,
+      "class": "accelerometer_failure",
+      "flight_id": "basic-flight-053",
+      "group_id": "basic-location-08",
+      "sha256": "951f2f1c7d8da441ef74dd8e72f04a8e7eb8c893d11b98a0bd1db4a6340794dc",
+      "upstream_md5": "a5c913990f5e660125ab921d0f57729e"
+    },
+    {
+      "bytes": 49249490,
+      "class": "gyroscope_failure",
+      "flight_id": "basic-flight-054",
+      "group_id": "basic-location-08",
+      "sha256": "0fa36a13342a801c3a9d8977787421a4c72cb62cda40e7fceaa49100cc504f76",
+      "upstream_md5": "0609f008bd9aad26101a74a9aae744e3"
+    },
+    {
+      "bytes": 40275641,
+      "class": "compass_failure",
+      "flight_id": "basic-flight-055",
+      "group_id": "basic-location-08",
+      "sha256": "12c566640ea510277fb46a4b0b5ac2c2c9d913c96da2a5e5d0a53425914029ae",
+      "upstream_md5": "d99493aade1e6a06a901ee27d9cf9b95"
+    },
+    {
+      "bytes": 40669678,
+      "class": "barometer_failure",
+      "flight_id": "basic-flight-056",
+      "group_id": "basic-location-08",
+      "sha256": "bd5548674030b6bf799bd10e46a7c2b8a803aa0b8473680951ce648885d85bd6",
+      "upstream_md5": "86e5f917432c0bac05e90153b0b002af"
+    },
+    {
+      "bytes": 39468685,
+      "class": "normal",
+      "flight_id": "basic-flight-057",
+      "group_id": "basic-location-09",
+      "sha256": "e1c70cc14aceecc1a497f69a7470f868bc2a0a411c2fc3f0b3fb7a5299ce87e9",
+      "upstream_md5": "bd66fbafa0f6c07959b043742c5a433a"
+    },
+    {
+      "bytes": 26767331,
+      "class": "rc_failure",
+      "flight_id": "basic-flight-058",
+      "group_id": "basic-location-09",
+      "sha256": "9f0dd686766670326ba603ab5b6c90e76221ffa4460c4777647dc6ef80f8b957",
+      "upstream_md5": "3d9fbedbeb2aac4218e2e330901af1ab"
+    },
+    {
+      "bytes": 28212874,
+      "class": "gps_failure",
+      "flight_id": "basic-flight-059",
+      "group_id": "basic-location-09",
+      "sha256": "687338e04e7ddfd6a77828b4e35e95a4f10badf5738971b6aae585a9129eae88",
+      "upstream_md5": "50e543b7ff169e0aa368bdb6f97caea8"
+    },
+    {
+      "bytes": 53282568,
+      "class": "accelerometer_failure",
+      "flight_id": "basic-flight-060",
+      "group_id": "basic-location-09",
+      "sha256": "595ab7602344361f9562f36dcb8711f7db1a16f19a3c7f71ab28060930af4b88",
+      "upstream_md5": "472ada78afa682ad624233268fc55c79"
+    },
+    {
+      "bytes": 52071459,
+      "class": "gyroscope_failure",
+      "flight_id": "basic-flight-061",
+      "group_id": "basic-location-09",
+      "sha256": "083302853d223db8f66c129e3f9076cd4051182717bd2dd2a304b08f48b551e7",
+      "upstream_md5": "1b5bc7e829a3ccea85bf694ca5b0612d"
+    },
+    {
+      "bytes": 38628278,
+      "class": "compass_failure",
+      "flight_id": "basic-flight-062",
+      "group_id": "basic-location-09",
+      "sha256": "81e7da2fc1d99067c01f2929af7ed41beaae150228106f14295ee64fe92468d0",
+      "upstream_md5": "e4a680916b73f5dd9a09c680a5b031ed"
+    },
+    {
+      "bytes": 39131495,
+      "class": "barometer_failure",
+      "flight_id": "basic-flight-063",
+      "group_id": "basic-location-09",
+      "sha256": "7329338242487df00b9ad06d8411f37244ff82aa75278d297e47ffa140f96766",
+      "upstream_md5": "4bcc679a717123bfe5cbe503fe52ee7c"
+    },
+    {
+      "bytes": 60685364,
+      "class": "normal",
+      "flight_id": "basic-flight-064",
+      "group_id": "basic-location-10",
+      "sha256": "140fb87857c92daa0dce2fd3ec59afc1bfc3b158e9fa9c09bf627d5c10225fcd",
+      "upstream_md5": "80f7dae0b9d32d2604336feacaa2ff59"
+    },
+    {
+      "bytes": 49933648,
+      "class": "rc_failure",
+      "flight_id": "basic-flight-065",
+      "group_id": "basic-location-10",
+      "sha256": "b3597e01cb891953091da39e167f864acc49ad448a39ac615cf64b7808d575e7",
+      "upstream_md5": "6e197f99c373a52c956c12dca5bfac21"
+    },
+    {
+      "bytes": 55951295,
+      "class": "gps_failure",
+      "flight_id": "basic-flight-066",
+      "group_id": "basic-location-10",
+      "sha256": "c7e94ad97b40c624dfd5de9cf0aaa400b99c5aaeae52985b2f06583719347ea9",
+      "upstream_md5": "b03aab1e5628b6e63ff39a1a9be2485e"
+    },
+    {
+      "bytes": 81650275,
+      "class": "accelerometer_failure",
+      "flight_id": "basic-flight-067",
+      "group_id": "basic-location-10",
+      "sha256": "340fbabfde675f0427a7dfdfa277a5683a4a6b0b47b54a8939a158ecd164f1ab",
+      "upstream_md5": "322451a99bb1004a5f8dd95c9e1d82e6"
+    },
+    {
+      "bytes": 90872901,
+      "class": "gyroscope_failure",
+      "flight_id": "basic-flight-068",
+      "group_id": "basic-location-10",
+      "sha256": "d4ef79992ba282b4b4d857a649fbbf9f0e74747cfa596bd21fa8aba17eccc263",
+      "upstream_md5": "47250ae367d6515419053110f1b1ce0e"
+    },
+    {
+      "bytes": 59508955,
+      "class": "compass_failure",
+      "flight_id": "basic-flight-069",
+      "group_id": "basic-location-10",
+      "sha256": "8fca129b56832425487c0e588b33069c5a11f0da97808d3828ccf6ab3dc34e58",
+      "upstream_md5": "b8b3990315d76cbc76751b6398a09dc2"
+    },
+    {
+      "bytes": 60470906,
+      "class": "barometer_failure",
+      "flight_id": "basic-flight-070",
+      "group_id": "basic-location-10",
+      "sha256": "b7e3df6a42d0daadd14a594f84a9e960346ccba4c4908a388c91a437669bad1c",
+      "upstream_md5": "ab4a508572abcb69ffc530b1dcf5e838"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "source_id": "basic-zenodo-8199999",
+  "source_version": "1",
+  "training_scope": "simulation-only multicopter sensor-fault development"
+}

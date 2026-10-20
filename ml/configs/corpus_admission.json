@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "gate": "first_controlled_real_data_experiment",
+  "minimums": {
+    "independent_groups": 60,
+    "eligible_flights": 120,
+    "normal_only_flights": 60,
+    "anomalous_flights": 40,
+    "normal_windows": 3000,
+    "anomalous_windows": 1000,
+    "feature_window_coverage": 0.95,
+    "train_groups": 36,
+    "validation_groups": 12,
+    "test_groups": 12
+  },
+  "required_labels_per_active_split": ["normal", "anomalous"],
+  "requirements": [
+    "source_registry_approved",
+    "training_explicitly_authorized",
+    "frozen_group_level_split",
+    "zero_hash_or_group_leakage",
+    "unknown_windows_excluded",
+    "normalization_and_imputation_fit_on_train_only"
+  ],
+  "scope_note": "These are minimums for a controlled experiment, not sufficient evidence for production release. Production thresholds depend on experiment results and per-environment coverage."
+}

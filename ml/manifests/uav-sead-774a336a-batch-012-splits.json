@@ -1,0 +1,46 @@
+{
+  "created_at": "2026-09-27T04:12:00Z",
+  "frozen_at": "2026-09-27T04:12:00Z",
+  "records": [
+    {
+      "flight_id": "flight-061",
+      "group_id": "grp-474993ef24a53cabc5b5",
+      "reason": "Source remains quarantined; batch validation does not authorize training or evaluation.",
+      "sha256": "95f709254490840330618fe9e1e8d3f66c7754072f6d9da2eefb5aef542e4bef",
+      "split": "excluded"
+    },
+    {
+      "flight_id": "flight-062",
+      "group_id": "grp-572b08632772d1f6086a",
+      "reason": "Source remains quarantined; batch validation does not authorize training or evaluation.",
+      "sha256": "bd6f8e7fb572c4b74c82856f96e7dd4b7983a95284afc15d1fbf20a99aacdc29",
+      "split": "excluded"
+    },
+    {
+      "flight_id": "flight-063",
+      "group_id": "grp-42e6c6b2803a930ef489",
+      "reason": "Source remains quarantined; batch validation does not authorize training or evaluation.",
+      "sha256": "1627ff31e2dddc10bb7e96ce7bf076a5128fb451360c332b38f5c7d67cf190e7",
+      "split": "excluded"
+    },
+    {
+      "flight_id": "flight-064",
+      "group_id": "grp-989040eb1f90454dc93c",
+      "reason": "Source remains quarantined; batch validation does not authorize training or evaluation.",
+      "sha256": "e7d95e4f84a0693cf42536379adec701fee518622117cbd568032d0be365a423",
+      "split": "excluded"
+    },
+    {
+      "flight_id": "flight-065",
+      "group_id": "grp-dbc0a31f8b1f06960886",
+      "reason": "Source remains quarantined; batch validation does not authorize training or evaluation.",
+      "sha256": "85947186fe2e8222c8c754d3c924b561b6541af3e0c85d1c1da4e7295fae3e04",
+      "split": "excluded"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "source_id": "uav-sead",
+  "source_version": "774a336a1d1d06b248927a35c2ea1f6869e9e1a4",
+  "status": "frozen",
+  "training_authorized": false
+}

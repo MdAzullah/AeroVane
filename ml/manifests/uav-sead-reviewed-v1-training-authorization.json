@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "source_id": "uav-sead-reviewed-v1",
+  "source_version": "b31c3513415e85b4601cc33db5867bcf8121ba22d1f25e96c8c5dee2f75e007f",
+  "authorized_at": "2026-09-27T10:30:00Z",
+  "authorized_by": "repository-owner-explicit-training-preparation-request",
+  "purpose": "first_controlled_real_data_experiment",
+  "status": "authorized",
+  "scope": "Binary normal-versus-anomalous experiment using only frozen active splits. No vehicle control, automatic actions, fault-cause claims, or test-driven tuning.",
+  "bindings": {
+    "inventory_sha256": "e83da1ac66a1c83d7b16c5e5f902de521afaf172a7494ffef6410562e947df58",
+    "labels_sha256": "edb2cf56d1d2a9662ad433c5dab366e28f1e85ee192e2207d554f3a3032804d4",
+    "groups_sha256": "e85314b0b1298046e3122fd38888a2dfa3750cb0198545dbadf1ec73d49231ef",
+    "authorized_splits_sha256": "887f5b2e53aae9a4e8625af3440a6dc6e860ba8b2a246208acf7a3f38eb63d78",
+    "feature_quality_sha256": "263b9e18a817f55acfb19e5fda4509171d702c324423adff2149dbe383b32c6a"
+  }
+}

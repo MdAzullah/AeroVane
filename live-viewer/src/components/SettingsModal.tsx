@@ -8,8 +8,9 @@ import {
   loadRemoteDialect, validateDialectUrl, normalizeGithubUrl,
   saveSettings, loadSettings, logDebugError,
   SPOOF_SCENARIOS,
+  SIMULATION_ENVIRONMENTS, SIMULATION_FLIGHT_PROFILES,
 } from '../services';
-import type { BaudRate, UnitProfile, SpoofScenarioId } from '../services';
+import type { BaudRate, UnitProfile, SpoofScenarioId, SimulationEnvironmentId, SimulationFlightProfileId } from '../services';
 import { parseFromFileMap } from '../mavlink/xml-parser';
 
 
@@ -44,6 +45,8 @@ export default function SettingsModal(props: SettingsModalProps) {
   const [importError, setImportError] = createSignal<string | null>(null);
   const [refreshing, setRefreshing] = createSignal(false);
   const [spoofScenario, setSpoofScenario] = createSignal<SpoofScenarioId>('normal');
+  const [simulationEnvironment, setSimulationEnvironment] = createSignal<SimulationEnvironmentId>('calm');
+  const [simulationFlightProfile, setSimulationFlightProfile] = createSignal<SimulationFlightProfileId>('cruise');
   const [dialectUrl, setDialectUrl] = createSignal('');
   const [urlSaving, setUrlSaving] = createSignal(false);
   let fileInputRef: HTMLInputElement | undefined;
@@ -578,6 +581,25 @@ export default function SettingsModal(props: SettingsModalProps) {
               <Divider />
 
               <SectionLabel>Simulator</SectionLabel>
+              <div class="rounded p-3 text-xs" style={{ 'background-color': 'var(--bg-hover)', border: '1px solid var(--border)', color: 'var(--text-secondary)' }}>
+                Rich telemetry is enabled by default: GPS, attitude, IMU, vibration, pressure, battery, radio, wind and navigation signals are generated together.
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-medium mb-1" style={{ color: 'var(--text-secondary)' }} for="simulator-flight-profile">Flight profile</label>
+                  <select id="simulator-flight-profile" class="w-full rounded px-2 py-1.5 text-sm" style={{ 'background-color': 'var(--bg-hover)', color: 'var(--text-primary)', border: '1px solid var(--border)' }} value={simulationFlightProfile()} disabled={simulatorRequested()} onChange={event => setSimulationFlightProfile(event.currentTarget.value as SimulationFlightProfileId)}>
+                    <For each={SIMULATION_FLIGHT_PROFILES}>{profile => <option value={profile.id}>{profile.label}</option>}</For>
+                  </select>
+                  <p class="mt-1 text-xs" style={{ color: 'var(--text-secondary)' }}>{SIMULATION_FLIGHT_PROFILES.find(profile => profile.id === simulationFlightProfile())?.description}</p>
+                </div>
+                <div>
+                  <label class="block text-xs font-medium mb-1" style={{ color: 'var(--text-secondary)' }} for="simulator-environment">Environment</label>
+                  <select id="simulator-environment" class="w-full rounded px-2 py-1.5 text-sm" style={{ 'background-color': 'var(--bg-hover)', color: 'var(--text-primary)', border: '1px solid var(--border)' }} value={simulationEnvironment()} disabled={simulatorRequested()} onChange={event => setSimulationEnvironment(event.currentTarget.value as SimulationEnvironmentId)}>
+                    <For each={SIMULATION_ENVIRONMENTS}>{environment => <option value={environment.id}>{environment.label}</option>}</For>
+                  </select>
+                  <p class="mt-1 text-xs" style={{ color: 'var(--text-secondary)' }}>{SIMULATION_ENVIRONMENTS.find(environment => environment.id === simulationEnvironment())?.description}</p>
+                </div>
+              </div>
               <label class="block text-xs font-medium" style={{ color: 'var(--text-secondary)' }} for="simulator-scenario">
                 Fault scenario
               </label>
@@ -602,7 +624,12 @@ export default function SettingsModal(props: SettingsModalProps) {
                   if (simulatorRequested()) {
                     serialSessionController.disconnectLiveSession();
                   } else {
-                    serialSessionController.connectSpoof({ unloadLog: appState.logViewerState.isActive, scenario: spoofScenario() });
+                    serialSessionController.connectSpoof({
+                      unloadLog: appState.logViewerState.isActive,
+                      scenario: spoofScenario(),
+                      environment: simulationEnvironment(),
+                      flightProfile: simulationFlightProfile(),
+                    });
                   }
                 }}
               >

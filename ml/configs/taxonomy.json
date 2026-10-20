@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "product_claim": {
+    "name": "advisory_anomaly_warning",
+    "permitted": ["warn_about_telemetry_anomalies", "show_supporting_measurements", "report_model_and_calibration_status"],
+    "prohibited": ["autonomous_diagnosis", "vehicle_control", "parameter_changes", "failsafe_or_landing_trigger", "replacement_of_deterministic_rules"]
+  },
+  "window_labels": ["normal", "unknown", "anomalous"],
+  "label_provenance": ["dataset_ground_truth", "expert_review", "weak_rule_label", "simulator_schedule", "unknown"],
+  "fault_families": [
+    "power",
+    "propulsion_actuator",
+    "vibration_mechanical",
+    "navigation_state_estimation",
+    "sensor",
+    "communication",
+    "thermal",
+    "control_tracking",
+    "environment",
+    "operator_configuration"
+  ],
+  "vehicle_families": [
+    { "id": "multicopter", "tier": 1, "initial_scope": "quad, hexa, octa, coaxial, and helicopter where signals permit" },
+    { "id": "fixed_wing", "tier": 1, "initial_scope": "conventional plane" },
+    { "id": "vtol_hybrid", "tier": 2, "initial_scope": "quadplane, tailsitter, and tiltrotor after transition features exist" },
+    { "id": "ground_rover", "tier": 2, "initial_scope": "steering, skid-steer, and balance bot" },
+    { "id": "surface_vessel", "tier": 2, "initial_scope": "motorboat and sailboat" },
+    { "id": "submersible", "tier": 3, "initial_scope": "simulator and shadow evaluation until real evidence is sufficient" },
+    { "id": "lighter_than_air_other", "tier": 3, "initial_scope": "rules only until dataset thresholds are met" }
+  ],
+  "cause_assignment": {
+    "specific_cause_requires": ["dataset_ground_truth", "expert_review"],
+    "weak_rule_labels_are_ground_truth": false
+  }
+}

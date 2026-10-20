@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "source_id": "uav-sead",
+  "source_version": "774a336a1d1d06b248927a35c2ea1f6869e9e1a4",
+  "authorized_at": "2026-09-27T04:07:00Z",
+  "authorized_by": "repository-owner-phase-c-continuation",
+  "purpose": "phase_c_parser_and_inventory_pilot",
+  "limits": {
+    "maximum_flights": 5,
+    "maximum_download_bytes": 10706415,
+    "bulk_download_allowed": false
+  },
+  "registry_checks": {
+    "license_reviewed": true,
+    "provenance_reviewed": true,
+    "privacy_plan_reviewed": true
+  },
+  "status": "authorized",
+  "proposal": {
+    "path": "ml/acquisition/plans/uav-sead-batch-007-proposal.json",
+    "sha256": "c7a5288f9bf1845bd8b648292ebdbe1c9f610527e0d37f2e83ba69066d84733f",
+    "candidate_count": 5
+  },
+  "notes": "Checksum-bound controlled Phase C batch. Training and evaluation remain prohibited."
+}

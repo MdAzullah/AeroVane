@@ -1,4 +1,35 @@
-# SkyForge anomaly-model dataset
+# SkyForge anomaly-model datasets
+
+## UAV-FD real propulsion-fault corpus
+
+The checksum-bound `uav-fd-zenodo-7648996` corpus contains 18 real hexarotor
+flights from Zenodo record 7648996 under CC BY 4.0: six normal flights and
+twelve chipped-propeller flights spanning six motors and two damage levels.
+SkyForge reads only IMU, vibration, attitude, and ESC measurements. The fixed
+split reserves motor 5 for validation and motor 6 for a one-time test. The
+first candidate failed the recall gate and is not integrated; see
+`experiments/UAVFD_PROPULSION_1_REPORT.md`.
+
+No approved real VTOL-hybrid fault corpus is currently available. Public PX4
+VTOL logs without verified fault labels may support future normal/OOD studies,
+but cannot be treated as supervised fault examples.
+
+## Reviewed real-data corpus
+
+The first controlled experiment uses the hash-scoped
+`uav-sead-reviewed-v1` corpus documented in `PHASE_C_COMPLETION_REPORT.md`.
+It has frozen group-level train, validation, test, and excluded partitions.
+Unknown/boundary windows are never supervised targets. The 12 privacy-safe
+features are defined in `configs/window_features.json`; location, identifiers,
+filenames, absolute timestamps, group IDs, and split IDs are not model inputs.
+
+Experiment 2 acquired 20 additional flights in batches 031–034 for a fresh
+test cohort. A pre-evaluation leakage check excluded five related flights whose
+collection group overlapped the reviewed-v1 development corpus. The one-time
+evaluation used the remaining 15 flights in 15 non-overlapping groups. These
+fresh flights are evaluation evidence only and are not development data.
+
+## Historical synthetic integration dataset
 
 The Phase 9 training set is generated deterministically by
 `train_anomaly_model.py` from seed `9341`. It contains 240 independent flights

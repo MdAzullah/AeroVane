@@ -1,0 +1,11 @@
+{
+  "schema_version":"1.0.0","source_id":"basic-zenodo-8199999","training_authorized":false,
+  "grouping_note":"All five pilot flights belong to the same published simulated-location cohort and must remain in one partition.",
+  "records":[
+    {"flight_id":"basic-flight-001","class":"normal","onset_us":null,"evidence":"No failure; GPS and redundant IMU health remained healthy."},
+    {"flight_id":"basic-flight-002","class":"unknown","onset_us":null,"evidence":"Published RC-failure class, but the pilot raw log does not provide an unambiguous onset distinct from ordinary RTL; excluded pending processed ground truth."},
+    {"flight_id":"basic-flight-003","class":"gps_failure","onset_us":267392167,"evidence":"GPS Status changed from 6 to 1."},
+    {"flight_id":"basic-flight-004","class":"accelerometer_failure","onset_us":170989910,"evidence":"Primary IMU accelerometer health AH changed from 1 to 0; redundant IMU later changed health."},
+    {"flight_id":"basic-flight-005","class":"gyroscope_failure","onset_us":182299551,"evidence":"Primary IMU gyroscope health GH changed from 1 to 0; redundant IMU later changed health."}
+  ]
+}

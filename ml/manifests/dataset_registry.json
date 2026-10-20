@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0.0",
+  "commercial_compatibility_required": true,
+  "sources": [
+    {
+      "id": "uav-sead", "name": "UAV-SEAD", "decision": "quarantined",
+      "decision_reason": "License, immutable revision, provenance, privacy, and the five-file sampled pilot checks pass. Source-wide integrity, schema, duplicates, label-fitness, leakage, and training-approval reviews remain incomplete.",
+      "license": { "spdx": "CC-BY-4.0", "reference": "https://huggingface.co/datasets/aykutkabaoglu/uav-flight-anomaly-dataset", "commercial_use": "allowed" },
+      "license_audit": { "reviewed_at": "2026-09-25", "evidence": ["https://huggingface.co/datasets/aykutkabaoglu/uav-flight-anomaly-dataset", "https://creativecommons.org/licenses/by/4.0/legalcode.txt"], "finding": "Dataset card and repository metadata declare CC BY 4.0. The public API reported gated=false at immutable revision 774a336a1d1d06b248927a35c2ea1f6869e9e1a4. Canonical legal text SHA-256: 9ba9550ad48438d0836ddab3da480b3b69ffa0aac7b7878b5a0039e7ab429411." },
+      "citation": "https://arxiv.org/abs/2602.13900", "provenance": "Author repository aykutkabaoglu/uav-flight-anomaly-dataset, DOI 10.57967/hf/7772, frozen revision 774a336a1d1d06b248927a35c2ea1f6869e9e1a4.",
+      "vehicle_families": ["multicopter"], "allowed_uses": ["metadata_review"],
+      "checks": { "license": true, "provenance": true, "privacy": true, "integrity": false, "schema": false, "duplicates": false }
+    },
+    {
+      "id": "uav-sead-reviewed-v1", "name": "UAV-SEAD SkyForge reviewed corpus v1", "decision": "approved",
+      "decision_reason": "Approval is restricted to the 155 payload hashes frozen by cumulative inventory SHA-256 b31c3513415e85b4601cc33db5867bcf8121ba22d1f25e96c8c5dee2f75e007f. All acquired payloads passed size/checksum inventory, canonical schema, privacy, interval, and cross-corpus duplicate checks. Six unknown flights and every related group are excluded. This does not approve unacquired UAV-SEAD files.",
+      "license": { "spdx": "CC-BY-4.0", "reference": "https://huggingface.co/datasets/aykutkabaoglu/uav-flight-anomaly-dataset", "commercial_use": "allowed" },
+      "license_audit": { "reviewed_at": "2026-09-27", "evidence": ["https://huggingface.co/datasets/aykutkabaoglu/uav-flight-anomaly-dataset", "https://creativecommons.org/licenses/by/4.0/legalcode.txt"], "finding": "The reviewed corpus contains only hash-frozen files from immutable upstream revision 774a336a1d1d06b248927a35c2ea1f6869e9e1a4 under the source's declared CC BY 4.0 license." },
+      "citation": "https://arxiv.org/abs/2602.13900", "provenance": "Hash-defined 155-flight subset of author repository aykutkabaoglu/uav-flight-anomaly-dataset at revision 774a336a1d1d06b248927a35c2ea1f6869e9e1a4; cumulative inventory SHA-256 b31c3513415e85b4601cc33db5867bcf8121ba22d1f25e96c8c5dee2f75e007f.",
+      "vehicle_families": ["multicopter"], "allowed_uses": ["parser_testing", "training", "evaluation"],
+      "checks": { "license": true, "provenance": true, "privacy": true, "integrity": true, "schema": true, "duplicates": true }
+    },
+    {
+      "id": "uav-fd-zenodo-7648996", "name": "UAV-FD actuator fault dataset v1", "decision": "approved",
+      "decision_reason": "Approval is restricted to the 18 official MATLAB flight files whose MD5 checksums match Zenodo record 7648996. The files contain real hexarotor flights with normal and deliberately chipped-propeller conditions. The source has no location fields in the admitted feature path, and the training adapter reads only IMU, vibration, attitude, and ESC measurements.",
+      "license": { "spdx": "CC-BY-4.0", "reference": "https://zenodo.org/records/7648996", "commercial_use": "allowed" },
+      "license_audit": { "reviewed_at": "2026-10-05", "evidence": ["https://zenodo.org/api/records/7648996", "https://doi.org/10.5281/zenodo.7648996"], "finding": "The official immutable Zenodo record declares open access and CC BY 4.0. Every admitted raw flight matches the publisher-provided MD5." },
+      "citation": "https://doi.org/10.1109/ICUAS57906.2023.10156060", "provenance": "Zenodo record 7648996, version v1, published 2023-02-26; 18 checksum-bound real-flight MATLAB files.",
+      "vehicle_families": ["multicopter"], "allowed_uses": ["parser_testing", "training", "evaluation"],
+      "checks": { "license": true, "provenance": true, "privacy": true, "integrity": true, "schema": true, "duplicates": true }
+    },
+    {
+      "id": "alfa", "name": "AirLab Failure and Anomaly dataset (ALFA)", "decision": "quarantined",
+      "decision_reason": "Explicit dataset usage terms must be archived and confirmed commercially compatible before any files are admitted.",
+      "license": { "spdx": null, "reference": "https://github.com/castacks/alfa-dataset", "commercial_use": "unknown" },
+      "license_audit": { "reviewed_at": "2026-09-25", "evidence": ["https://github.com/castacks/alfa-dataset"], "finding": "Official repository requests citation and provides downloads but exposes no dataset license grant. Repository publicity and citation instructions are not permission for commercial training." },
+      "citation": "https://doi.org/10.1177/0278364920966642", "provenance": "Publisher repository and paper; release version not yet frozen.",
+      "vehicle_families": ["fixed_wing"], "allowed_uses": ["metadata_review"],
+      "checks": { "license": false, "provenance": false, "privacy": false, "integrity": false, "schema": false, "duplicates": false }
+    },
+    {
+      "id": "rflymad", "name": "RflyMAD", "decision": "rejected",
+      "decision_reason": "Published non-commercial restriction conflicts with SkyForge commercial compatibility; reconsider only with compatible written permission.",
+      "license": { "spdx": null, "reference": "https://rfly-openha.github.io/documents/4_resources/dataset.html", "commercial_use": "prohibited" },
+      "license_audit": { "reviewed_at": "2026-09-25", "evidence": ["https://rfly-openha.github.io/documents/4_resources/dataset.html"], "finding": "Official dataset page limits the dataset and related work to non-commercial situations and directs commercial users to contact the rights holder." },
+      "citation": "https://arxiv.org/abs/2311.11340", "provenance": "Publisher project page.",
+      "vehicle_families": ["multicopter"], "allowed_uses": ["metadata_review"],
+      "checks": { "license": true, "provenance": true, "privacy": false, "integrity": false, "schema": false, "duplicates": false }
+    },
+    {
+      "id": "px4-public-flight-review", "name": "PX4 public Flight Review logs", "decision": "quarantined",
+      "decision_reason": "Each public record needs a stable license/provenance record and privacy review before a sample is acquired.",
+      "license": { "spdx": null, "reference": "https://docs.px4.io/main/en/dev_log/flight_log_analysis_statistical", "commercial_use": "allowed" },
+      "license_audit": { "reviewed_at": "2026-09-25", "evidence": ["https://docs.px4.io/main/en/dev_log/flight_log_analysis_statistical"], "finding": "Official PX4 documentation permits public Flight Review logs for machine learning and labels them CC-BY PX4. The page does not identify a Creative Commons version or complete attribution wording, so the license check remains open." },
+      "citation": "https://github.com/PX4/flight-review-rs", "provenance": "Public Flight Review service; no individual records selected.",
+      "vehicle_families": ["multicopter", "fixed_wing", "vtol_hybrid"], "allowed_uses": ["metadata_review"],
+      "checks": { "license": false, "provenance": false, "privacy": false, "integrity": false, "schema": false, "duplicates": false }
+    },
+    {
+      "id": "ardupilot-autotest", "name": "ArduPilot AutoTest history", "decision": "quarantined",
+      "decision_reason": "Useful parser/regression corpus, pending a frozen build, artifact provenance, output licensing, privacy, integrity, and duplicate checks.",
+      "license": { "spdx": null, "reference": "https://autotest.ardupilot.org/", "commercial_use": "unknown" },
+      "license_audit": { "reviewed_at": "2026-09-25", "evidence": ["https://autotest.ardupilot.org/", "https://ardupilot.org/dev/docs/the-ardupilot-autotest-framework.html"], "finding": "Official pages publish generated logs and describe their production, but no explicit license for AutoTest output was located. ArduPilot source-code licensing alone does not settle log-data rights." },
+      "citation": "https://ardupilot.org/dev/docs/using-sitl-for-ardupilot-testing.html", "provenance": "ArduPilot automated build service; build not yet selected.",
+      "vehicle_families": ["multicopter", "fixed_wing", "vtol_hybrid", "ground_rover", "surface_vessel", "submersible"], "allowed_uses": ["metadata_review"],
+      "checks": { "license": false, "provenance": false, "privacy": false, "integrity": false, "schema": false, "duplicates": false }
+    },
+    {
+      "id": "skyforge-sitl", "name": "SkyForge-generated ArduPilot/PX4 SITL scenarios", "decision": "quarantined",
+      "decision_reason": "Concept approved, but generated logs are not admissible until simulator commits, scenarios, seeds, environment, licensing, and checksums are frozen in Phase D.",
+      "license": { "spdx": "MIT", "reference": "../LICENSE", "commercial_use": "allowed" },
+      "license_audit": { "reviewed_at": "2026-09-25", "evidence": ["https://github.com/ArduPilot/ardupilot", "https://github.com/PX4/PX4-Autopilot"], "finding": "SkyForge may license its own scenario definitions and generated factual telemetry, but each run must record simulator/source licenses and third-party assets. Approval waits for those pinned inputs." },
+      "citation": "Generated by SkyForge; simulator dependencies must be cited per run.", "provenance": "Not generated yet.",
+      "vehicle_families": ["multicopter", "fixed_wing", "vtol_hybrid", "ground_rover", "surface_vessel", "submersible"], "allowed_uses": ["metadata_review"],
+      "checks": { "license": false, "provenance": false, "privacy": true, "integrity": false, "schema": false, "duplicates": false }
+    },
+    {
+      "id": "consented-user-logs", "name": "Consented SkyForge user logs", "decision": "quarantined",
+      "decision_reason": "No collection is permitted until an explicit opt-in consent and deletion workflow is implemented and approved.",
+      "license": { "spdx": null, "reference": null, "commercial_use": "conditional" },
+      "license_audit": { "reviewed_at": "2026-09-25", "evidence": ["https://creativecommons.org/share-your-work/cclicenses/"], "finding": "No blanket license can cover future user logs. Each contribution needs an explicit consent/license grant covering the intended training, evaluation, retention, and model distribution uses." },
+      "citation": "Per-contributor consent record required.", "provenance": "Future opt-in collection; no files collected.",
+      "vehicle_families": ["multicopter", "fixed_wing", "vtol_hybrid", "ground_rover", "surface_vessel", "submersible", "lighter_than_air_other"], "allowed_uses": ["metadata_review"],
+      "checks": { "license": false, "provenance": false, "privacy": false, "integrity": false, "schema": false, "duplicates": false }
+    }
+  ]
+}

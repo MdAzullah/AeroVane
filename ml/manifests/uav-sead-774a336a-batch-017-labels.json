@@ -1,0 +1,109 @@
+{
+  "created_at": "2026-09-27T05:17:00Z",
+  "inventory": "ml/manifests/uav-sead-774a336a-batch-017-inventory.json",
+  "label_provenance": "expert_review",
+  "records": [
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-086",
+      "ranges_ms": [
+        {
+          "end": 748786.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 740943.0
+        },
+        {
+          "end": 753958.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 749476.0
+        }
+      ],
+      "sha256": "b5f0b521bbe21b814a8bf6ee8e276fcd946d59bbaaa8eb501a73fe91899863e7",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-087",
+      "ranges_ms": [
+        {
+          "end": 223994.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Controls",
+          "start": 220129.0
+        },
+        {
+          "end": 228687.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 224823.0
+        }
+      ],
+      "sha256": "c1676be3078408b43af018a8e905f16673cdf9a1fb35adcb67a63115df93b625",
+      "source_classes": [
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-088",
+      "ranges_ms": [
+        {
+          "end": 351082.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 288561.0
+        },
+        {
+          "end": 397021.0,
+          "source_class": "Altitude",
+          "source_signal": "Position.Z",
+          "start": 391720.0
+        }
+      ],
+      "sha256": "208a94c2dc068dc8620f9bab5d7bfac4e1afd0c857cbb9a1642e51fe588c950f",
+      "source_classes": [
+        "Altitude"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-089",
+      "ranges_ms": [],
+      "sha256": "0931803a0f3763aeed2528ea7778cb97e2a45e4f45c4acb7fc993ddfdd8b29ec",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-090",
+      "ranges_ms": [],
+      "sha256": "be02230a37efe6a7a2e804417cdf32c58c74d32582b7b6075ddd2ceddfa70cb9",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "source_id": "uav-sead",
+  "source_version": "774a336a1d1d06b248927a35c2ea1f6869e9e1a4"
+}

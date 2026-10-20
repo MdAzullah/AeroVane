@@ -1,0 +1,247 @@
+{
+  "best_epoch": 93,
+  "claims": {
+    "automatic_control": false,
+    "component_diagnosis": false,
+    "real_flight_accuracy": false,
+    "simulation_only": true
+  },
+  "classes": [
+    "normal",
+    "gps_failure",
+    "accelerometer_failure",
+    "gyroscope_failure",
+    "compass_failure",
+    "barometer_failure"
+  ],
+  "device": "cuda",
+  "device_name": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+  "experiment": "basic-simulated-sensor-classifier-1",
+  "features": 140,
+  "limitations": [
+    "BASiC is simulated ArduCopter data.",
+    "Only two location groups are held out for test.",
+    "RC failure is excluded because no unambiguous in-log onset was established.",
+    "Low-confidence outputs abstain as unknown anomaly."
+  ],
+  "metrics": {
+    "test": {
+      "accuracy": 0.8141025641025641,
+      "class_counts": {
+        "accelerometer_failure": 152,
+        "barometer_failure": 115,
+        "compass_failure": 118,
+        "gps_failure": 30,
+        "gyroscope_failure": 172,
+        "normal": 661
+      },
+      "confusion": [
+        [
+          612,
+          0,
+          5,
+          2,
+          29,
+          0
+        ],
+        [
+          0,
+          30,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          114,
+          27,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          26,
+          125,
+          0,
+          2
+        ],
+        [
+          30,
+          0,
+          0,
+          0,
+          79,
+          0
+        ],
+        [
+          33,
+          0,
+          0,
+          1,
+          9,
+          56
+        ]
+      ],
+      "macro_f1": 0.7946849492822948,
+      "per_flight_macro_f1": 0.2639852269933454,
+      "samples": 1248,
+      "unknown_rate": 0.05448717948717949
+    },
+    "train": {
+      "accuracy": 0.9950634696755994,
+      "class_counts": {
+        "accelerometer_failure": 351,
+        "barometer_failure": 191,
+        "compass_failure": 266,
+        "gps_failure": 114,
+        "gyroscope_failure": 291,
+        "normal": 1623
+      },
+      "confusion": [
+        [
+          1619,
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          114,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          350,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          284,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          264,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          191
+        ]
+      ],
+      "macro_f1": 0.9950531734872826,
+      "per_flight_macro_f1": 0.3045523753263064,
+      "samples": 2836,
+      "unknown_rate": 0.0021156558533145277
+    },
+    "validation": {
+      "accuracy": 0.8803317535545023,
+      "class_counts": {
+        "accelerometer_failure": 111,
+        "barometer_failure": 78,
+        "compass_failure": 75,
+        "gps_failure": 34,
+        "gyroscope_failure": 113,
+        "normal": 433
+      },
+      "confusion": [
+        [
+          424,
+          0,
+          0,
+          0,
+          6,
+          0
+        ],
+        [
+          0,
+          34,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          90,
+          12,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          8,
+          95,
+          3,
+          0
+        ],
+        [
+          22,
+          0,
+          0,
+          0,
+          52,
+          0
+        ],
+        [
+          17,
+          0,
+          0,
+          0,
+          7,
+          48
+        ]
+      ],
+      "macro_f1": 0.8590811988812405,
+      "per_flight_macro_f1": 0.276587481867318,
+      "samples": 844,
+      "unknown_rate": 0.02962085308056872
+    }
+  },
+  "model_sha256": "73189bc675e540364d53f8fc510e07bda4cbc1b8ce260f62cd834068f7ffae48",
+  "numpy_version": "1.26.4",
+  "release_authorized": false,
+  "schema_version": "1.0.0",
+  "torch_version": "2.14.0+cu130",
+  "splits": {
+    "test_groups": [
+      "basic-location-09",
+      "basic-location-10"
+    ],
+    "train_groups": [
+      "basic-location-01",
+      "basic-location-02",
+      "basic-location-03",
+      "basic-location-04",
+      "basic-location-05",
+      "basic-location-06"
+    ],
+    "validation_groups": [
+      "basic-location-07",
+      "basic-location-08"
+    ]
+  }
+}

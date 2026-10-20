@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "status": "proposal_only",
+  "source_id": "uav-sead",
+  "source_version": "774a336a1d1d06b248927a35c2ea1f6869e9e1a4",
+  "purpose": "close controlled-experiment corpus shortfalls",
+  "download_authorized": false,
+  "selection_order": [
+    "ranged anomalous flights from distinct privacy-safe collection groups",
+    "normal flights from matching but non-overlapping groups and environments",
+    "additional groups needed for frozen validation and test coverage"
+  ],
+  "exclude": [
+    "Uncategorized annotations",
+    "anomaly classes without explicit ranges",
+    "duplicate payload hashes",
+    "flights whose collection group cannot be resolved safely",
+    "files that fail parser, privacy, or canonical validation"
+  ],
+  "proposed_limits": {
+    "maximum_flights_per_authorized_batch": 5,
+    "maximum_bytes_per_authorized_batch": 536870912,
+    "maximum_proposed_batches": 30,
+    "maximum_total_flights": 150,
+    "maximum_total_bytes": 3221225472,
+    "bulk_download_allowed": false,
+    "minimum_target_anomalous_flights": 50,
+    "minimum_target_normal_flights": 70,
+    "minimum_target_independent_groups": 60
+  },
+  "required_before_download": [
+    "approve a new bounded acquisition authorization",
+    "produce a neutral-ID candidate list at the frozen revision",
+    "verify each candidate has reviewed label metadata",
+    "define privacy-safe collection-group derivation",
+    "confirm storage and deletion capacity"
+  ]
+}

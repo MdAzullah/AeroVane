@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "source_id": "basic-zenodo-8199999",
+  "source_version": "1",
+  "authorized_at": "2026-09-29",
+  "authorized_by": "repository-owner-explicit-public-data-collection-request",
+  "license": "CC-BY-4.0",
+  "proposal": "ml/acquisition/plans/basic-batch-001-proposal.json",
+  "candidate_count": 5,
+  "maximum_bytes": 169973409,
+  "amended_at": "2026-09-29",
+  "amendment_reason": "Corrected a 900000-byte arithmetic error after download. Candidate identities, individual sizes, and upstream checksums were unchanged; training remains prohibited and the incident is recorded.",
+  "download_authorized": true,
+  "training_authorized": false,
+  "conditions": ["verify exact byte size", "verify upstream MD5", "compute SHA-256", "retain raw data only under ignored data directory", "exclude from training until label and grouping review"]
+}

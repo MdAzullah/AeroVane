@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "created_at": "2026-09-25T17:35:00Z",
+  "source_id": "uav-sead",
+  "source_version": "774a336a1d1d06b248927a35c2ea1f6869e9e1a4",
+  "inventory": "ml/manifests/uav-sead-774a336a-pilot-inventory.json",
+  "label_provenance": "expert_review",
+  "records": [
+    {
+      "flight_id": "flight-001",
+      "sha256": "536c1e7a8889aa0d8a7c95d3d17270a040a16d34a267de925d16d7389919b04c",
+      "window_label": "normal",
+      "source_classes": ["Normal"],
+      "ranges_ms": [],
+      "fault_family": null,
+      "training_eligible": true,
+      "exclusion_reason": null
+    },
+    {
+      "flight_id": "flight-002",
+      "sha256": "f42eadf04f8ccd59ddd02a91c880ce315408a975710e9e969ed44be1597f6401",
+      "window_label": "normal",
+      "source_classes": ["Normal"],
+      "ranges_ms": [],
+      "fault_family": null,
+      "training_eligible": true,
+      "exclusion_reason": null
+    },
+    {
+      "flight_id": "flight-003",
+      "sha256": "91a8e6ac4d8c08aa100b6be35b9ddd2f624022799557cea0651f8bd5dd002a5c",
+      "window_label": "anomalous",
+      "source_classes": ["Altitude", "Mechanical"],
+      "ranges_ms": [
+        { "start": 141276.020, "end": 143814.367, "source_class": "Mechanical", "source_signal": "Battery" },
+        { "start": 142227.900, "end": 144184.539, "source_class": "Altitude", "source_signal": "Roll Rate" }
+      ],
+      "fault_family": null,
+      "training_eligible": true,
+      "exclusion_reason": null
+    },
+    {
+      "flight_id": "flight-004",
+      "sha256": "5a5efc410805129a9cf29df64d314edd334c50780a5d0ae9c4349058b9d13751",
+      "window_label": "normal",
+      "source_classes": ["Normal"],
+      "ranges_ms": [],
+      "fault_family": null,
+      "training_eligible": true,
+      "exclusion_reason": null
+    },
+    {
+      "flight_id": "flight-005",
+      "sha256": "2ee6e18a40d72c1afe07ec7c3450bc3b54835d012c8aa54e1785e72c302ff708",
+      "window_label": "unknown",
+      "source_classes": ["Uncategorized"],
+      "ranges_ms": [],
+      "fault_family": null,
+      "training_eligible": false,
+      "exclusion_reason": "Source class is Uncategorized and has no anomaly ranges."
+    }
+  ]
+}

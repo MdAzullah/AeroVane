@@ -1,0 +1,40 @@
+{
+  "source_id": "replace-me",
+  "submitted_at": "YYYY-MM-DD",
+  "submitted_by": "role-or-reviewer-id",
+  "source_url": "https://example.invalid/dataset",
+  "version_or_revision": "immutable-version-required",
+  "intended_uses": [],
+  "license": {
+    "spdx": null,
+    "license_url": null,
+    "license_text_sha256": null,
+    "commercial_use": "unknown",
+    "attribution_requirements": null
+  },
+  "provenance": {
+    "publisher": null,
+    "collection_method": null,
+    "vehicle_owners_authorized": null,
+    "annotations_origin": null
+  },
+  "privacy": {
+    "contains_coordinates": "unknown",
+    "contains_identifiers": "unknown",
+    "contains_operator_text": "unknown",
+    "contains_precise_timestamps": "unknown",
+    "deidentification_plan": null
+  },
+  "integrity": {
+    "manifest_url": null,
+    "expected_files": null,
+    "archive_sha256": null
+  },
+  "reviewers": {
+    "technical_privacy": null,
+    "project_owner": null,
+    "legal_if_ambiguous": null
+  },
+  "decision": "quarantined",
+  "decision_reason": "Incomplete intake records remain quarantined."
+}

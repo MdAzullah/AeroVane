@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "source_id": "uav-sead",
+  "source_version": "774a336a1d1d06b248927a35c2ea1f6869e9e1a4",
+  "authorized_at": "2026-09-27T11:33:00Z",
+  "authorized_by": "repository-owner-experiment-2-request",
+  "purpose": "phase_c_parser_and_inventory_pilot",
+  "limits": {
+    "maximum_flights": 5,
+    "maximum_download_bytes": 47505389,
+    "bulk_download_allowed": false
+  },
+  "registry_checks": {
+    "license_reviewed": true,
+    "provenance_reviewed": true,
+    "privacy_plan_reviewed": true
+  },
+  "status": "authorized",
+  "proposal": {
+    "path": "ml/acquisition/plans/uav-sead-batch-033-proposal.json",
+    "sha256": "19f7271089e27f4a3dffec4f15e6e88e4c78146d41cbb6d4902393977f62c344",
+    "candidate_count": 5
+  },
+  "notes": "Fresh Experiment 2 test cohort only; no development use."
+}

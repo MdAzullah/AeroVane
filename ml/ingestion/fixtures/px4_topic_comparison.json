@@ -1,0 +1,15 @@
+{
+  "description": "Hand-auditable source-tool comparison values for PX4 topic conversion.",
+  "cases": [
+    {
+      "topic": "vehicle_gps_position",
+      "source": { "timestamp": 1000000, "fix_type": 3, "satellites_used": 12, "lat": 340522000, "lon": -1182437000, "alt": 12345, "vel_m_s": 4.5 },
+      "expected": { "gps.fix_type": 3, "gps.satellites": 12, "gps.latitude_deg": 34.0522, "gps.longitude_deg": -118.2437, "gps.altitude_m": 12.345, "gps.ground_speed_mps": 4.5 }
+    },
+    {
+      "topic": "battery_status",
+      "source": { "timestamp": 2000000, "voltage_v": 15.2, "current_a": 2.5, "remaining": 0.75, "temperature": 31.0 },
+      "expected": { "battery.voltage_v": 15.2, "battery.current_a": 2.5, "battery.remaining_pct": 75.0, "battery.temperature_c": 31.0 }
+    }
+  ]
+}

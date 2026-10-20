@@ -1,0 +1,109 @@
+{
+  "created_at": "2026-09-27T04:11:00Z",
+  "inventory": "ml/manifests/uav-sead-774a336a-batch-011-inventory.json",
+  "label_provenance": "expert_review",
+  "records": [
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-056",
+      "ranges_ms": [
+        {
+          "end": 82192.615,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 62135.477
+        },
+        {
+          "end": 97520.832,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 62787.739
+        }
+      ],
+      "sha256": "7f610c3b40db578d25138094d82d6ef57c0c71e65d214af0d6cb492cf763e1ab",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-057",
+      "ranges_ms": [
+        {
+          "end": 151072.632,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 131403.873
+        },
+        {
+          "end": 271013.505,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 222805.773
+        }
+      ],
+      "sha256": "a1ab51c12cd48741b077892759840a7358e7d3f16c5c8b9c6a5a48ee6fa7a6b7",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-058",
+      "ranges_ms": [
+        {
+          "end": 149403.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 141668.0
+        },
+        {
+          "end": 148228.0,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 145951.0
+        }
+      ],
+      "sha256": "fa6e5527030b83a95be74f3b504c60910cee272d90035d9f572c10d936966245",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-059",
+      "ranges_ms": [],
+      "sha256": "07b9c4a364cf4a2522db7de400e8a161d9e112b3c35a50b201a45436906509f7",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-060",
+      "ranges_ms": [],
+      "sha256": "a339d0bb65b79ca05a4e997b5864608788851822c536d79679a6e8b64118f385",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "source_id": "uav-sead",
+  "source_version": "774a336a1d1d06b248927a35c2ea1f6869e9e1a4"
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "gate": "advisory_model_release_v1",
+  "scope": "binary anomaly warnings for one validated vehicle family",
+  "minimums": {
+    "independent_test_groups": 60,
+    "normal_test_flights": 30,
+    "anomalous_test_flights": 30,
+    "recall": 0.8,
+    "macro_f1": 0.6
+  },
+  "maximums": {
+    "window_false_warning_rate": 0.1,
+    "clean_flights_with_warning_rate": 0.1,
+    "brier_score": 0.1,
+    "expected_calibration_error": 0.1
+  },
+  "requirements": {
+    "group_disjoint": true,
+    "hash_disjoint": true,
+    "external_dataset_or_collection": true,
+    "test_evaluations": 1,
+    "advisory_only": true,
+    "component_diagnosis_allowed": false
+  },
+  "notes": [
+    "This prospective gate was frozen after Experiment 2 and cannot retroactively authorize that observed cohort.",
+    "Counts are per independently grouped flight, not per telemetry window.",
+    "Passing this automated gate still requires warning-copy and human safety review."
+  ]
+}

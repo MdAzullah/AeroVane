@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://skyforge.local/schemas/pilot-authorization.schema.json",
+  "title": "SkyForge Phase C pilot authorization",
+  "type": "object",
+  "required": ["schema_version", "source_id", "source_version", "authorized_at", "authorized_by", "purpose", "limits", "registry_checks", "status"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "source_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]+$" },
+    "source_version": { "type": "string", "minLength": 1 },
+    "authorized_at": { "type": "string", "format": "date-time" },
+    "authorized_by": { "type": "string", "minLength": 1 },
+    "purpose": { "const": "phase_c_parser_and_inventory_pilot" },
+    "limits": {
+      "type": "object",
+      "required": ["maximum_flights", "maximum_download_bytes", "bulk_download_allowed"],
+      "additionalProperties": false,
+      "properties": {
+        "maximum_flights": { "type": "integer", "minimum": 1 },
+        "maximum_download_bytes": { "type": "integer", "minimum": 1 },
+        "bulk_download_allowed": { "const": false }
+      }
+    },
+    "registry_checks": {
+      "type": "object",
+      "required": ["license_reviewed", "provenance_reviewed", "privacy_plan_reviewed"],
+      "additionalProperties": false,
+      "properties": {
+        "license_reviewed": { "const": true },
+        "provenance_reviewed": { "const": true },
+        "privacy_plan_reviewed": { "const": true }
+      }
+    },
+    "status": { "enum": ["authorized", "revoked", "expired"] },
+    "proposal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "candidate_count"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "candidate_count": { "type": "integer", "minimum": 1, "maximum": 5 }
+      }
+    },
+    "notes": { "type": "string" }
+  }
+}

@@ -68,7 +68,9 @@ describe('SettingsModal', () => {
     clickButton('Advanced');
     clickButton('Start Simulator');
 
-    expect(serialSessionController.connectSpoof).toHaveBeenCalledWith({ unloadLog: false, scenario: 'normal' });
+    expect(serialSessionController.connectSpoof).toHaveBeenCalledWith({
+      unloadLog: false, scenario: 'normal', environment: 'calm', flightProfile: 'cruise',
+    });
 
     dispose();
   });
@@ -80,7 +82,25 @@ describe('SettingsModal', () => {
     select.value = 'vibration';
     select.dispatchEvent(new Event('change', { bubbles: true }));
     clickButton('Start Simulator');
-    expect(serialSessionController.connectSpoof).toHaveBeenCalledWith({ unloadLog: false, scenario: 'vibration' });
+    expect(serialSessionController.connectSpoof).toHaveBeenCalledWith({
+      unloadLog: false, scenario: 'vibration', environment: 'calm', flightProfile: 'cruise',
+    });
+    dispose();
+  });
+
+  it('starts with the selected environment and flight profile', () => {
+    const dispose = render(() => <SettingsModal onClose={() => {}} />, document.body);
+    clickButton('Advanced');
+    const environment = document.querySelector<HTMLSelectElement>('#simulator-environment')!;
+    environment.value = 'storm';
+    environment.dispatchEvent(new Event('change', { bubbles: true }));
+    const profile = document.querySelector<HTMLSelectElement>('#simulator-flight-profile')!;
+    profile.value = 'aggressive';
+    profile.dispatchEvent(new Event('change', { bubbles: true }));
+    clickButton('Start Simulator');
+    expect(serialSessionController.connectSpoof).toHaveBeenCalledWith({
+      unloadLog: false, scenario: 'normal', environment: 'storm', flightProfile: 'aggressive',
+    });
     dispose();
   });
 

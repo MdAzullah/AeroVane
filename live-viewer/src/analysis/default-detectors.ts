@@ -3,6 +3,7 @@ import {
   AltitudeLossFaultDetector,
   AttitudeFaultDetector,
   BatteryFaultDetector,
+  BasicSensorFaultDetector,
   CommunicationFaultDetector,
   EkfFaultDetector,
   GpsFaultDetector,
@@ -10,7 +11,7 @@ import {
   SensorStalenessFaultDetector,
   StatusTextFaultDetector,
   TemperatureFaultDetector,
-  MlAnomalyDetector,
+  RealAnomalyDetector,
   VibrationFaultDetector,
 } from './detectors';
 
@@ -28,6 +29,7 @@ export function createDefaultFaultDetectors(): FaultDetector[] {
     new MotorImbalanceFaultDetector(),
     new TemperatureFaultDetector(),
     new StatusTextFaultDetector(),
-    new MlAnomalyDetector(),
+    new RealAnomalyDetector(),
+    new BasicSensorFaultDetector(),
   ];
 }

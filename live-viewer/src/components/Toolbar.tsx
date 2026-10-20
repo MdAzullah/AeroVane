@@ -17,18 +17,20 @@ export default function Toolbar(props: ToolbarProps) {
   const logViewerService = useLogViewerService();
   const connectionManager = useConnectionManager();
 
-  const [wsUrl, setWsUrl] = createSignal('ws://localhost:9988');
-  const [wsConnected, setWsConnected] = createSignal(false);
+  const WS_URL_KEY = 'skyforge.websocketUrl';
+  const [wsUrl, setWsUrl] = createSignal(localStorage.getItem(WS_URL_KEY) || 'ws://127.0.0.1:9988');
+  const [wsActive, setWsActive] = createSignal(false);
 
   function handleConnectWebSocket() {
     if (!appState.isReady) return;
-    if (wsConnected()) {
+    if (wsActive()) {
       connectionManager.disconnect();
-      setWsConnected(false);
+      setWsActive(false);
       return;
     }
+    localStorage.setItem(WS_URL_KEY, wsUrl());
     connectionManager.connect({ type: 'websocket', url: wsUrl() });
-    setWsConnected(true);
+    setWsActive(true);
   }
 
   async function handleConnectSerial() {
@@ -69,7 +71,7 @@ export default function Toolbar(props: ToolbarProps) {
 
   return (
     <header
-      class="flex items-center justify-between px-4 h-12 border-b"
+      class="skyforge-toolbar flex items-center justify-between px-4 h-12 border-b"
       style={{
         'background-color': 'var(--bg-panel)',
         'border-color': 'var(--border-subtle)',
@@ -77,7 +79,8 @@ export default function Toolbar(props: ToolbarProps) {
       }}
     >
       {/* Left: Tab navigation */}
-      <div class="flex items-center gap-2">
+      <div class="toolbar-primary flex items-center gap-2">
+        <a href="/" class="live-brand" aria-label="SkyForge home"><span>SF</span><b>SKYFORGE</b><small>LIVE OPS</small></a>
         <div
           class="flex overflow-hidden"
           style={{ border: '1px solid var(--border-subtle)', 'background-color': 'transparent' }}
@@ -131,9 +134,7 @@ export default function Toolbar(props: ToolbarProps) {
               <button
                 onClick={handleConnectSerial}
                 class="console-button px-3 py-1 rounded text-sm font-medium transition-colors"
-                style={{
-                  color: 'var(--text-primary)',
-                }}
+                style={{ color: 'var(--text-primary)' }}
               >
                 {isWebSerialSupported() ? 'Connect Serial' : 'Connect USB'}
               </button>
@@ -151,7 +152,7 @@ export default function Toolbar(props: ToolbarProps) {
           type="text"
           value={wsUrl()}
           onInput={(e) => setWsUrl(e.currentTarget.value)}
-          disabled={wsConnected()}
+          disabled={wsActive()}
           placeholder="ws://localhost:9988"
           class="px-2 py-1 rounded text-xs"
           style={{
@@ -164,11 +165,9 @@ export default function Toolbar(props: ToolbarProps) {
         <button
           onClick={handleConnectWebSocket}
           class="console-button px-3 py-1 rounded text-sm font-medium transition-colors"
-          style={{
-            color: 'var(--text-primary)',
-          }}
+          style={{ color: 'var(--text-primary)' }}
         >
-          {wsConnected() ? 'Disconnect WS' : 'Connect WS'}
+          {wsActive() ? 'Disconnect WS' : 'Connect WS'}
         </button>
 
         {/* Status dot */}
@@ -274,6 +273,7 @@ function SegmentButton(props: { id: 'telemetry' | 'map' | 'parameters'; label: s
     </button>
   );
 }
+
 
 function ModeToggle() {
   return (

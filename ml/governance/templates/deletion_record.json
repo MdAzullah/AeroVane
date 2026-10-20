@@ -1,0 +1,19 @@
+{
+  "request_id": "random-nonidentifying-id",
+  "received_at": "YYYY-MM-DD",
+  "verified_at": null,
+  "source_or_consent_id": null,
+  "content_hashes": [],
+  "locations_checked": ["raw", "interim", "processed", "splits", "caches", "artifacts"],
+  "affected_training_runs": [],
+  "actions": {
+    "raw_deleted": false,
+    "derived_rows_deleted": false,
+    "caches_deleted": false,
+    "future_training_blocked": false,
+    "published_artifacts_reviewed": false
+  },
+  "completed_at": null,
+  "completed_by": null,
+  "notes_without_personal_data": null
+}

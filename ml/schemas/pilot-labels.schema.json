@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://skyforge.local/schemas/pilot-labels.schema.json",
+  "title": "SkyForge privacy-minimal pilot labels",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "created_at", "source_id", "source_version", "inventory", "label_provenance", "records"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "source_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]+$" },
+    "source_version": { "type": "string", "minLength": 1 },
+    "inventory": { "type": "string", "pattern": "^[a-zA-Z0-9._/-]+$" },
+    "label_provenance": { "enum": ["dataset_ground_truth", "expert_review", "weak_rule_label", "simulator_schedule", "unknown"] },
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["flight_id", "sha256", "window_label", "source_classes", "ranges_ms", "fault_family", "training_eligible", "exclusion_reason"],
+        "properties": {
+          "flight_id": { "type": "string", "pattern": "^flight-[0-9]{3,}$" },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "window_label": { "enum": ["normal", "unknown", "anomalous"] },
+          "source_classes": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+          "ranges_ms": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["start", "end", "source_class", "source_signal"],
+              "properties": {
+                "start": { "type": "number", "minimum": 0 },
+                "end": { "type": "number", "exclusiveMinimum": 0 },
+                "source_class": { "type": "string", "minLength": 1 },
+                "source_signal": { "type": "string", "minLength": 1 }
+              }
+            }
+          },
+          "fault_family": { "type": ["string", "null"] },
+          "training_eligible": { "type": "boolean" },
+          "exclusion_reason": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

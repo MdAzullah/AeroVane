@@ -1,0 +1,130 @@
+{
+  "checks": [
+    {
+      "actual": 146,
+      "check": "independent_groups",
+      "pass": true,
+      "required": 60,
+      "shortfall": 0
+    },
+    {
+      "actual": 144,
+      "check": "eligible_flights",
+      "pass": true,
+      "required": 120,
+      "shortfall": 0
+    },
+    {
+      "actual": 61,
+      "check": "normal_only_flights",
+      "pass": true,
+      "required": 60,
+      "shortfall": 0
+    },
+    {
+      "actual": 83,
+      "check": "anomalous_flights",
+      "pass": true,
+      "required": 40,
+      "shortfall": 0
+    },
+    {
+      "actual": 3808,
+      "check": "normal_windows",
+      "pass": true,
+      "required": 3000,
+      "shortfall": 0
+    },
+    {
+      "actual": 1247,
+      "check": "anomalous_windows",
+      "pass": true,
+      "required": 1000,
+      "shortfall": 0
+    },
+    {
+      "actual": 0.989733,
+      "check": "feature_window_coverage",
+      "pass": true,
+      "required": 0.95,
+      "shortfall": 0
+    },
+    {
+      "actual": 0,
+      "check": "train_groups",
+      "pass": false,
+      "required": 36,
+      "shortfall": 36
+    },
+    {
+      "actual": 0,
+      "check": "validation_groups",
+      "pass": false,
+      "required": 12,
+      "shortfall": 12
+    },
+    {
+      "actual": 0,
+      "check": "test_groups",
+      "pass": false,
+      "required": 12,
+      "shortfall": 12
+    },
+    {
+      "actual": "quarantined",
+      "check": "source_registry_approved",
+      "pass": false,
+      "required": "approved"
+    },
+    {
+      "actual": false,
+      "check": "training_explicitly_authorized",
+      "pass": false,
+      "required": true
+    },
+    {
+      "actual": "frozen",
+      "check": "split_manifest_frozen",
+      "pass": true,
+      "required": "frozen"
+    },
+    {
+      "actual": false,
+      "check": "preprocessing_did_not_fit_model",
+      "pass": true,
+      "required": false
+    },
+    {
+      "actual": [],
+      "check": "train_label_coverage",
+      "pass": false,
+      "required": [
+        "normal",
+        "anomalous"
+      ]
+    },
+    {
+      "actual": [],
+      "check": "validation_label_coverage",
+      "pass": false,
+      "required": [
+        "normal",
+        "anomalous"
+      ]
+    },
+    {
+      "actual": [],
+      "check": "test_label_coverage",
+      "pass": false,
+      "required": [
+        "normal",
+        "anomalous"
+      ]
+    }
+  ],
+  "gate": "first_controlled_real_data_experiment",
+  "ready": false,
+  "schema_version": "1.0.0",
+  "source_id": "uav-sead",
+  "source_version": "774a336a1d1d06b248927a35c2ea1f6869e9e1a4"
+}

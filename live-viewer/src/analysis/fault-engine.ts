@@ -170,6 +170,8 @@ function sanitizeSample(sample: Readonly<TelemetrySample>): TelemetrySample {
   const values: Record<string, number> = {};
   const units: Record<string, string> = {};
   const textValues: Record<string, string> = {};
+  const availability: Record<string, boolean> = {};
+  const qualityFlags: Record<string, readonly import('./types').SignalQualityFlag[]> = {};
   for (const [key, value] of Object.entries(sample.values ?? {})) {
     if (key && typeof value === 'number' && Number.isFinite(value)) {
       values[key] = value;
@@ -180,11 +182,19 @@ function sanitizeSample(sample: Readonly<TelemetrySample>): TelemetrySample {
   for (const [key, value] of Object.entries(sample.textValues ?? {})) {
     if (key && typeof value === 'string' && value.length > 0) textValues[key] = value;
   }
+  for (const [key, available] of Object.entries(sample.availability ?? {})) {
+    if (key && typeof available === 'boolean') availability[key] = available;
+  }
+  for (const [key, flags] of Object.entries(sample.qualityFlags ?? {})) {
+    if (key && Array.isArray(flags)) qualityFlags[key] = [...flags];
+  }
   return {
     ...sample,
     values,
     ...(Object.keys(units).length > 0 ? { units } : { units: undefined }),
     ...(Object.keys(textValues).length > 0 ? { textValues } : { textValues: undefined }),
+    ...(Object.keys(availability).length > 0 ? { availability } : { availability: undefined }),
+    ...(Object.keys(qualityFlags).length > 0 ? { qualityFlags } : { qualityFlags: undefined }),
   };
 }
 

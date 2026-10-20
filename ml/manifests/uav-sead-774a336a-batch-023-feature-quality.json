@@ -1,0 +1,85 @@
+{
+  "boundary_padding_ms": 2000.0,
+  "feature_window_coverage": {
+    "accel_magnitude_mps2_max": 1.0,
+    "accel_magnitude_mps2_mean": 1.0,
+    "attitude_abs_rad_max": 1.0,
+    "battery_current_a_max": 0.990291,
+    "battery_current_a_mean": 0.990291,
+    "battery_voltage_v_mean": 0.990291,
+    "battery_voltage_v_min": 0.990291,
+    "ekf_test_ratio_max": 0.990291,
+    "gyro_magnitude_radps_max": 1.0,
+    "gyro_magnitude_radps_mean": 1.0,
+    "velocity_magnitude_mps_max": 1.0,
+    "velocity_magnitude_mps_mean": 1.0
+  },
+  "label_counts": {
+    "anomalous": 19,
+    "normal": 78,
+    "unknown": 6
+  },
+  "model_fitted": false,
+  "per_flight": [
+    {
+      "flight_id": "flight-116",
+      "labels": {
+        "anomalous": 13,
+        "normal": 5,
+        "unknown": 2
+      },
+      "windows": 20
+    },
+    {
+      "flight_id": "flight-117",
+      "labels": {
+        "anomalous": 3,
+        "normal": 16,
+        "unknown": 2
+      },
+      "windows": 21
+    },
+    {
+      "flight_id": "flight-118",
+      "labels": {
+        "anomalous": 3,
+        "normal": 16,
+        "unknown": 2
+      },
+      "windows": 21
+    },
+    {
+      "flight_id": "flight-119",
+      "labels": {
+        "normal": 20
+      },
+      "windows": 20
+    },
+    {
+      "flight_id": "flight-120",
+      "labels": {
+        "normal": 21
+      },
+      "windows": 21
+    }
+  ],
+  "per_split_label_counts": {
+    "excluded": {
+      "anomalous": 19,
+      "normal": 78,
+      "unknown": 6
+    }
+  },
+  "privacy": {
+    "absolute_timestamps": false,
+    "device_identifiers": false,
+    "location_features": false
+  },
+  "schema_version": "1.0.0",
+  "split_counts": {
+    "excluded": 103
+  },
+  "stride_ms": 2500.0,
+  "window_count": 103,
+  "window_ms": 5000.0
+}

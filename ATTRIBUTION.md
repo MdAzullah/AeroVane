@@ -35,3 +35,11 @@ SkyForge integrates and builds upon exceptional open-source projects. We gratefu
 ### 5. uPlot
 - **License**: MIT License
 - **Component**: High-performance, low-memory 2D canvas time-series chart renderer.
+
+---
+
+### 6. UAV-FD actuator fault dataset
+- **Creators**: Alessandro Baldini, Lorenzo D'Alleva, Riccardo Felicetti, Francesco Ferracuti, Alessandro Freddi, and Andrea Monteriù
+- **Dataset**: [https://doi.org/10.5281/zenodo.7648996](https://doi.org/10.5281/zenodo.7648996)
+- **License**: Creative Commons Attribution 4.0 International (CC BY 4.0)
+- **Use**: Real hexarotor normal and chipped-propeller flight data used for propulsion-anomaly research and held-out evaluation.

@@ -51,8 +51,8 @@ export type {
 } from './parameter-types';
 export { ParameterManager } from './parameter-manager';
 export { SpoofByteSource } from './spoof-byte-source';
-export { SPOOF_SCENARIOS, isSpoofScenarioId } from './spoof-scenarios';
-export type { SpoofScenarioId } from './spoof-scenarios';
+export { SPOOF_SCENARIOS, SIMULATION_ENVIRONMENTS, SIMULATION_FLIGHT_PROFILES, isSpoofScenarioId } from './spoof-scenarios';
+export type { SpoofScenarioId, SimulationEnvironmentId, SimulationFlightProfileId } from './spoof-scenarios';
 export { SpoofParamResponder } from './spoof-param-responder';
 export { TimeSeriesDataManager, type TimeSeriesManagerOptions } from './timeseries-manager';
 export {

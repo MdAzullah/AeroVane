@@ -1,0 +1,785 @@
+{
+  "created_at": "2026-09-27T10:10:00Z",
+  "grouping_method": "preserved_mixed_cohort_grouping",
+  "privacy_note": "Original conservative and keyed opaque group IDs are preserved; no private grouping inputs are included.",
+  "records": [
+    {
+      "flight_id": "flight-001",
+      "group_id": "grp-uav-sead-pilot-001",
+      "sha256": "536c1e7a8889aa0d8a7c95d3d17270a040a16d34a267de925d16d7389919b04c"
+    },
+    {
+      "flight_id": "flight-002",
+      "group_id": "grp-uav-sead-pilot-001",
+      "sha256": "f42eadf04f8ccd59ddd02a91c880ce315408a975710e9e969ed44be1597f6401"
+    },
+    {
+      "flight_id": "flight-003",
+      "group_id": "grp-uav-sead-pilot-001",
+      "sha256": "91a8e6ac4d8c08aa100b6be35b9ddd2f624022799557cea0651f8bd5dd002a5c"
+    },
+    {
+      "flight_id": "flight-004",
+      "group_id": "grp-uav-sead-pilot-001",
+      "sha256": "5a5efc410805129a9cf29df64d314edd334c50780a5d0ae9c4349058b9d13751"
+    },
+    {
+      "flight_id": "flight-005",
+      "group_id": "grp-uav-sead-pilot-001",
+      "sha256": "2ee6e18a40d72c1afe07ec7c3450bc3b54835d012c8aa54e1785e72c302ff708"
+    },
+    {
+      "flight_id": "flight-006",
+      "group_id": "grp-5f01ce86a6197cd105ec",
+      "sha256": "cbe844319e7bb26a790b3d591d146e25a94fe83893ce758a52ce0185e9ea15e2"
+    },
+    {
+      "flight_id": "flight-007",
+      "group_id": "grp-538c58c426cc44364380",
+      "sha256": "d10ddb571acf61d790b5ac0f4301c17c5a827f5f8858eb016c9f4903f105b677"
+    },
+    {
+      "flight_id": "flight-008",
+      "group_id": "grp-6fa87fc1dba9be707e00",
+      "sha256": "cdadf077d09c65e939207eb26be0baf16522a10b7fce58be57d3fb41c89d1109"
+    },
+    {
+      "flight_id": "flight-009",
+      "group_id": "grp-a335817f6fd24930babc",
+      "sha256": "c731cdec25ba505a7b4ff59c411095ccbb49ec8f6f74ccebc29f27497ba13d94"
+    },
+    {
+      "flight_id": "flight-010",
+      "group_id": "grp-36370fc12d532c4b43fb",
+      "sha256": "c97e59d669f41deb05bde2c3264411de00ba9b6a9b6fd26a0a38d09564e17ffa"
+    },
+    {
+      "flight_id": "flight-011",
+      "group_id": "grp-af5265a4142cff5b0c18",
+      "sha256": "3b69cd67c6bed52d5c170ccb24e0d362184fd85362d85ffd12e0712cad0715d0"
+    },
+    {
+      "flight_id": "flight-012",
+      "group_id": "grp-bcdf6ab392247921ca93",
+      "sha256": "391946d8372d62a44e2966c3c6679dc9ce404177d6a79539f12703183f5eae8a"
+    },
+    {
+      "flight_id": "flight-013",
+      "group_id": "grp-d65458fafa8521e0dfd8",
+      "sha256": "8c02fb720337ed8f36f605a90c136aabdfe7518516ea88c12906a19450e21b8d"
+    },
+    {
+      "flight_id": "flight-014",
+      "group_id": "grp-2ae4d6dea1062b6eaa2d",
+      "sha256": "075a188eb64e44c188ecbca770f426ae1421a0bc9cb8014de97d05e757f253ed"
+    },
+    {
+      "flight_id": "flight-015",
+      "group_id": "grp-4426b872d81f2717ad20",
+      "sha256": "424d165c9fae3db987289ba70130649d71fbb491fbb2da53d1e0b65715f10a52"
+    },
+    {
+      "flight_id": "flight-016",
+      "group_id": "grp-54ef78b6472055cc0c9d",
+      "sha256": "75700c82baecf7cf13a6389f2adc1c26bd463abba55e68d26ad5bf1d50e5b175"
+    },
+    {
+      "flight_id": "flight-017",
+      "group_id": "grp-a79c52e3bd0f06e7a953",
+      "sha256": "9f75aec514ed411cecd3229f7bf894c44dae5b3bfacc5b4eacb0e6697bc3f223"
+    },
+    {
+      "flight_id": "flight-018",
+      "group_id": "grp-c38ce6e5d4db28fca23c",
+      "sha256": "2b58009a6301c2fc9a5c3286086d8fcea2acb9313fc9b4a66e98ab7ee50e03af"
+    },
+    {
+      "flight_id": "flight-019",
+      "group_id": "grp-b27033b61c9f89046b08",
+      "sha256": "d664906734126874242e91a406e2d68ffdbf0244411f3e0676d8f6ac75a5975d"
+    },
+    {
+      "flight_id": "flight-020",
+      "group_id": "grp-d6cedf58d37b57dd482d",
+      "sha256": "1aaf929e1896420e5e52ebda960c7790747e8d31133482a6a6d7beb7e14d520d"
+    },
+    {
+      "flight_id": "flight-021",
+      "group_id": "grp-972a5925493f38026442",
+      "sha256": "f2e9aee5482d538df7e03982ff7235552b744502e8a84f50fb885698f757ccf9"
+    },
+    {
+      "flight_id": "flight-022",
+      "group_id": "grp-d1b49f8e4d21c1431bee",
+      "sha256": "0bf1763a75ec9210fe70e7bdb78441fe98ea61db0d3026c11a9e2623f596f206"
+    },
+    {
+      "flight_id": "flight-023",
+      "group_id": "grp-14826abac29559583991",
+      "sha256": "030195bb314ce0dd04d49b0c6625286b150b3093d163a9f752ea84d49664fa35"
+    },
+    {
+      "flight_id": "flight-024",
+      "group_id": "grp-ce5340f8abb0e8155ad7",
+      "sha256": "1b3b1507233c0648dfc810bbd415c57c198cd38665a070d9a82c0ab4469757a0"
+    },
+    {
+      "flight_id": "flight-025",
+      "group_id": "grp-4c838e512658c12ab2ec",
+      "sha256": "419d37fb9be9838523d288adc117af0c9810246ad1f081806ab90d693c9716bc"
+    },
+    {
+      "flight_id": "flight-026",
+      "group_id": "grp-fcaf7772f9960aa72edc",
+      "sha256": "5b9f957698e4ed2da74dfcf4bdc2a29d8c428eff992910100343d7292fc5b872"
+    },
+    {
+      "flight_id": "flight-027",
+      "group_id": "grp-9ce9093f54ef2faa12d4",
+      "sha256": "b6b14ed8fe00a973f27492fd82c429f2eba2ea44a3c9b1efbfe8d51fe4db53fb"
+    },
+    {
+      "flight_id": "flight-028",
+      "group_id": "grp-79135968f5ab67571bf2",
+      "sha256": "d4f38896f9a708a34404707a962b0a6424e29f84d394e63c271562206e8f500b"
+    },
+    {
+      "flight_id": "flight-029",
+      "group_id": "grp-9e0b22f1e19f943c0ef8",
+      "sha256": "4395991571c9b67729441ba41bac14e8bc4fd25f5dc20457e32c1bfd856095ee"
+    },
+    {
+      "flight_id": "flight-030",
+      "group_id": "grp-05f0745ad73356cddc8b",
+      "sha256": "93dbb8636ab19f53312b36e4addecd46836e90ff8aa01c3dd53f08f985b70ebb"
+    },
+    {
+      "flight_id": "flight-031",
+      "group_id": "grp-90df016ef6c347f8a95a",
+      "sha256": "404b317045e76c0b50cffa3076f6e8c9f9bde5623cbb90fc0e626e2d50997d73"
+    },
+    {
+      "flight_id": "flight-032",
+      "group_id": "grp-775406e491229e050f9d",
+      "sha256": "6e90910e466663288fddb0fa7f48a1c5be145018652565fc4a986f37e6b888a3"
+    },
+    {
+      "flight_id": "flight-033",
+      "group_id": "grp-e920f7900188601f12cd",
+      "sha256": "342053b82aefb8b0ee518c3c6feb17504912f560c778832448b5f9397fc21da4"
+    },
+    {
+      "flight_id": "flight-034",
+      "group_id": "grp-55251b3f59b8807dc5e9",
+      "sha256": "954a04d55f8adcce4efda75534a724454359cff5ed00f6a65c7f8f67785077e7"
+    },
+    {
+      "flight_id": "flight-035",
+      "group_id": "grp-0bd12b5b6c7a32808e47",
+      "sha256": "6b7158828142800e4e3a4735c420ccab76d5a38184f3e1c4743a24208771365c"
+    },
+    {
+      "flight_id": "flight-036",
+      "group_id": "grp-c97b30a8d52b0d327663",
+      "sha256": "6473ed2d77e2078bdfba2efaed587d9ff2495a1283455c956f11556313578fae"
+    },
+    {
+      "flight_id": "flight-037",
+      "group_id": "grp-5843b68b435059b4d9a2",
+      "sha256": "ed7ab5cfbec6dad9be50ba04693a574c9180c2d409186cf2dbf4427040159b1e"
+    },
+    {
+      "flight_id": "flight-038",
+      "group_id": "grp-fac82253f390aa2c0992",
+      "sha256": "9cee7394d676a24b2aaada334b45603b1d3f111a47b44c957765964007bda135"
+    },
+    {
+      "flight_id": "flight-039",
+      "group_id": "grp-d6233db3c1ae0e0f5bd6",
+      "sha256": "24662542d9a919cd7968e1afc4b515ed8f87a0f996bf049856491f24db983de8"
+    },
+    {
+      "flight_id": "flight-040",
+      "group_id": "grp-d6966f8d67926137c227",
+      "sha256": "22c263209fd8accca1a7a9c44a4ec3235f70a5af32144989fee91c0980f3b366"
+    },
+    {
+      "flight_id": "flight-041",
+      "group_id": "grp-6246c4e925e533e02a09",
+      "sha256": "c0a0378108f775049c7ed928572b828c97d90c845d9f47641f172456e4c181c2"
+    },
+    {
+      "flight_id": "flight-042",
+      "group_id": "grp-79d7062c358513ca2894",
+      "sha256": "b188117b6315bd85eac12e627fe6a74add03d49752d44bf1bb33931378046fda"
+    },
+    {
+      "flight_id": "flight-043",
+      "group_id": "grp-e500d45e8c2aebda68c4",
+      "sha256": "12c411107a085ce298ac5f80a290256f7e81b939b511a4dd8c3e36101d6c5032"
+    },
+    {
+      "flight_id": "flight-044",
+      "group_id": "grp-463565ee51989e2bd173",
+      "sha256": "ab23996193fb340f811508eccd5035cca98707b50046b3062854a70dc2a3ed6e"
+    },
+    {
+      "flight_id": "flight-045",
+      "group_id": "grp-e7c913fc11b38e4dcfd9",
+      "sha256": "fc1e9ed9c1569ed06f1bb5727d4d0d019692906c66956a86373a1467ab660219"
+    },
+    {
+      "flight_id": "flight-046",
+      "group_id": "grp-e0b67797da49766d2815",
+      "sha256": "5ff84ab0d4fb195125524f14828e3f580e76b33dcd9e49203d1639829bceb7ef"
+    },
+    {
+      "flight_id": "flight-047",
+      "group_id": "grp-7504deba7c8a03fd0d9b",
+      "sha256": "dc12f2a71029ba18ccd1f1ac7e206db895c3d1ec9fa13626d241b1bc7318a8b0"
+    },
+    {
+      "flight_id": "flight-048",
+      "group_id": "grp-89b13cdc6003f30a9fbc",
+      "sha256": "d36e1b7bc7c228e73594ba2643782a5730d648070be92c86b9c44883b400bce0"
+    },
+    {
+      "flight_id": "flight-049",
+      "group_id": "grp-4580d0d6c7a527c5fccf",
+      "sha256": "5f69cfd1799bda3303c22b4635bb2ff68c41a5025071fbee80bd9bfa25a62a1d"
+    },
+    {
+      "flight_id": "flight-050",
+      "group_id": "grp-1f786d5dd7329a83b802",
+      "sha256": "0a343a799cf47d48328fe93a6f61f2330a5ce9ae141631cdf77214ab205fa264"
+    },
+    {
+      "flight_id": "flight-051",
+      "group_id": "grp-8e718724a435d313a12e",
+      "sha256": "a6b8cdc3caa1d00bcd279838a291f764f26bb81d74d45076692d21520096f10f"
+    },
+    {
+      "flight_id": "flight-052",
+      "group_id": "grp-fa733bbc7a00571ca3bb",
+      "sha256": "35513dbe11e3b126ca8c03e88fcc31eda95a4e2078b0f727b82d083ab0dc2be9"
+    },
+    {
+      "flight_id": "flight-053",
+      "group_id": "grp-1256ad6be42749a1be4d",
+      "sha256": "1bb57bbb686201ab7cb6bf1b9548a25a153a1df137c6a0734bb315122f046ba0"
+    },
+    {
+      "flight_id": "flight-054",
+      "group_id": "grp-421f7f96cefdee445b36",
+      "sha256": "ef4d2519a497eb9d22b8ed4faf801996bbf78c874f68ee520733f5dee280eb41"
+    },
+    {
+      "flight_id": "flight-055",
+      "group_id": "grp-fe76cd57eb209f2e4296",
+      "sha256": "521da8cb8f4adc6155ca4ceef0d92177ae235d0579681d06ff00d7bc8a0b7901"
+    },
+    {
+      "flight_id": "flight-056",
+      "group_id": "grp-bd594f0d3903db4bfaec",
+      "sha256": "7f610c3b40db578d25138094d82d6ef57c0c71e65d214af0d6cb492cf763e1ab"
+    },
+    {
+      "flight_id": "flight-057",
+      "group_id": "grp-028f8911bdf859f15b81",
+      "sha256": "a1ab51c12cd48741b077892759840a7358e7d3f16c5c8b9c6a5a48ee6fa7a6b7"
+    },
+    {
+      "flight_id": "flight-058",
+      "group_id": "grp-9e9c51198620a35f5512",
+      "sha256": "fa6e5527030b83a95be74f3b504c60910cee272d90035d9f572c10d936966245"
+    },
+    {
+      "flight_id": "flight-059",
+      "group_id": "grp-154af69038feec26165a",
+      "sha256": "07b9c4a364cf4a2522db7de400e8a161d9e112b3c35a50b201a45436906509f7"
+    },
+    {
+      "flight_id": "flight-060",
+      "group_id": "grp-0eb4c2be2a6defa38fce",
+      "sha256": "a339d0bb65b79ca05a4e997b5864608788851822c536d79679a6e8b64118f385"
+    },
+    {
+      "flight_id": "flight-061",
+      "group_id": "grp-474993ef24a53cabc5b5",
+      "sha256": "95f709254490840330618fe9e1e8d3f66c7754072f6d9da2eefb5aef542e4bef"
+    },
+    {
+      "flight_id": "flight-062",
+      "group_id": "grp-572b08632772d1f6086a",
+      "sha256": "bd6f8e7fb572c4b74c82856f96e7dd4b7983a95284afc15d1fbf20a99aacdc29"
+    },
+    {
+      "flight_id": "flight-063",
+      "group_id": "grp-42e6c6b2803a930ef489",
+      "sha256": "1627ff31e2dddc10bb7e96ce7bf076a5128fb451360c332b38f5c7d67cf190e7"
+    },
+    {
+      "flight_id": "flight-064",
+      "group_id": "grp-989040eb1f90454dc93c",
+      "sha256": "e7d95e4f84a0693cf42536379adec701fee518622117cbd568032d0be365a423"
+    },
+    {
+      "flight_id": "flight-065",
+      "group_id": "grp-dbc0a31f8b1f06960886",
+      "sha256": "85947186fe2e8222c8c754d3c924b561b6541af3e0c85d1c1da4e7295fae3e04"
+    },
+    {
+      "flight_id": "flight-066",
+      "group_id": "grp-5075f16b476bb960794a",
+      "sha256": "8cac65a18f4fb80625ebcaebc188dadb837c6c69a1f4a8d92cb689f814046e62"
+    },
+    {
+      "flight_id": "flight-067",
+      "group_id": "grp-9c70b47705a885bf1528",
+      "sha256": "10bd3b9b6c5ed7a0c1cd128c16fa25561df65aa385161c9528736f93f86467a0"
+    },
+    {
+      "flight_id": "flight-068",
+      "group_id": "grp-6f405f642a01d80f4e0c",
+      "sha256": "d4f872c578a108a1818bc8d8b38775ecb3b1338bb97f276a7efbdff446b1320e"
+    },
+    {
+      "flight_id": "flight-069",
+      "group_id": "grp-c6e93d75fab000676c99",
+      "sha256": "30c5ca76e11eccc0f1bda6b9ffa91f9d95b6a49e777eba0e79eaa1998c79e3b2"
+    },
+    {
+      "flight_id": "flight-070",
+      "group_id": "grp-0adad73e9022352a0cef",
+      "sha256": "58cc53f0aaddf91b4515c1754601beb4ade320a3d506f09d6dfdc6c66be2fdcc"
+    },
+    {
+      "flight_id": "flight-071",
+      "group_id": "grp-f5cd46c255388ec577cc",
+      "sha256": "e85ec54ecd45a373ae3b3bcc24af985db5538d72e7a59fcac9ea7d70474b38c3"
+    },
+    {
+      "flight_id": "flight-072",
+      "group_id": "grp-9e6e885e7513b2788ac3",
+      "sha256": "3b06a15aed92ece5c2499e2d694f2a9c2425d44a8cae7c9721b74eee312d302f"
+    },
+    {
+      "flight_id": "flight-073",
+      "group_id": "grp-45400aa5791b525b78b6",
+      "sha256": "3fa3a61620797b143df9639c4f27a83a83e1964555640fa1a7e9522d54665866"
+    },
+    {
+      "flight_id": "flight-074",
+      "group_id": "grp-28c2f50799079de680a7",
+      "sha256": "9eba896483612580c6f5749d64e5f1f898c3a885a423726ba00c682d9b626e71"
+    },
+    {
+      "flight_id": "flight-075",
+      "group_id": "grp-8b1511bd6c2b0298f771",
+      "sha256": "2483dc00415e2d5589d46638110655d42d324e0c3bf17aef43723c4cbb7473f3"
+    },
+    {
+      "flight_id": "flight-076",
+      "group_id": "grp-d0faf2e71cadf528392e",
+      "sha256": "45333aaa6f451b6d56418c56eb36bbc519a3fd33d38954804cb867e0c1d510e4"
+    },
+    {
+      "flight_id": "flight-077",
+      "group_id": "grp-e630b28355925c23a417",
+      "sha256": "ac8248d1da279028d26b1397d1fd958e372795f55648d28a4a6828837b756286"
+    },
+    {
+      "flight_id": "flight-078",
+      "group_id": "grp-a100547e1dcd4c9b26d0",
+      "sha256": "5d8a92741ea8786cf27cb768a23eb6442c0cec767f475413a3a8d8e4ed6b822b"
+    },
+    {
+      "flight_id": "flight-079",
+      "group_id": "grp-4b84a952f0b51e08c169",
+      "sha256": "29347a7bafd018e0ab1ffa93b85ed1e0f4805234d3152dfd488b2e0ddf09bafd"
+    },
+    {
+      "flight_id": "flight-080",
+      "group_id": "grp-4f59d0c653437630175e",
+      "sha256": "91d4e550d986abcc7c63a897e22f7248022704ef35ce29250a8f9ea2cfdabe3e"
+    },
+    {
+      "flight_id": "flight-081",
+      "group_id": "grp-a4a07e6163772e855003",
+      "sha256": "3b44dd1629ee5069e7efe12b36d306517c13f3c14eff3fa7f4cee35b1859b67b"
+    },
+    {
+      "flight_id": "flight-082",
+      "group_id": "grp-eee821c81eabba51cd09",
+      "sha256": "5b200971c043b28de4b6d55d7d96aed2a3126b1c38c2a96502de17d2278dd243"
+    },
+    {
+      "flight_id": "flight-083",
+      "group_id": "grp-e25f5b58625006404cee",
+      "sha256": "4f2147d01a6a59155ec05754ee0d9ac3b589f869738835c69c9502f50cf39b30"
+    },
+    {
+      "flight_id": "flight-084",
+      "group_id": "grp-bdb5c3de99221ed457dd",
+      "sha256": "b2f5154d32a2a2467c80f186f56dcf59a63eb7980c1f1a69b80f7b686ee6592f"
+    },
+    {
+      "flight_id": "flight-085",
+      "group_id": "grp-a6b99d3b7f2a9af41222",
+      "sha256": "ba64a8580a6752448e9bb8e38b094260081e84e241acff943518b53da6d19ff3"
+    },
+    {
+      "flight_id": "flight-086",
+      "group_id": "grp-81added4d7691e2bbee2",
+      "sha256": "b5f0b521bbe21b814a8bf6ee8e276fcd946d59bbaaa8eb501a73fe91899863e7"
+    },
+    {
+      "flight_id": "flight-087",
+      "group_id": "grp-7a2ad3e8dcd605b92623",
+      "sha256": "c1676be3078408b43af018a8e905f16673cdf9a1fb35adcb67a63115df93b625"
+    },
+    {
+      "flight_id": "flight-088",
+      "group_id": "grp-f6e403c9c5e59d8b2315",
+      "sha256": "208a94c2dc068dc8620f9bab5d7bfac4e1afd0c857cbb9a1642e51fe588c950f"
+    },
+    {
+      "flight_id": "flight-089",
+      "group_id": "grp-d819a4f36a353259a0ea",
+      "sha256": "0931803a0f3763aeed2528ea7778cb97e2a45e4f45c4acb7fc993ddfdd8b29ec"
+    },
+    {
+      "flight_id": "flight-090",
+      "group_id": "grp-504026fcbeacfe78e344",
+      "sha256": "be02230a37efe6a7a2e804417cdf32c58c74d32582b7b6075ddd2ceddfa70cb9"
+    },
+    {
+      "flight_id": "flight-091",
+      "group_id": "grp-0a61c7c0e4400be1bc75",
+      "sha256": "2d47a9e091f73bef3c2f328ff750cef0c610aef6e725c501095b5f2d47fea66c"
+    },
+    {
+      "flight_id": "flight-092",
+      "group_id": "grp-63cc97a1987f3b7242c8",
+      "sha256": "11a01837ccc70ad6f4f91d98409cc25516150c4ad6ef082c3327e083802d95d9"
+    },
+    {
+      "flight_id": "flight-093",
+      "group_id": "grp-e4f362edcccfab4077e4",
+      "sha256": "c5d205bb6f3c2f704a201faeffc04e8ea0b014ce6952e8ffb4b96ce2102d5776"
+    },
+    {
+      "flight_id": "flight-094",
+      "group_id": "grp-3a0e7075d8f85bb2d868",
+      "sha256": "7b39af57b33b33a4fa6fa7e3ac86df925b553b9ce3098252299f0ff29635f876"
+    },
+    {
+      "flight_id": "flight-095",
+      "group_id": "grp-f90a6f8133d2705882ff",
+      "sha256": "3142d38f7bcd78291ab421c1e9a74009d906452c30b4cd36b9744d52cd3bf56b"
+    },
+    {
+      "flight_id": "flight-096",
+      "group_id": "grp-bef7094bf557c6c7231b",
+      "sha256": "cfef1be72a7073fe28766aa9ffeb9d38338f2bc2065ae296614ebb76706385dc"
+    },
+    {
+      "flight_id": "flight-097",
+      "group_id": "grp-df69321f275e01229776",
+      "sha256": "edc28d9bdbb5e6f3c9d9016b08be4b2e412d14660456afa28990a378f9cd0075"
+    },
+    {
+      "flight_id": "flight-098",
+      "group_id": "grp-e614a7014e6763b4d18c",
+      "sha256": "5eb7d0755a7a87a4b6e821ba2ed9cd38415dc37567024e1ef557e420299f5198"
+    },
+    {
+      "flight_id": "flight-099",
+      "group_id": "grp-c8557b1882d179a92434",
+      "sha256": "fb9efde8bd3766762dc85c3495851afb4e1c3c3af8a3886d037d877353907a37"
+    },
+    {
+      "flight_id": "flight-100",
+      "group_id": "grp-07e63ab110d07528fd84",
+      "sha256": "0ed4de396ae5cc9d8883233a09bd3cb1a3313ea78de9161e96eca477dc8f5c3a"
+    },
+    {
+      "flight_id": "flight-101",
+      "group_id": "grp-7404cd4c31494103ba6c",
+      "sha256": "26e63c2764d5f64f0b9d3fbb44938ed20ee9498754b951fbb9a3b3dbd0e38c42"
+    },
+    {
+      "flight_id": "flight-102",
+      "group_id": "grp-c6d8d2e102efe7ee5404",
+      "sha256": "3e63f116cdcdd0af1373f10896ffe89faafaac51ef0f218407f2e2d48403197e"
+    },
+    {
+      "flight_id": "flight-103",
+      "group_id": "grp-335e596e716d2a2a0cb7",
+      "sha256": "35cfbaa691f9b352b4a1c13203663e6783eb3d3a8996d507ea817119d5a1d8bb"
+    },
+    {
+      "flight_id": "flight-104",
+      "group_id": "grp-9a811658dd57f2dbf530",
+      "sha256": "14fadd7fc9a152fef8cc9eb54fad74186e2b049a39efba495534e0222622f950"
+    },
+    {
+      "flight_id": "flight-105",
+      "group_id": "grp-b8dc0bdd95f2c9ab0809",
+      "sha256": "02d842a57f3d3e2409629b97544ff0fa7fd8fefb2cf1badf404302d870d2c6a2"
+    },
+    {
+      "flight_id": "flight-106",
+      "group_id": "grp-715ca16d58b0a6f1804d",
+      "sha256": "69f21c56b8f4d4498aec66349429bbaf4c18827e1975795ef6eba839cff39eb8"
+    },
+    {
+      "flight_id": "flight-107",
+      "group_id": "grp-7c374dddda25e41f3faa",
+      "sha256": "ede0c04337ffaf1f9b798b7369129f9eb6e813c09750da5b3a8addfb9ba75576"
+    },
+    {
+      "flight_id": "flight-108",
+      "group_id": "grp-52aaf46f9165d21942ff",
+      "sha256": "fcf55277e3f57827aa4e50ae42cda876589908b8e6c610c8794c88c84b6a3ab1"
+    },
+    {
+      "flight_id": "flight-109",
+      "group_id": "grp-795219728fecaa4b174c",
+      "sha256": "f1ebcc0448ace72324344edb2d119739fb7d119dff784b7e1f64948813f66022"
+    },
+    {
+      "flight_id": "flight-110",
+      "group_id": "grp-11a31a0cb607be1a4b5c",
+      "sha256": "3bfc28a5222fcb9191104164fc5883ea593b3dedeba5896a7981a14f2d18122c"
+    },
+    {
+      "flight_id": "flight-111",
+      "group_id": "grp-c9795f6063e2fdab1ee5",
+      "sha256": "0794cd15f94c8e304686251a0102ba8c5f4b03dfdde4d8908d32a90b92c98d4b"
+    },
+    {
+      "flight_id": "flight-112",
+      "group_id": "grp-0aeba08efbe2c4232389",
+      "sha256": "665234b10f7138a9e6e54dc5254bacd105bde8584144f15827bd7ef15a56e4a2"
+    },
+    {
+      "flight_id": "flight-113",
+      "group_id": "grp-142a2b096837f38b537a",
+      "sha256": "6b853b7f6ea4142fa6a92cd2c2eb95d250c21e2cb3ef580b530b718e17e8d54b"
+    },
+    {
+      "flight_id": "flight-114",
+      "group_id": "grp-2735e505a0bc3ae8c405",
+      "sha256": "14aec90c3a52101d262dda169018d3ae928aa1260393e2270abc170d9f6aab5b"
+    },
+    {
+      "flight_id": "flight-115",
+      "group_id": "grp-0046d6b365287c801314",
+      "sha256": "6afe7fffe6232615c2101643da7b61f2be9a3ea72eae9d0be2f4343d301a553f"
+    },
+    {
+      "flight_id": "flight-116",
+      "group_id": "grp-95f829aa1e7cb963eb3f",
+      "sha256": "e996d8db8f47d34b50dded6e4564954f83e47e3a7b5de86dfac96d51999d444e"
+    },
+    {
+      "flight_id": "flight-117",
+      "group_id": "grp-e1e3a41bdfee0f2c895e",
+      "sha256": "83c928aa9112998160e6be94ec8831c4e9c265fe3e8ddb9920e1564ea0748bf4"
+    },
+    {
+      "flight_id": "flight-118",
+      "group_id": "grp-05122ccb052e1fea2b12",
+      "sha256": "1d52691943cebd26506f8700346e042f0068ce7ba6f3a627520d257de3a60f7b"
+    },
+    {
+      "flight_id": "flight-119",
+      "group_id": "grp-0143edccdf1791031248",
+      "sha256": "d6f858d54b6db7167c3bd1301edd5c8ebe6b4d05f712953c60fa068557b00600"
+    },
+    {
+      "flight_id": "flight-120",
+      "group_id": "grp-80eae769b34918b75ab5",
+      "sha256": "1cda93e55fe7aaf6f55827ceeb0a8dac038aa948c4af9057627e483d6341c4ed"
+    },
+    {
+      "flight_id": "flight-121",
+      "group_id": "grp-26fbcc8b6eb277ff262a",
+      "sha256": "9582b9c15c1382a99f345315ead1d2471133e54967bed4401a6d2f2b76b1e39c"
+    },
+    {
+      "flight_id": "flight-122",
+      "group_id": "grp-e6444de68b63021c2e6e",
+      "sha256": "808131d9b2f3c9ed2b16b636b0424fdba2935ca2956efdcb7202eac19953e632"
+    },
+    {
+      "flight_id": "flight-123",
+      "group_id": "grp-51d3690f9c454866ce5b",
+      "sha256": "b6211ab37c514f2b011f8c4b086c4b468ec6d818612c3a2b0af0c270e4c27516"
+    },
+    {
+      "flight_id": "flight-124",
+      "group_id": "grp-1b438bd5b51a19e86f3b",
+      "sha256": "b1c7b4ae3ab4595fe018044d1696733aa7ce50a9dea594a8c1ea1119d18b7874"
+    },
+    {
+      "flight_id": "flight-125",
+      "group_id": "grp-2e434d79767733b9d465",
+      "sha256": "f50af2f9f5b50f06e6fcd737ae404186b9f13bf9cdec958251a6a6d96ca354f7"
+    },
+    {
+      "flight_id": "flight-126",
+      "group_id": "grp-43208dcca310d4772c3f",
+      "sha256": "f90f3e5b04c6b24189168ff768ecbc1eabd5ecfff777e8033b6bc6b815adae60"
+    },
+    {
+      "flight_id": "flight-127",
+      "group_id": "grp-176a6996442dcb062cfa",
+      "sha256": "6dd967b678673fc532aa6b4825e43c9d4f03ce5635dcd5dd3e8f23e1526f31c1"
+    },
+    {
+      "flight_id": "flight-128",
+      "group_id": "grp-167fd0f75f8bb174b785",
+      "sha256": "cfb07b3fe5a33bfc1c5cd8e2664ddbc10ebecb391af28dbc7c595f6c5377768b"
+    },
+    {
+      "flight_id": "flight-129",
+      "group_id": "grp-1112c38a330b8008e5d7",
+      "sha256": "23519b777c635a06d2246c4aa95518cf5496824db2e50ab5086f629336e7be37"
+    },
+    {
+      "flight_id": "flight-130",
+      "group_id": "grp-003aa88b243ed43c20fc",
+      "sha256": "d76eec8035d200eac24f876c765bb107fca55f0376feecc02217d808c6716771"
+    },
+    {
+      "flight_id": "flight-131",
+      "group_id": "grp-11bbbed4928bc08a9ce5",
+      "sha256": "d71c6de5592c5631f0da0f0c2334e0fdd39e91aab469ebe2dc6b5b2498e7f063"
+    },
+    {
+      "flight_id": "flight-132",
+      "group_id": "grp-1c407faf624547d27f99",
+      "sha256": "c0a141fbb6a2a9012bf85f721c7cbf8bc2c10b06ff655c7219d91e727d14a371"
+    },
+    {
+      "flight_id": "flight-133",
+      "group_id": "grp-890771cbc96bc76c7113",
+      "sha256": "a231705909b09d526f797bfa0c12924c8be575bed1718fd5a7c4670b678675ca"
+    },
+    {
+      "flight_id": "flight-134",
+      "group_id": "grp-fb510f689bd378fc3047",
+      "sha256": "7d1b5d0c7a777186419c5fb6c3643dcd396bad432902d7da03ee0ba4a825060b"
+    },
+    {
+      "flight_id": "flight-135",
+      "group_id": "grp-39cd23feb1347d512aab",
+      "sha256": "8c0561f9ae5bc4bd8f4b215042fc9fd5cd296e37ec22a315d7ff5dbdaa87df46"
+    },
+    {
+      "flight_id": "flight-136",
+      "group_id": "grp-9496de3d791b4e841a3d",
+      "sha256": "40a8932ec4653968e2917e8a910ce29bf23cd82bfb26b6d16657b24262ef8c99"
+    },
+    {
+      "flight_id": "flight-137",
+      "group_id": "grp-3c239f93d758a3a7ea24",
+      "sha256": "ac9ede9a151ec6b95d6bab410e696abba843a2a7f5b521c6722d48ae9f110cdf"
+    },
+    {
+      "flight_id": "flight-138",
+      "group_id": "grp-e85a50082353ae6623a1",
+      "sha256": "e3d1388ff0eb98e54db3497cd1dd064c84e66de2096352ac02dbf8e34c190fde"
+    },
+    {
+      "flight_id": "flight-139",
+      "group_id": "grp-06175358e4a106d2808b",
+      "sha256": "c584fc575ec2c98f46a6c922d3a5e05464ccdf7b391cb88c38cff7f9cb3c4cbc"
+    },
+    {
+      "flight_id": "flight-140",
+      "group_id": "grp-b4fc9d89d63d4c90ea95",
+      "sha256": "d4f0eaab3eddb0ca34b491d80d5218f06a63825c0394638fdbc2f70516c6eeaf"
+    },
+    {
+      "flight_id": "flight-141",
+      "group_id": "grp-76ed8c5eb9c43b3678bf",
+      "sha256": "888ffe79a73b559799b70b808e4fe92fb532f817bfb7f0dfa0154add7a6a5652"
+    },
+    {
+      "flight_id": "flight-142",
+      "group_id": "grp-50f160f84ce55762ae20",
+      "sha256": "ee4babb8166f4c9b0c3bb1e433cea101e8dd886afe31983828d532236dcaab98"
+    },
+    {
+      "flight_id": "flight-143",
+      "group_id": "grp-7f3822feb3b14f53be70",
+      "sha256": "89b5390ec39ad603fba80d8f0889933c2fabfff89d93341b09bc62b17e595eb1"
+    },
+    {
+      "flight_id": "flight-144",
+      "group_id": "grp-74aa61b08f14f4abc4e8",
+      "sha256": "4755e4952e5abfd62b3e1cb88b32a2d0c48957f3b91aa3a69acc880b67157629"
+    },
+    {
+      "flight_id": "flight-145",
+      "group_id": "grp-b700493847ee53a8ac46",
+      "sha256": "4b52a55d8a6b3300d3d0a271f725b2828cb165fbf8a79ca5130ad0dc930e9917"
+    },
+    {
+      "flight_id": "flight-146",
+      "group_id": "grp-2c3e63318ab6eae4e8d6",
+      "sha256": "04c6472655de85fc2e7955fb2214ad29ed00eef08e83f1491dd7c67f7186d869"
+    },
+    {
+      "flight_id": "flight-147",
+      "group_id": "grp-526321b4fa6c17f50963",
+      "sha256": "a7dfefb90004bad5cb089e8be8bd7cc40d84ec05d05e785f5a68d5ef2e20049a"
+    },
+    {
+      "flight_id": "flight-148",
+      "group_id": "grp-9023a76f4086ee8613f4",
+      "sha256": "dbb81a01c0d576148bbd232b512934d13c8700c9fddb65868ca6047ceb02beb2"
+    },
+    {
+      "flight_id": "flight-149",
+      "group_id": "grp-a21deb855810e6a35585",
+      "sha256": "492d6cad27c16b29e15c0454f7780a10dc09362f1544bab24b9d693c9e35a568"
+    },
+    {
+      "flight_id": "flight-150",
+      "group_id": "grp-94fb736d71179fd586fc",
+      "sha256": "76b5c109c79def3ba2b3bed4a28a2174ab558084eb5b2aff10a2cf4b59ac2c06"
+    },
+    {
+      "flight_id": "flight-151",
+      "group_id": "grp-294db570908238b7e557",
+      "sha256": "9a0a54c0e91d949c81e5178e273ff418ce9801fcede1a4a40bd67135e519883b"
+    },
+    {
+      "flight_id": "flight-152",
+      "group_id": "grp-44852511260b2cbd9e4f",
+      "sha256": "9a25ae09acf4edd19626a51b8fed458d3bfe9bace57c5ab42a9ad2b3a54d97c9"
+    },
+    {
+      "flight_id": "flight-153",
+      "group_id": "grp-f1c20a19c5eedae5726e",
+      "sha256": "861a25c8af1c091d08ad4e5b8994aeb212924cdf15499737a6c721d64edc2c07"
+    },
+    {
+      "flight_id": "flight-154",
+      "group_id": "grp-eb1e99c15632b64129a0",
+      "sha256": "bc84ab816e41821ed5056b1caff4fff73571b0493893058dcbbbd0479025b70d"
+    },
+    {
+      "flight_id": "flight-155",
+      "group_id": "grp-7ddc550756188bae129f",
+      "sha256": "c93a6cdf9279d9ef1314f39deff341ad53c2f5ebb895ecf538a707af9cf6bda5"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "source_id": "uav-sead-reviewed-v1",
+  "source_version": "b31c3513415e85b4601cc33db5867bcf8121ba22d1f25e96c8c5dee2f75e007f"
+}

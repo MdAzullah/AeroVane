@@ -324,6 +324,16 @@ export class MavlinkWorkerBridge {
         break;
       }
 
+      case 'websocketDiagnostic': {
+        const now = Date.now();
+        const age = (value: number | null) => value === null ? 'never' : `${Math.max(0, now - value)} ms`;
+        const details = { retryCount: msg.retryCount, closeCode: msg.closeCode ?? 0, reason: msg.reason ?? '', nextRetryMs: msg.delayMs ?? 0, timeSinceLastPacket: age(msg.lastPacketAt), timeSinceLastHeartbeat: age(msg.lastHeartbeatAt) };
+        if (msg.state === 'reconnecting') logDebugError('worker', 'WebSocket reconnect scheduled', details);
+        else if (msg.state === 'failed') logDebugError('worker', 'WebSocket connection failed', details);
+        else logDebugError('worker', 'WebSocket transport connected', details);
+        break;
+      }
+
       case 'statustext': {
         const entry: StatusTextEntry = {
           severity: msg.severity,

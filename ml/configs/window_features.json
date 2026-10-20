@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "window_ms": 5000,
+  "stride_ms": 2500,
+  "anomaly_boundary_padding_ms": 2000,
+  "features": [
+    { "name": "battery_voltage_v_mean", "statistic": "mean", "inputs": ["battery.voltage_v"] },
+    { "name": "battery_voltage_v_min", "statistic": "min", "inputs": ["battery.voltage_v"] },
+    { "name": "battery_current_a_mean", "statistic": "mean", "inputs": ["battery.current_a"] },
+    { "name": "battery_current_a_max", "statistic": "max", "inputs": ["battery.current_a"] },
+    { "name": "accel_magnitude_mps2_mean", "statistic": "mean", "inputs": ["imu.xacc_mps2", "imu.yacc_mps2", "imu.zacc_mps2"] },
+    { "name": "accel_magnitude_mps2_max", "statistic": "max", "inputs": ["imu.xacc_mps2", "imu.yacc_mps2", "imu.zacc_mps2"] },
+    { "name": "gyro_magnitude_radps_mean", "statistic": "mean", "inputs": ["imu.xgyro_radps", "imu.ygyro_radps", "imu.zgyro_radps"] },
+    { "name": "gyro_magnitude_radps_max", "statistic": "max", "inputs": ["imu.xgyro_radps", "imu.ygyro_radps", "imu.zgyro_radps"] },
+    { "name": "velocity_magnitude_mps_mean", "statistic": "mean", "inputs": ["velocity.north_mps", "velocity.east_mps", "velocity.down_mps"] },
+    { "name": "velocity_magnitude_mps_max", "statistic": "max", "inputs": ["velocity.north_mps", "velocity.east_mps", "velocity.down_mps"] },
+    { "name": "ekf_test_ratio_max", "statistic": "max", "inputs": ["ekf.velocity_test_ratio", "ekf.position_test_ratio", "ekf.height_test_ratio", "ekf.magnetometer_test_ratio"] },
+    { "name": "attitude_abs_rad_max", "statistic": "max_absolute_component", "inputs": ["attitude.roll_rad", "attitude.pitch_rad", "attitude.yaw_rad"] }
+  ],
+  "prohibited_feature_inputs": [
+    "latitude", "longitude", "absolute_or_utc_timestamp", "filename",
+    "device_id", "system_id", "component_id", "annotation_timestamp",
+    "free_text_note", "group_id", "split"
+  ]
+}

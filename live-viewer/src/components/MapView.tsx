@@ -1,4 +1,4 @@
-import { onMount, onCleanup, createSignal, createEffect, Show } from 'solid-js';
+import { onMount, onCleanup, createSignal, createEffect, Show, on } from 'solid-js';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { convertDisplayValue, formatDisplayValue, getDisplayUnit, useWorkerBridge } from '../services';
@@ -25,14 +25,82 @@ const TILE_LAYERS = {
       maxZoom: 20,
     },
   },
+  offline: {
+    url: '',
+    attribution: 'SkyForge offline coordinate grid',
+    maxZoom: 22,
+  },
 } as const;
 
-const LAYER_ORDER: MapLayerType[] = ['street', 'satellite', 'hybrid'];
+const LAYER_ORDER: MapLayerType[] = ['street', 'satellite', 'hybrid', 'offline'];
 const LAYER_LABELS: Record<MapLayerType, string> = {
   street: 'Street',
   satellite: 'Satellite',
   hybrid: 'Hybrid',
+  offline: 'Offline grid',
 };
+
+const MAX_LOG_PATH_POINTS = 5000;
+
+function validCoordinate(lat: number, lon: number): boolean {
+  return Number.isFinite(lat) && Number.isFinite(lon) && Math.abs(lat) <= 90 && Math.abs(lon) <= 180 && !(lat === 0 && lon === 0);
+}
+
+function sampledPath(latitudes: Float64Array, longitudes: Float64Array): L.LatLng[][] {
+  const length = Math.min(latitudes.length, longitudes.length);
+  const stride = Math.max(1, Math.ceil(length / MAX_LOG_PATH_POINTS));
+  const segments: L.LatLng[][] = [];
+  let segment: L.LatLng[] = [];
+  for (let index = 0; index < length; index += stride) {
+    const lat = latitudes[index] / 1e7;
+    const lon = longitudes[index] / 1e7;
+    if (!validCoordinate(lat, lon)) continue;
+    const point = L.latLng(lat, lon);
+    if (segment.length && segment.at(-1)!.distanceTo(point) > 5000) {
+      if (segment.length >= 2) segments.push(segment);
+      segment = [];
+    }
+    segment.push(point);
+  }
+  const last = length - 1;
+  if (last >= 0) {
+    const lat = latitudes[last] / 1e7;
+    const lon = longitudes[last] / 1e7;
+    const point = L.latLng(lat, lon);
+    if (validCoordinate(lat, lon) && !segment.at(-1)?.equals(point)) {
+      if (segment.length && segment.at(-1)!.distanceTo(point) > 5000) {
+        if (segment.length >= 2) segments.push(segment);
+        segment = [];
+      }
+      segment.push(point);
+    }
+  }
+  if (segment.length >= 2) segments.push(segment);
+  return segments;
+}
+
+function createOfflineLayer(): L.GridLayer {
+  const layer = L.gridLayer({ attribution: 'SkyForge offline coordinate grid', maxZoom: 22 });
+  (layer as L.GridLayer & { createTile: (coords: L.Coords) => HTMLElement }).createTile = coords => {
+    const tile = document.createElement('canvas');
+    tile.width = 256; tile.height = 256;
+    tile.setAttribute('role', 'presentation');
+    const context = tile.getContext('2d');
+    if (!context) return tile;
+    const dark = document.documentElement.classList.contains('light') === false;
+    context.fillStyle = dark ? '#09131d' : '#edf3f7'; context.fillRect(0, 0, 256, 256);
+    context.strokeStyle = dark ? '#1b3a4b' : '#cad8e1'; context.lineWidth = 1;
+    for (let value = 0; value <= 256; value += 32) {
+      context.beginPath(); context.moveTo(value, 0); context.lineTo(value, 256); context.stroke();
+      context.beginPath(); context.moveTo(0, value); context.lineTo(256, value); context.stroke();
+    }
+    context.fillStyle = dark ? '#66879a' : '#687d89'; context.font = '11px ui-monospace, monospace';
+    context.fillText(`OFFLINE  z${coords.z}`, 10, 20);
+    context.fillText(`${coords.x} / ${coords.y}`, 10, 38);
+    return tile;
+  };
+  return layer;
+}
 
 function cssVar(name: string, fallback: string): string {
   const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -63,8 +131,10 @@ export default function MapView() {
   let map: L.Map | undefined;
   let marker: L.Marker | undefined;
   let trail: L.Polyline | undefined;
-  let tileLayer: L.TileLayer | undefined;
+  let tileLayer: L.GridLayer | undefined;
   let overlayLayer: L.TileLayer | undefined;
+  let tileFailureCount = 0;
+  const [mapOffline, setMapOffline] = createSignal(!navigator.onLine);
   let trailPoints: L.LatLng[] = [];
   let rafId: number | undefined;
   let unsubUpdate: (() => void) | undefined;
@@ -137,19 +207,13 @@ export default function MapView() {
     if (!latBuf || !lonBuf || latBuf.values.length === 0 || lonBuf.values.length === 0) return;
 
     const len = Math.min(latBuf.values.length, lonBuf.values.length);
-    const fullPath: L.LatLng[] = [];
-    for (let i = 0; i < len; i++) {
-      const lat = latBuf.values[i] / 1e7;
-      const lon = lonBuf.values[i] / 1e7;
-      // Skip zero/invalid coordinates
-      if (lat === 0 && lon === 0) continue;
-      fullPath.push(L.latLng(lat, lon));
-    }
+    const pathSegments = sampledPath(latBuf.values, lonBuf.values);
+    const fullPath = pathSegments.flat();
 
     if (fullPath.length === 0) return;
 
     // Set the trail polyline to the full path
-    trail.setLatLngs(fullPath);
+    trail.setLatLngs(pathSegments);
     trailPoints = fullPath;
     setHasMapData(true);
 
@@ -238,10 +302,9 @@ export default function MapView() {
     map.on('moveend', persistViewportCenter);
 
     const layerConfig = TILE_LAYERS[appState.mapLayer];
-    tileLayer = L.tileLayer(layerConfig.url, {
-      attribution: layerConfig.attribution,
-      maxZoom: layerConfig.maxZoom,
-    }).addTo(map);
+    tileLayer = (appState.mapLayer === 'offline' ? createOfflineLayer() : L.tileLayer(layerConfig.url, {
+      attribution: layerConfig.attribution, maxZoom: layerConfig.maxZoom,
+    })).addTo(map);
 
     marker = L.marker([appState.mapCenterLat, appState.mapCenterLon], {
       icon: createVehicleIcon(0),
@@ -317,7 +380,13 @@ export default function MapView() {
     appState.theme;
     marker?.setIcon(createVehicleIcon(latestHdg));
     trail?.setStyle({ color: trailColor() });
+    if (appState.mapLayer === 'offline') tileLayer?.redraw();
   });
+
+  // Theme controls the preferred online background; offline always wins.
+  createEffect(on(() => appState.theme, theme => {
+    if (navigator.onLine) setAppState('mapLayer', theme === 'dark' ? 'satellite' : 'street');
+  }));
 
   // Toggle trail visibility
   createEffect(() => {
@@ -335,10 +404,19 @@ export default function MapView() {
     const config = TILE_LAYERS[appState.mapLayer];
     if (tileLayer) tileLayer.remove();
     if (overlayLayer) { overlayLayer.remove(); overlayLayer = undefined; }
-    tileLayer = L.tileLayer(config.url, {
-      attribution: config.attribution,
-      maxZoom: config.maxZoom,
-    }).addTo(map);
+    tileFailureCount = 0;
+    const nextLayer = appState.mapLayer === 'offline' ? createOfflineLayer() : L.tileLayer(config.url, {
+      attribution: config.attribution, maxZoom: config.maxZoom,
+    });
+    nextLayer.on('tileerror', () => {
+      tileFailureCount += 1;
+      if (tileFailureCount >= 4 && appState.mapLayer !== 'offline') {
+        setMapOffline(true);
+        setAppState('mapLayer', 'offline');
+      }
+    });
+    nextLayer.on('tileload', () => { tileFailureCount = 0; setMapOffline(false); });
+    tileLayer = nextLayer.addTo(map);
     if ('labelOverlay' in config && config.labelOverlay) {
       overlayLayer = L.tileLayer(config.labelOverlay.url, {
         maxZoom: config.labelOverlay.maxZoom,
@@ -348,6 +426,11 @@ export default function MapView() {
     // Update trail color for visibility on new background
     trail?.setStyle({ color: trailColor() });
   });
+
+  const handleOffline = () => { setMapOffline(true); setAppState('mapLayer', 'offline'); };
+  const handleOnline = () => { setMapOffline(false); setAppState('mapLayer', appState.theme === 'dark' ? 'satellite' : 'street'); };
+  window.addEventListener('offline', handleOffline);
+  window.addEventListener('online', handleOnline);
 
   // Trim trail when length setting decreases
   createEffect(() => {
@@ -374,6 +457,8 @@ export default function MapView() {
     if (rafId !== undefined) cancelAnimationFrame(rafId);
     unsubUpdate?.();
     map?.remove();
+    window.removeEventListener('offline', handleOffline);
+    window.removeEventListener('online', handleOnline);
   });
 
   return (
@@ -469,6 +554,11 @@ export default function MapView() {
                 ? 'Path appears when the log contains position data.'
                 : 'Connect telemetry to update the map.'}
             </div>
+          </div>
+        </Show>
+        <Show when={mapOffline() || appState.mapLayer === 'offline'}>
+          <div class="console-overlay pointer-events-none absolute left-3 bottom-3 z-[1000] rounded-md px-3 py-2 text-xs">
+            Offline map · flight path and coordinates remain available
           </div>
         </Show>
     </div>

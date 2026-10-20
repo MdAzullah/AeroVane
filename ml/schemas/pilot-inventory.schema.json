@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://skyforge.local/schemas/pilot-inventory.schema.json",
+  "title": "SkyForge Phase C pilot inventory",
+  "type": "object",
+  "required": ["schema_version", "created_at", "source_id", "source_version", "purpose", "files", "summary"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "source_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]+$" },
+    "source_version": { "type": "string", "minLength": 1 },
+    "purpose": { "const": "phase_c_pilot_inventory" },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["relative_path", "size_bytes", "sha256", "format", "duplicate_of"],
+        "additionalProperties": false,
+        "properties": {
+          "relative_path": { "type": "string", "minLength": 1 },
+          "size_bytes": { "type": "integer", "minimum": 0 },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "format": { "enum": ["ulog", "dataflash_bin", "dataflash_log", "tlog", "archive", "annotation", "metadata", "unknown"] },
+          "duplicate_of": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["file_count", "unique_file_count", "duplicate_count", "total_bytes", "unique_bytes", "formats"],
+      "additionalProperties": false,
+      "properties": {
+        "file_count": { "type": "integer", "minimum": 0 },
+        "unique_file_count": { "type": "integer", "minimum": 0 },
+        "duplicate_count": { "type": "integer", "minimum": 0 },
+        "total_bytes": { "type": "integer", "minimum": 0 },
+        "unique_bytes": { "type": "integer", "minimum": 0 },
+        "formats": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 0 } }
+      }
+    }
+  }
+}

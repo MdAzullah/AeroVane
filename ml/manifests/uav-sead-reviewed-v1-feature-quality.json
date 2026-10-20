@@ -1,0 +1,1311 @@
+{
+  "boundary_padding_ms": 2000.0,
+  "feature_window_coverage": {
+    "accel_magnitude_mps2_max": 0.992713,
+    "accel_magnitude_mps2_mean": 0.992713,
+    "attitude_abs_rad_max": 0.99254,
+    "battery_current_a_max": 0.989938,
+    "battery_current_a_mean": 0.989938,
+    "battery_voltage_v_mean": 0.989938,
+    "battery_voltage_v_min": 0.989938,
+    "ekf_test_ratio_max": 0.990978,
+    "gyro_magnitude_radps_max": 0.992713,
+    "gyro_magnitude_radps_mean": 0.992713,
+    "velocity_magnitude_mps_max": 0.990805,
+    "velocity_magnitude_mps_mean": 0.990805
+  },
+  "label_counts": {
+    "anomalous": 1259,
+    "normal": 4004,
+    "unknown": 501
+  },
+  "model_fitted": false,
+  "per_flight": [
+    {
+      "flight_id": "flight-001",
+      "labels": {
+        "normal": 30
+      },
+      "windows": 30
+    },
+    {
+      "flight_id": "flight-002",
+      "labels": {
+        "normal": 20
+      },
+      "windows": 20
+    },
+    {
+      "flight_id": "flight-003",
+      "labels": {
+        "anomalous": 3,
+        "normal": 12,
+        "unknown": 2
+      },
+      "windows": 17
+    },
+    {
+      "flight_id": "flight-004",
+      "labels": {
+        "normal": 50
+      },
+      "windows": 50
+    },
+    {
+      "flight_id": "flight-005",
+      "labels": {
+        "unknown": 9
+      },
+      "windows": 9
+    },
+    {
+      "flight_id": "flight-006",
+      "labels": {
+        "anomalous": 57,
+        "normal": 39,
+        "unknown": 7
+      },
+      "windows": 103
+    },
+    {
+      "flight_id": "flight-007",
+      "labels": {
+        "anomalous": 23,
+        "normal": 41,
+        "unknown": 4
+      },
+      "windows": 68
+    },
+    {
+      "flight_id": "flight-008",
+      "labels": {
+        "anomalous": 23,
+        "normal": 17,
+        "unknown": 8
+      },
+      "windows": 48
+    },
+    {
+      "flight_id": "flight-009",
+      "labels": {
+        "normal": 42
+      },
+      "windows": 42
+    },
+    {
+      "flight_id": "flight-010",
+      "labels": {
+        "normal": 50
+      },
+      "windows": 50
+    },
+    {
+      "flight_id": "flight-011",
+      "labels": {
+        "anomalous": 11,
+        "normal": 14,
+        "unknown": 2
+      },
+      "windows": 27
+    },
+    {
+      "flight_id": "flight-012",
+      "labels": {
+        "anomalous": 15,
+        "normal": 38,
+        "unknown": 7
+      },
+      "windows": 60
+    },
+    {
+      "flight_id": "flight-013",
+      "labels": {
+        "anomalous": 81,
+        "normal": 18,
+        "unknown": 3
+      },
+      "windows": 102
+    },
+    {
+      "flight_id": "flight-014",
+      "labels": {
+        "normal": 43
+      },
+      "windows": 43
+    },
+    {
+      "flight_id": "flight-015",
+      "labels": {
+        "normal": 45
+      },
+      "windows": 45
+    },
+    {
+      "flight_id": "flight-016",
+      "labels": {
+        "unknown": 108
+      },
+      "windows": 108
+    },
+    {
+      "flight_id": "flight-017",
+      "labels": {
+        "anomalous": 13,
+        "normal": 32,
+        "unknown": 3
+      },
+      "windows": 48
+    },
+    {
+      "flight_id": "flight-018",
+      "labels": {
+        "anomalous": 26,
+        "normal": 56,
+        "unknown": 4
+      },
+      "windows": 86
+    },
+    {
+      "flight_id": "flight-019",
+      "labels": {
+        "normal": 49
+      },
+      "windows": 49
+    },
+    {
+      "flight_id": "flight-020",
+      "labels": {
+        "normal": 56
+      },
+      "windows": 56
+    },
+    {
+      "flight_id": "flight-021",
+      "labels": {
+        "anomalous": 7,
+        "normal": 12,
+        "unknown": 1
+      },
+      "windows": 20
+    },
+    {
+      "flight_id": "flight-022",
+      "labels": {
+        "anomalous": 9,
+        "normal": 34,
+        "unknown": 2
+      },
+      "windows": 45
+    },
+    {
+      "flight_id": "flight-023",
+      "labels": {
+        "anomalous": 11,
+        "normal": 33,
+        "unknown": 2
+      },
+      "windows": 46
+    },
+    {
+      "flight_id": "flight-024",
+      "labels": {
+        "normal": 65
+      },
+      "windows": 65
+    },
+    {
+      "flight_id": "flight-025",
+      "labels": {
+        "normal": 69
+      },
+      "windows": 69
+    },
+    {
+      "flight_id": "flight-026",
+      "labels": {
+        "anomalous": 18,
+        "normal": 41,
+        "unknown": 5
+      },
+      "windows": 64
+    },
+    {
+      "flight_id": "flight-027",
+      "labels": {
+        "anomalous": 10,
+        "normal": 18,
+        "unknown": 5
+      },
+      "windows": 33
+    },
+    {
+      "flight_id": "flight-028",
+      "labels": {
+        "anomalous": 11,
+        "normal": 32,
+        "unknown": 2
+      },
+      "windows": 45
+    },
+    {
+      "flight_id": "flight-029",
+      "labels": {
+        "normal": 69
+      },
+      "windows": 69
+    },
+    {
+      "flight_id": "flight-030",
+      "labels": {
+        "normal": 71
+      },
+      "windows": 71
+    },
+    {
+      "flight_id": "flight-031",
+      "labels": {
+        "anomalous": 36,
+        "normal": 128,
+        "unknown": 4
+      },
+      "windows": 168
+    },
+    {
+      "flight_id": "flight-032",
+      "labels": {
+        "anomalous": 41,
+        "normal": 218,
+        "unknown": 2
+      },
+      "windows": 261
+    },
+    {
+      "flight_id": "flight-033",
+      "labels": {
+        "anomalous": 8,
+        "normal": 9,
+        "unknown": 2
+      },
+      "windows": 19
+    },
+    {
+      "flight_id": "flight-034",
+      "labels": {
+        "normal": 82
+      },
+      "windows": 82
+    },
+    {
+      "flight_id": "flight-035",
+      "labels": {
+        "normal": 9
+      },
+      "windows": 9
+    },
+    {
+      "flight_id": "flight-036",
+      "labels": {
+        "anomalous": 8,
+        "normal": 12
+      },
+      "windows": 20
+    },
+    {
+      "flight_id": "flight-037",
+      "labels": {
+        "anomalous": 6,
+        "normal": 13,
+        "unknown": 2
+      },
+      "windows": 21
+    },
+    {
+      "flight_id": "flight-038",
+      "labels": {
+        "anomalous": 21,
+        "normal": 16,
+        "unknown": 2
+      },
+      "windows": 39
+    },
+    {
+      "flight_id": "flight-039",
+      "labels": {
+        "normal": 9
+      },
+      "windows": 9
+    },
+    {
+      "flight_id": "flight-040",
+      "labels": {
+        "normal": 10
+      },
+      "windows": 10
+    },
+    {
+      "flight_id": "flight-041",
+      "labels": {
+        "anomalous": 9,
+        "normal": 36,
+        "unknown": 1
+      },
+      "windows": 46
+    },
+    {
+      "flight_id": "flight-042",
+      "labels": {
+        "anomalous": 25,
+        "normal": 10,
+        "unknown": 1
+      },
+      "windows": 36
+    },
+    {
+      "flight_id": "flight-043",
+      "labels": {
+        "anomalous": 5,
+        "normal": 10,
+        "unknown": 2
+      },
+      "windows": 17
+    },
+    {
+      "flight_id": "flight-044",
+      "labels": {
+        "normal": 11
+      },
+      "windows": 11
+    },
+    {
+      "flight_id": "flight-045",
+      "labels": {
+        "normal": 14
+      },
+      "windows": 14
+    },
+    {
+      "flight_id": "flight-046",
+      "labels": {
+        "unknown": 43
+      },
+      "windows": 43
+    },
+    {
+      "flight_id": "flight-047",
+      "labels": {
+        "unknown": 92
+      },
+      "windows": 92
+    },
+    {
+      "flight_id": "flight-048",
+      "labels": {
+        "anomalous": 12,
+        "normal": 59,
+        "unknown": 4
+      },
+      "windows": 75
+    },
+    {
+      "flight_id": "flight-049",
+      "labels": {
+        "normal": 11
+      },
+      "windows": 11
+    },
+    {
+      "flight_id": "flight-050",
+      "labels": {
+        "normal": 11
+      },
+      "windows": 11
+    },
+    {
+      "flight_id": "flight-051",
+      "labels": {
+        "anomalous": 10,
+        "normal": 27,
+        "unknown": 3
+      },
+      "windows": 40
+    },
+    {
+      "flight_id": "flight-052",
+      "labels": {
+        "anomalous": 11,
+        "normal": 112,
+        "unknown": 3
+      },
+      "windows": 126
+    },
+    {
+      "flight_id": "flight-053",
+      "labels": {
+        "anomalous": 49,
+        "normal": 21,
+        "unknown": 4
+      },
+      "windows": 74
+    },
+    {
+      "flight_id": "flight-054",
+      "labels": {
+        "normal": 14
+      },
+      "windows": 14
+    },
+    {
+      "flight_id": "flight-055",
+      "labels": {
+        "normal": 12
+      },
+      "windows": 12
+    },
+    {
+      "flight_id": "flight-056",
+      "labels": {
+        "anomalous": 17,
+        "normal": 27
+      },
+      "windows": 44
+    },
+    {
+      "flight_id": "flight-057",
+      "labels": {
+        "anomalous": 31,
+        "normal": 64,
+        "unknown": 4
+      },
+      "windows": 99
+    },
+    {
+      "flight_id": "flight-058",
+      "labels": {
+        "anomalous": 5,
+        "normal": 5,
+        "unknown": 2
+      },
+      "windows": 12
+    },
+    {
+      "flight_id": "flight-059",
+      "labels": {
+        "normal": 13
+      },
+      "windows": 13
+    },
+    {
+      "flight_id": "flight-060",
+      "labels": {
+        "normal": 12
+      },
+      "windows": 12
+    },
+    {
+      "flight_id": "flight-061",
+      "labels": {
+        "anomalous": 4,
+        "normal": 35,
+        "unknown": 1
+      },
+      "windows": 40
+    },
+    {
+      "flight_id": "flight-062",
+      "labels": {
+        "anomalous": 22,
+        "normal": 3
+      },
+      "windows": 25
+    },
+    {
+      "flight_id": "flight-063",
+      "labels": {
+        "anomalous": 7,
+        "normal": 17,
+        "unknown": 2
+      },
+      "windows": 26
+    },
+    {
+      "flight_id": "flight-064",
+      "labels": {
+        "normal": 12
+      },
+      "windows": 12
+    },
+    {
+      "flight_id": "flight-065",
+      "labels": {
+        "normal": 13
+      },
+      "windows": 13
+    },
+    {
+      "flight_id": "flight-066",
+      "labels": {
+        "anomalous": 3,
+        "normal": 7,
+        "unknown": 2
+      },
+      "windows": 12
+    },
+    {
+      "flight_id": "flight-067",
+      "labels": {
+        "anomalous": 9,
+        "normal": 4,
+        "unknown": 2
+      },
+      "windows": 15
+    },
+    {
+      "flight_id": "flight-068",
+      "labels": {
+        "anomalous": 5,
+        "normal": 7,
+        "unknown": 2
+      },
+      "windows": 14
+    },
+    {
+      "flight_id": "flight-069",
+      "labels": {
+        "normal": 13
+      },
+      "windows": 13
+    },
+    {
+      "flight_id": "flight-070",
+      "labels": {
+        "normal": 14
+      },
+      "windows": 14
+    },
+    {
+      "flight_id": "flight-071",
+      "labels": {
+        "anomalous": 4,
+        "normal": 28,
+        "unknown": 2
+      },
+      "windows": 34
+    },
+    {
+      "flight_id": "flight-072",
+      "labels": {
+        "unknown": 40
+      },
+      "windows": 40
+    },
+    {
+      "flight_id": "flight-073",
+      "labels": {
+        "anomalous": 6,
+        "normal": 7,
+        "unknown": 1
+      },
+      "windows": 14
+    },
+    {
+      "flight_id": "flight-074",
+      "labels": {
+        "normal": 14
+      },
+      "windows": 14
+    },
+    {
+      "flight_id": "flight-075",
+      "labels": {
+        "normal": 14
+      },
+      "windows": 14
+    },
+    {
+      "flight_id": "flight-076",
+      "labels": {
+        "anomalous": 9,
+        "normal": 26,
+        "unknown": 3
+      },
+      "windows": 38
+    },
+    {
+      "flight_id": "flight-077",
+      "labels": {
+        "anomalous": 6,
+        "normal": 6,
+        "unknown": 3
+      },
+      "windows": 15
+    },
+    {
+      "flight_id": "flight-078",
+      "labels": {
+        "anomalous": 16,
+        "normal": 27,
+        "unknown": 1
+      },
+      "windows": 44
+    },
+    {
+      "flight_id": "flight-079",
+      "labels": {
+        "normal": 19
+      },
+      "windows": 19
+    },
+    {
+      "flight_id": "flight-080",
+      "labels": {
+        "normal": 14
+      },
+      "windows": 14
+    },
+    {
+      "flight_id": "flight-081",
+      "labels": {
+        "unknown": 18
+      },
+      "windows": 18
+    },
+    {
+      "flight_id": "flight-082",
+      "labels": {
+        "anomalous": 21,
+        "normal": 30
+      },
+      "windows": 51
+    },
+    {
+      "flight_id": "flight-083",
+      "labels": {
+        "anomalous": 8,
+        "normal": 53,
+        "unknown": 2
+      },
+      "windows": 63
+    },
+    {
+      "flight_id": "flight-084",
+      "labels": {
+        "normal": 15
+      },
+      "windows": 15
+    },
+    {
+      "flight_id": "flight-085",
+      "labels": {
+        "normal": 16
+      },
+      "windows": 16
+    },
+    {
+      "flight_id": "flight-086",
+      "labels": {
+        "anomalous": 7,
+        "normal": 32,
+        "unknown": 2
+      },
+      "windows": 41
+    },
+    {
+      "flight_id": "flight-087",
+      "labels": {
+        "anomalous": 5,
+        "normal": 57,
+        "unknown": 2
+      },
+      "windows": 64
+    },
+    {
+      "flight_id": "flight-088",
+      "labels": {
+        "anomalous": 31,
+        "normal": 28,
+        "unknown": 4
+      },
+      "windows": 63
+    },
+    {
+      "flight_id": "flight-089",
+      "labels": {
+        "normal": 15
+      },
+      "windows": 15
+    },
+    {
+      "flight_id": "flight-090",
+      "labels": {
+        "normal": 17
+      },
+      "windows": 17
+    },
+    {
+      "flight_id": "flight-091",
+      "labels": {
+        "anomalous": 11,
+        "normal": 60,
+        "unknown": 1
+      },
+      "windows": 72
+    },
+    {
+      "flight_id": "flight-092",
+      "labels": {
+        "anomalous": 14,
+        "normal": 59,
+        "unknown": 3
+      },
+      "windows": 76
+    },
+    {
+      "flight_id": "flight-093",
+      "labels": {
+        "anomalous": 12,
+        "normal": 36,
+        "unknown": 2
+      },
+      "windows": 50
+    },
+    {
+      "flight_id": "flight-094",
+      "labels": {
+        "normal": 17
+      },
+      "windows": 17
+    },
+    {
+      "flight_id": "flight-095",
+      "labels": {
+        "normal": 20
+      },
+      "windows": 20
+    },
+    {
+      "flight_id": "flight-096",
+      "labels": {
+        "anomalous": 10,
+        "normal": 45,
+        "unknown": 2
+      },
+      "windows": 57
+    },
+    {
+      "flight_id": "flight-097",
+      "labels": {
+        "anomalous": 18,
+        "normal": 36,
+        "unknown": 2
+      },
+      "windows": 56
+    },
+    {
+      "flight_id": "flight-098",
+      "labels": {
+        "anomalous": 46,
+        "normal": 14,
+        "unknown": 2
+      },
+      "windows": 62
+    },
+    {
+      "flight_id": "flight-099",
+      "labels": {
+        "normal": 22
+      },
+      "windows": 22
+    },
+    {
+      "flight_id": "flight-100",
+      "labels": {
+        "normal": 19
+      },
+      "windows": 19
+    },
+    {
+      "flight_id": "flight-101",
+      "labels": {
+        "anomalous": 38,
+        "normal": 29,
+        "unknown": 2
+      },
+      "windows": 69
+    },
+    {
+      "flight_id": "flight-102",
+      "labels": {
+        "anomalous": 38,
+        "normal": 49,
+        "unknown": 2
+      },
+      "windows": 89
+    },
+    {
+      "flight_id": "flight-103",
+      "labels": {
+        "anomalous": 11
+      },
+      "windows": 11
+    },
+    {
+      "flight_id": "flight-104",
+      "labels": {
+        "normal": 18
+      },
+      "windows": 18
+    },
+    {
+      "flight_id": "flight-105",
+      "labels": {
+        "normal": 19
+      },
+      "windows": 19
+    },
+    {
+      "flight_id": "flight-106",
+      "labels": {
+        "anomalous": 11,
+        "normal": 3,
+        "unknown": 2
+      },
+      "windows": 16
+    },
+    {
+      "flight_id": "flight-107",
+      "labels": {
+        "anomalous": 2,
+        "normal": 8,
+        "unknown": 2
+      },
+      "windows": 12
+    },
+    {
+      "flight_id": "flight-108",
+      "labels": {
+        "anomalous": 11,
+        "normal": 4,
+        "unknown": 2
+      },
+      "windows": 17
+    },
+    {
+      "flight_id": "flight-109",
+      "labels": {
+        "normal": 13
+      },
+      "windows": 13
+    },
+    {
+      "flight_id": "flight-110",
+      "labels": {
+        "normal": 19
+      },
+      "windows": 19
+    },
+    {
+      "flight_id": "flight-111",
+      "labels": {
+        "anomalous": 16,
+        "normal": 3,
+        "unknown": 2
+      },
+      "windows": 21
+    },
+    {
+      "flight_id": "flight-112",
+      "labels": {
+        "anomalous": 16,
+        "normal": 2,
+        "unknown": 2
+      },
+      "windows": 20
+    },
+    {
+      "flight_id": "flight-113",
+      "labels": {
+        "anomalous": 4,
+        "normal": 12,
+        "unknown": 2
+      },
+      "windows": 18
+    },
+    {
+      "flight_id": "flight-114",
+      "labels": {
+        "normal": 13
+      },
+      "windows": 13
+    },
+    {
+      "flight_id": "flight-115",
+      "labels": {
+        "normal": 26
+      },
+      "windows": 26
+    },
+    {
+      "flight_id": "flight-116",
+      "labels": {
+        "anomalous": 13,
+        "normal": 5,
+        "unknown": 2
+      },
+      "windows": 20
+    },
+    {
+      "flight_id": "flight-117",
+      "labels": {
+        "anomalous": 3,
+        "normal": 16,
+        "unknown": 2
+      },
+      "windows": 21
+    },
+    {
+      "flight_id": "flight-118",
+      "labels": {
+        "anomalous": 3,
+        "normal": 16,
+        "unknown": 2
+      },
+      "windows": 21
+    },
+    {
+      "flight_id": "flight-119",
+      "labels": {
+        "normal": 20
+      },
+      "windows": 20
+    },
+    {
+      "flight_id": "flight-120",
+      "labels": {
+        "normal": 21
+      },
+      "windows": 21
+    },
+    {
+      "flight_id": "flight-121",
+      "labels": {
+        "anomalous": 4,
+        "normal": 8,
+        "unknown": 1
+      },
+      "windows": 13
+    },
+    {
+      "flight_id": "flight-122",
+      "labels": {
+        "anomalous": 3,
+        "normal": 20,
+        "unknown": 2
+      },
+      "windows": 25
+    },
+    {
+      "flight_id": "flight-123",
+      "labels": {
+        "anomalous": 5,
+        "normal": 5,
+        "unknown": 2
+      },
+      "windows": 12
+    },
+    {
+      "flight_id": "flight-124",
+      "labels": {
+        "normal": 22
+      },
+      "windows": 22
+    },
+    {
+      "flight_id": "flight-125",
+      "labels": {
+        "normal": 23
+      },
+      "windows": 23
+    },
+    {
+      "flight_id": "flight-126",
+      "labels": {
+        "anomalous": 3,
+        "normal": 7,
+        "unknown": 2
+      },
+      "windows": 12
+    },
+    {
+      "flight_id": "flight-127",
+      "labels": {
+        "anomalous": 4,
+        "normal": 6,
+        "unknown": 2
+      },
+      "windows": 12
+    },
+    {
+      "flight_id": "flight-128",
+      "labels": {
+        "anomalous": 23,
+        "normal": 14,
+        "unknown": 2
+      },
+      "windows": 39
+    },
+    {
+      "flight_id": "flight-129",
+      "labels": {
+        "normal": 23
+      },
+      "windows": 23
+    },
+    {
+      "flight_id": "flight-130",
+      "labels": {
+        "normal": 22
+      },
+      "windows": 22
+    },
+    {
+      "flight_id": "flight-131",
+      "labels": {
+        "anomalous": 7,
+        "normal": 23,
+        "unknown": 1
+      },
+      "windows": 31
+    },
+    {
+      "flight_id": "flight-132",
+      "labels": {
+        "anomalous": 3,
+        "normal": 30
+      },
+      "windows": 33
+    },
+    {
+      "flight_id": "flight-133",
+      "labels": {
+        "anomalous": 2,
+        "normal": 32,
+        "unknown": 2
+      },
+      "windows": 36
+    },
+    {
+      "flight_id": "flight-134",
+      "labels": {
+        "normal": 25
+      },
+      "windows": 25
+    },
+    {
+      "flight_id": "flight-135",
+      "labels": {
+        "normal": 24
+      },
+      "windows": 24
+    },
+    {
+      "flight_id": "flight-136",
+      "labels": {
+        "anomalous": 3,
+        "normal": 11,
+        "unknown": 2
+      },
+      "windows": 16
+    },
+    {
+      "flight_id": "flight-137",
+      "labels": {
+        "anomalous": 39,
+        "normal": 3,
+        "unknown": 2
+      },
+      "windows": 44
+    },
+    {
+      "flight_id": "flight-138",
+      "labels": {
+        "anomalous": 4,
+        "normal": 9,
+        "unknown": 2
+      },
+      "windows": 15
+    },
+    {
+      "flight_id": "flight-139",
+      "labels": {
+        "normal": 25
+      },
+      "windows": 25
+    },
+    {
+      "flight_id": "flight-140",
+      "labels": {
+        "normal": 24
+      },
+      "windows": 24
+    },
+    {
+      "flight_id": "flight-141",
+      "labels": {
+        "anomalous": 4,
+        "normal": 9,
+        "unknown": 2
+      },
+      "windows": 15
+    },
+    {
+      "flight_id": "flight-142",
+      "labels": {
+        "anomalous": 30,
+        "normal": 21,
+        "unknown": 2
+      },
+      "windows": 53
+    },
+    {
+      "flight_id": "flight-143",
+      "labels": {
+        "anomalous": 21,
+        "normal": 28,
+        "unknown": 2
+      },
+      "windows": 51
+    },
+    {
+      "flight_id": "flight-144",
+      "labels": {
+        "normal": 25
+      },
+      "windows": 25
+    },
+    {
+      "flight_id": "flight-145",
+      "labels": {
+        "normal": 25
+      },
+      "windows": 25
+    },
+    {
+      "flight_id": "flight-146",
+      "labels": {
+        "anomalous": 7,
+        "normal": 11,
+        "unknown": 2
+      },
+      "windows": 20
+    },
+    {
+      "flight_id": "flight-147",
+      "labels": {
+        "anomalous": 10,
+        "normal": 35,
+        "unknown": 1
+      },
+      "windows": 46
+    },
+    {
+      "flight_id": "flight-148",
+      "labels": {
+        "anomalous": 23,
+        "normal": 3,
+        "unknown": 2
+      },
+      "windows": 28
+    },
+    {
+      "flight_id": "flight-149",
+      "labels": {
+        "normal": 29
+      },
+      "windows": 29
+    },
+    {
+      "flight_id": "flight-150",
+      "labels": {
+        "normal": 28
+      },
+      "windows": 28
+    },
+    {
+      "flight_id": "flight-151",
+      "labels": {
+        "anomalous": 3,
+        "normal": 18,
+        "unknown": 2
+      },
+      "windows": 23
+    },
+    {
+      "flight_id": "flight-152",
+      "labels": {
+        "anomalous": 3,
+        "normal": 59,
+        "unknown": 2
+      },
+      "windows": 64
+    },
+    {
+      "flight_id": "flight-153",
+      "labels": {
+        "anomalous": 6,
+        "normal": 63
+      },
+      "windows": 69
+    },
+    {
+      "flight_id": "flight-154",
+      "labels": {
+        "normal": 27
+      },
+      "windows": 27
+    },
+    {
+      "flight_id": "flight-155",
+      "labels": {
+        "normal": 29
+      },
+      "windows": 29
+    }
+  ],
+  "per_split_label_counts": {
+    "excluded": {
+      "anomalous": 3,
+      "normal": 112,
+      "unknown": 312
+    },
+    "test": {
+      "anomalous": 270,
+      "normal": 723,
+      "unknown": 41
+    },
+    "train": {
+      "anomalous": 760,
+      "normal": 2493,
+      "unknown": 113
+    },
+    "validation": {
+      "anomalous": 226,
+      "normal": 676,
+      "unknown": 35
+    }
+  },
+  "privacy": {
+    "absolute_timestamps": false,
+    "device_identifiers": false,
+    "location_features": false
+  },
+  "schema_version": "1.0.0",
+  "split_counts": {
+    "excluded": 427,
+    "test": 1034,
+    "train": 3366,
+    "validation": 937
+  },
+  "stride_ms": 2500.0,
+  "window_count": 5764,
+  "window_ms": 5000.0
+}

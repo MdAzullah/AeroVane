@@ -401,12 +401,20 @@ export class SerialSessionController {
     }
   }
 
-  connectSpoof(options?: { unloadLog?: boolean; scenario?: import('./spoof-scenarios').SpoofScenarioId }): void {
+  connectSpoof(options?: {
+    unloadLog?: boolean;
+    scenario?: import('./spoof-scenarios').SpoofScenarioId;
+    environment?: import('./spoof-scenarios').SimulationEnvironmentId;
+    flightProfile?: import('./spoof-scenarios').SimulationFlightProfileId;
+  }): void {
     this.prepareForLiveConnection(options?.unloadLog === true);
     this.setPendingLiveSourceType('spoof');
-    this.connectionManager.connect(options?.scenario
-      ? { type: 'spoof', scenario: options.scenario }
-      : { type: 'spoof' });
+    this.connectionManager.connect({
+      type: 'spoof',
+      scenario: options?.scenario,
+      environment: options?.environment,
+      flightProfile: options?.flightProfile,
+    });
   }
 
   syncAutoConnect(options: AutoConnectOptions): void {

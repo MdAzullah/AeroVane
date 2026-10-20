@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "experiment": "skyforge-real-anomaly-experiment-2",
+  "random_seed": 9341,
+  "development_source": "uav-sead-reviewed-v1",
+  "development_partitions": ["train", "validation"],
+  "prohibited_development_partition": "test",
+  "fresh_test_batches": [31, 32, 33, 34],
+  "fresh_test_acquired_flights": 20,
+  "fresh_test_eligible_flights": 15,
+  "pre_evaluation_excluded_groups": ["grp-6fa87fc1dba9be707e00"],
+  "pre_evaluation_exclusion_reason": "Collection group overlaps development flight-008; all five related fresh flights are excluded before scoring.",
+  "candidates": {
+    "logistic_regression": {"c": [0.1, 1.0]},
+    "decision_tree": {"max_depth": [3, 5], "min_samples_leaf": [10, 25]},
+    "random_forest": {"trees": 120, "max_depth": [5, 8], "min_samples_leaf": [5, 12]}
+  },
+  "persistence_windows": [1, 2, 3],
+  "acceptance": {
+    "test_recall_min": 0.6,
+    "test_false_warning_rate_max": 0.15,
+    "test_f1_must_exceed_rules": true,
+    "feature_coverage_min": 0.95
+  },
+  "safety": {
+    "advisory_only": true,
+    "specific_component_diagnosis": false,
+    "vehicle_control": false
+  }
+}

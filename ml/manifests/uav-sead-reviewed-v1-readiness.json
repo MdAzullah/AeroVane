@@ -1,0 +1,139 @@
+{
+  "checks": [
+    {
+      "actual": 151,
+      "check": "independent_groups",
+      "pass": true,
+      "required": 60,
+      "shortfall": 0
+    },
+    {
+      "actual": 145,
+      "check": "eligible_flights",
+      "pass": true,
+      "required": 120,
+      "shortfall": 0
+    },
+    {
+      "actual": 60,
+      "check": "normal_only_flights",
+      "pass": true,
+      "required": 60,
+      "shortfall": 0
+    },
+    {
+      "actual": 85,
+      "check": "anomalous_flights",
+      "pass": true,
+      "required": 40,
+      "shortfall": 0
+    },
+    {
+      "actual": 3892,
+      "check": "normal_windows",
+      "pass": true,
+      "required": 3000,
+      "shortfall": 0
+    },
+    {
+      "actual": 1256,
+      "check": "anomalous_windows",
+      "pass": true,
+      "required": 1000,
+      "shortfall": 0
+    },
+    {
+      "actual": 0.989938,
+      "check": "feature_window_coverage",
+      "pass": true,
+      "required": 0.95,
+      "shortfall": 0
+    },
+    {
+      "actual": 87,
+      "check": "train_groups",
+      "pass": true,
+      "required": 36,
+      "shortfall": 0
+    },
+    {
+      "actual": 29,
+      "check": "validation_groups",
+      "pass": true,
+      "required": 12,
+      "shortfall": 0
+    },
+    {
+      "actual": 29,
+      "check": "test_groups",
+      "pass": true,
+      "required": 12,
+      "shortfall": 0
+    },
+    {
+      "actual": "approved",
+      "check": "source_registry_approved",
+      "pass": true,
+      "required": "approved"
+    },
+    {
+      "actual": true,
+      "check": "training_explicitly_authorized",
+      "pass": true,
+      "required": true
+    },
+    {
+      "actual": "frozen",
+      "check": "split_manifest_frozen",
+      "pass": true,
+      "required": "frozen"
+    },
+    {
+      "actual": false,
+      "check": "preprocessing_did_not_fit_model",
+      "pass": true,
+      "required": false
+    },
+    {
+      "actual": [
+        "anomalous",
+        "normal"
+      ],
+      "check": "train_label_coverage",
+      "pass": true,
+      "required": [
+        "normal",
+        "anomalous"
+      ]
+    },
+    {
+      "actual": [
+        "anomalous",
+        "normal"
+      ],
+      "check": "validation_label_coverage",
+      "pass": true,
+      "required": [
+        "normal",
+        "anomalous"
+      ]
+    },
+    {
+      "actual": [
+        "anomalous",
+        "normal"
+      ],
+      "check": "test_label_coverage",
+      "pass": true,
+      "required": [
+        "normal",
+        "anomalous"
+      ]
+    }
+  ],
+  "gate": "first_controlled_real_data_experiment",
+  "ready": true,
+  "schema_version": "1.0.0",
+  "source_id": "uav-sead-reviewed-v1",
+  "source_version": "b31c3513415e85b4601cc33db5867bcf8121ba22d1f25e96c8c5dee2f75e007f"
+}

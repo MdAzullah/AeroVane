@@ -18,8 +18,9 @@ const CONNECTION_LABELS: Record<AppState['connectionStatus'], string> = {
   disconnected: 'Disconnected',
   connecting: 'Connecting',
   connected: 'Connected',
-  no_data: 'No Data',
-  error: 'Error',
+  no_data: 'Connected — no telemetry',
+  reconnecting: 'Reconnecting',
+  error: 'Connection failed',
   probing: 'Probing',
 };
 
@@ -75,6 +76,8 @@ export function selectStatusBarModel(state: AppState, serialSupported: boolean):
     badges.push({ label: 'Probing', tone: 'warn' });
   } else if (state.connectionStatus === 'error') {
     badges.push({ label: 'Attention', tone: 'error' });
+  } else if (state.connectionStatus === 'reconnecting') {
+    badges.push({ label: 'Bridge unavailable', tone: 'warn' });
   }
 
   if (state.connectionSourceType === 'serial' && (state.connectionStatus === 'connected' || state.connectionStatus === 'no_data')) {
@@ -102,6 +105,7 @@ function connectionTone(status: AppState['connectionStatus']): StatusTone {
       return 'good';
     case 'connecting':
     case 'probing':
+    case 'reconnecting':
     case 'no_data':
       return 'warn';
     case 'error':

@@ -1,0 +1,54 @@
+{
+  "created_at": "2026-09-27T00:20:00Z",
+  "files": [
+    {
+      "duplicate_of": null,
+      "format": "ulog",
+      "relative_path": "candidate-001.ulg",
+      "sha256": "3b69cd67c6bed52d5c170ccb24e0d362184fd85362d85ffd12e0712cad0715d0",
+      "size_bytes": 7349042
+    },
+    {
+      "duplicate_of": null,
+      "format": "ulog",
+      "relative_path": "candidate-002.ulg",
+      "sha256": "391946d8372d62a44e2966c3c6679dc9ce404177d6a79539f12703183f5eae8a",
+      "size_bytes": 6462923
+    },
+    {
+      "duplicate_of": null,
+      "format": "ulog",
+      "relative_path": "candidate-003.ulg",
+      "sha256": "8c02fb720337ed8f36f605a90c136aabdfe7518516ea88c12906a19450e21b8d",
+      "size_bytes": 11678205
+    },
+    {
+      "duplicate_of": null,
+      "format": "ulog",
+      "relative_path": "candidate-004.ulg",
+      "sha256": "075a188eb64e44c188ecbca770f426ae1421a0bc9cb8014de97d05e757f253ed",
+      "size_bytes": 254249
+    },
+    {
+      "duplicate_of": null,
+      "format": "ulog",
+      "relative_path": "candidate-005.ulg",
+      "sha256": "424d165c9fae3db987289ba70130649d71fbb491fbb2da53d1e0b65715f10a52",
+      "size_bytes": 261533
+    }
+  ],
+  "purpose": "phase_c_pilot_inventory",
+  "schema_version": "1.0.0",
+  "source_id": "uav-sead",
+  "source_version": "774a336a1d1d06b248927a35c2ea1f6869e9e1a4",
+  "summary": {
+    "duplicate_count": 0,
+    "file_count": 5,
+    "formats": {
+      "ulog": 5
+    },
+    "total_bytes": 26005952,
+    "unique_bytes": 26005952,
+    "unique_file_count": 5
+  }
+}

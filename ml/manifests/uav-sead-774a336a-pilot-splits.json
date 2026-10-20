@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "created_at": "2026-09-25T18:00:00Z",
+  "frozen_at": "2026-09-25T18:00:00Z",
+  "status": "frozen",
+  "source_id": "uav-sead",
+  "source_version": "774a336a1d1d06b248927a35c2ea1f6869e9e1a4",
+  "training_authorized": false,
+  "records": [
+    { "flight_id": "flight-001", "sha256": "536c1e7a8889aa0d8a7c95d3d17270a040a16d34a267de925d16d7389919b04c", "group_id": "grp-uav-sead-pilot-001", "split": "excluded", "reason": "Source remains quarantined; pilot use is parser and pipeline validation only." },
+    { "flight_id": "flight-002", "sha256": "f42eadf04f8ccd59ddd02a91c880ce315408a975710e9e969ed44be1597f6401", "group_id": "grp-uav-sead-pilot-001", "split": "excluded", "reason": "Source remains quarantined; pilot use is parser and pipeline validation only." },
+    { "flight_id": "flight-003", "sha256": "91a8e6ac4d8c08aa100b6be35b9ddd2f624022799557cea0651f8bd5dd002a5c", "group_id": "grp-uav-sead-pilot-001", "split": "excluded", "reason": "Source remains quarantined; pilot use is parser and pipeline validation only." },
+    { "flight_id": "flight-004", "sha256": "5a5efc410805129a9cf29df64d314edd334c50780a5d0ae9c4349058b9d13751", "group_id": "grp-uav-sead-pilot-001", "split": "excluded", "reason": "Source remains quarantined; pilot use is parser and pipeline validation only." },
+    { "flight_id": "flight-005", "sha256": "2ee6e18a40d72c1afe07ec7c3450bc3b54835d012c8aa54e1785e72c302ff708", "group_id": "grp-uav-sead-pilot-001", "split": "excluded", "reason": "Unknown label and source remains quarantined." }
+  ]
+}

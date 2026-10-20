@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "source_id": "basic-zenodo-8199999",
+  "source_version": "1",
+  "purpose": "parser-and-label-onset-pilot",
+  "candidate_count": 5,
+  "total_bytes": 169973409,
+  "download_authorized": false,
+  "training_authorized": false,
+  "candidates": [
+    {"candidate_id":"basic-001","neutral_filename":"flight-001.log","class":"normal","size":34222280,"upstream_md5":"7001d6227bd0952616ac141de4ab2c20"},
+    {"candidate_id":"basic-002","neutral_filename":"flight-002.log","class":"rc_failure","size":29442325,"upstream_md5":"56543b4eb4f04c2579f24f0871aa5ac3"},
+    {"candidate_id":"basic-003","neutral_filename":"flight-003.log","class":"gps_failure","size":24579640,"upstream_md5":"ae3891b9d5a28f1e6c87f57de51eed5f"},
+    {"candidate_id":"basic-004","neutral_filename":"flight-004.log","class":"accelerometer_failure","size":40246786,"upstream_md5":"3ddd523645f7d6341bd8ae287060fe90"},
+    {"candidate_id":"basic-005","neutral_filename":"flight-005.log","class":"gyroscope_failure","size":41482378,"upstream_md5":"baf88d2cbc9d178d33ab1696e0c1f4b5"}
+  ]
+}

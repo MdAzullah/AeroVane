@@ -60,6 +60,14 @@ const readfunc = {
     'A': (dv, off) => dv.getUint16(off, true)
 };
 
+function gps_coord_distance(a, b) {
+    const latScale = 111320;
+    const meanLat = (a.lat + b.lat) * Math.PI / 360;
+    const dx = (a.lon - b.lon) * latScale * Math.cos(meanLat);
+    const dy = (a.lat - b.lat) * latScale;
+    return Math.hypot(dx, dy);
+}
+
 const msgt_with_instances = {
     "BARO": "I",
     "BAT": "Instance",
@@ -119,20 +127,25 @@ class msgformat {
 }
 
 class logfile {
-    constructor(buffer) {
+    constructor(buffer, progressCallback = null) {
         this.buffer = buffer;
         this.msgtypes = {};
         this.msgtype_name_hash = {};
         this.totalMessages = 0;
-        this.parse();
+        this.parse(progressCallback);
         this.boot_time_ms_since_epoch = this.find_timebase();
     }
 
-    parse() {
+    parse(progressCallback = null) {
         const dv = new DataView(this.buffer);
         const len = dv.byteLength;
+        let nextProgress = 0;
 
         for (let idx = 0; idx < len - 3;) {
+            if (progressCallback && idx >= nextProgress) {
+                progressCallback(Math.min(1, idx / Math.max(1, len)));
+                nextProgress = idx + Math.max(1_048_576, Math.floor(len / 100));
+            }
             // Check magic header: 0xA3 0x95
             if (dv.getUint8(idx) === 163 && dv.getUint8(idx + 1) === 149) {
                 const msgtypeval = dv.getUint8(idx + 2);
@@ -173,6 +186,31 @@ class logfile {
             }
             idx++;
         }
+        if (progressCallback) progressCallback(1);
+    }
+
+    to_snapshot() {
+        const msgtypes = {};
+        for (const [type, message] of Object.entries(this.msgtypes)) {
+            msgtypes[type] = {
+                type: message.type, length: message.length, name: message.name, fields: message.fields,
+                columns: message.columns, subitemlist: message.subitemlist,
+                subitemidx_from_name: message.subitemidx_from_name, subitemoffset: message.subitemoffset,
+                with_instances: message.with_instances, instance_offset: message.instance_offset, data: message.data
+            };
+        }
+        return { msgtypes, msgtype_name_hash: this.msgtype_name_hash, totalMessages: this.totalMessages,
+            boot_time_ms_since_epoch: this.boot_time_ms_since_epoch };
+    }
+
+    static from_snapshot(buffer, snapshot) {
+        const value = Object.create(logfile.prototype);
+        value.buffer = buffer;
+        value.msgtypes = snapshot.msgtypes;
+        value.msgtype_name_hash = snapshot.msgtype_name_hash;
+        value.totalMessages = snapshot.totalMessages;
+        value.boot_time_ms_since_epoch = snapshot.boot_time_ms_since_epoch;
+        return value;
     }
 
     get_msgitem_list() {
@@ -181,15 +219,49 @@ class logfile {
     }
 
     /** Decode every DataFlash packet into a timestamp-ordered neutral record. */
-    get_records() {
+    get_records(progressCallback = null, allowedNames = null, sampleIntervalsMs = null) {
         if (Object.keys(this.msgtypes).length === 0 || this.totalMessages === 0) {
             throw new Error("No supported DataFlash messages were found. The file may be corrupt or unsupported.");
         }
 
         const dv = new DataView(this.buffer);
         const records = [];
+        let decoded = 0;
+        let nextProgress = 0;
+        const lastSampleAt = new Map();
+        const totalToDecode = Object.values(this.msgtypes).reduce((total, msgt) => {
+            if (!msgt || !msgt.name || (allowedNames && !allowedNames.has(msgt.name))) return total;
+            if (!msgt.with_instances) return total + (msgt.data?.length || 0);
+            return total + Array.from(msgt.data.entries()).reduce((sum, [, offsets]) => sum + (Array.isArray(offsets) ? offsets.length : 0), 0);
+        }, 0);
         for (const msgt of Object.values(this.msgtypes)) {
             if (!msgt || !msgt.name) continue;
+            if (allowedNames && !allowedNames.has(msgt.name)) continue;
+
+            const sampleInterval = sampleIntervalsMs?.[msgt.name];
+            const subidxMap = msgt.subitemidx_from_name || (msgt.subitemlist ? Object.fromEntries(msgt.subitemlist.map((s, idx) => [s, idx])) : {});
+            const timeIndex = subidxMap.TimeUS ?? subidxMap.TimeMS;
+            const timeField = timeIndex == null ? null : msgt.subitemlist?.[timeIndex];
+            const timeReader = timeIndex == null ? null : readfunc[msgt.fields?.[timeIndex]];
+            const timeSubOffset = timeIndex == null ? null : msgt.subitemoffset?.[timeIndex];
+            const isTimeUS = timeField === 'TimeUS';
+
+            // Pre-compile field descriptors for this message format
+            const fieldDescs = [];
+            const subitems = msgt.subitemlist || [];
+            for (let fi = 0; fi < subitems.length; fi++) {
+                const reader = readfunc[msgt.fields?.[fi]];
+                if (reader) {
+                    fieldDescs.push({
+                        name: subitems[fi],
+                        offset: msgt.subitemoffset?.[fi] ?? 0,
+                        reader,
+                        isTimeUS: subitems[fi] === 'TimeUS',
+                        isTimeMS: subitems[fi] === 'TimeMS',
+                    });
+                }
+            }
+
             const lists = msgt.with_instances
                 ? Array.from(msgt.data.entries())
                     .filter(([, offsets]) => Array.isArray(offsets) && offsets.length > 0)
@@ -197,19 +269,44 @@ class logfile {
                 : [{ offsets: msgt.data || [], instance: null }];
 
             for (const group of lists) {
+                const sampleKey = `${msgt.name}:${group.instance ?? 0}`;
                 for (const offset of group.offsets) {
+                    if (progressCallback && decoded >= nextProgress) {
+                        progressCallback(Math.min(1, decoded / Math.max(1, totalToDecode)));
+                        nextProgress = decoded + Math.max(1_000, Math.floor(totalToDecode / 100));
+                    }
+                    decoded++;
+
+                    if (sampleInterval && timeReader && timeSubOffset != null) {
+                        const timeOffset = offset + timeSubOffset;
+                        if (timeOffset + 4 <= dv.byteLength) {
+                            try {
+                                const rawTime = Number(timeReader(dv, timeOffset));
+                                const timestampMs = isTimeUS ? rawTime / 1000 : rawTime;
+                                if (Number.isFinite(timestampMs)) {
+                                    const previousTimestamp = lastSampleAt.get(sampleKey);
+                                    if (previousTimestamp != null && timestampMs >= previousTimestamp && timestampMs - previousTimestamp < sampleInterval) {
+                                        continue;
+                                    }
+                                    lastSampleAt.set(sampleKey, timestampMs);
+                                }
+                            } catch (_) {
+                                // Fall through to full decoding if the fast timestamp read fails.
+                            }
+                        }
+                    }
+
                     const values = {};
                     let timestampMs = null;
-                    for (let fieldIndex = 0; fieldIndex < msgt.subitemlist.length; fieldIndex++) {
-                        const fieldName = msgt.subitemlist[fieldIndex];
-                        const fieldOffset = offset + msgt.subitemoffset[fieldIndex];
-                        const reader = readfunc[msgt.fields[fieldIndex]];
-                        if (!reader || fieldOffset >= dv.byteLength) continue;
+                    for (let fi = 0; fi < fieldDescs.length; fi++) {
+                        const f = fieldDescs[fi];
+                        const fieldOffset = offset + f.offset;
+                        if (fieldOffset >= dv.byteLength) continue;
                         try {
-                            const value = reader(dv, fieldOffset);
-                            values[fieldName] = value;
-                            if (fieldName === "TimeUS") timestampMs = Number(value) / 1000;
-                            else if (fieldName === "TimeMS" && timestampMs == null) timestampMs = Number(value);
+                            const value = f.reader(dv, fieldOffset);
+                            values[f.name] = value;
+                            if (f.isTimeUS) timestampMs = Number(value) / 1000;
+                            else if (f.isTimeMS && timestampMs == null) timestampMs = Number(value);
                         } catch (_) {
                             // A truncated field should not prevent analysis of the remaining log.
                         }
@@ -221,6 +318,7 @@ class logfile {
             }
         }
         records.sort((a, b) => a.timestampMs - b.timestampMs);
+        if (progressCallback) progressCallback(1);
         return records;
     }
 
@@ -388,6 +486,34 @@ class logfile {
 
         if (dataindexlist.length === 0) return null;
 
+        // Some older/generated logs contain a valid payload but incorrect FMT field widths.
+        // Select the nearby coordinate offset that yields the most complete, continuous track.
+        const decodeCoordinate = (offset) => {
+            let value = latlonrf(dv, offset);
+            if (Math.abs(value) > 180) value /= 10000000;
+            return value;
+        };
+        let coordinateShift = 0;
+        let bestScore = Infinity;
+        for (let shift = -4; shift <= 4; shift++) {
+            const points = [];
+            for (let index = 0; index < Math.min(dataindexlist.length, 50); index++) {
+                const offset = dataindexlist[index];
+                if (offset + latoffset + shift < 0 || offset + lonoffset + shift + 4 > dv.byteLength) continue;
+                const lat = decodeCoordinate(offset + latoffset + shift);
+                const lon = decodeCoordinate(offset + lonoffset + shift);
+                if (Number.isFinite(lat) && Number.isFinite(lon) && Math.abs(lat) <= 90 && Math.abs(lon) <= 180 && (lat !== 0 || lon !== 0)) points.push({ lat, lon });
+            }
+            if (points.length < 2) continue;
+            const distances = [];
+            for (let index = 1; index < points.length; index++) distances.push(gps_coord_distance(points[index - 1], points[index]));
+            distances.sort((a, b) => a - b);
+            const median = distances[Math.floor(distances.length / 2)] || 0;
+            const missingPenalty = (Math.min(dataindexlist.length, 50) - points.length) * 1000000;
+            const score = median + missingPenalty + Math.abs(shift) * .01;
+            if (score < bestScore) { bestScore = score; coordinateShift = shift; }
+        }
+
         let latcen = 0.0, loncen = 0.0;
         let validCount = 0;
         let latmin = 90.0, latmax = -90.0;
@@ -399,11 +525,14 @@ class logfile {
             const msgoffset = dataindexlist[i];
             if (msgoffset + latoffset >= dv.byteLength || msgoffset + lonoffset >= dv.byteLength) continue;
 
-            const lat = latlonrf(dv, msgoffset + latoffset);
-            const lon = latlonrf(dv, msgoffset + lonoffset);
+            let lat = latlonrf(dv, msgoffset + latoffset + coordinateShift);
+            let lon = latlonrf(dv, msgoffset + lonoffset + coordinateShift);
+            // Older/self-generated FMT rows sometimes declare raw E7 coordinates as int32 instead of L.
+            if (Math.abs(lat) > 90) lat /= 10000000;
+            if (Math.abs(lon) > 180) lon /= 10000000;
             const status = (statusrf && msgoffset + statusoffset < dv.byteLength) ? statusrf(dv, msgoffset + statusoffset) : 3;
 
-            if (lat === 0 && lon === 0) continue; // Filter unset coordinates
+            if ((lat === 0 && lon === 0) || !Number.isFinite(lat) || !Number.isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) continue;
 
             ds.lat.push(lat);
             ds.lon.push(lon);
@@ -417,15 +546,17 @@ class logfile {
             loncen += lon;
             validCount++;
 
-            if (altrf && altoffset != null && msgoffset + altoffset < dv.byteLength) {
-                const alt = altrf(dv, msgoffset + altoffset);
-                ds.alt.push(alt);
-                altmin = Math.min(altmin, alt);
-                altmax = Math.max(altmax, alt);
+            if (altrf && altoffset != null && msgoffset + altoffset + coordinateShift < dv.byteLength) {
+                const alt = altrf(dv, msgoffset + altoffset + coordinateShift);
+                if (Number.isFinite(alt) && Math.abs(alt) < 100000) {
+                    ds.alt.push(alt);
+                    altmin = Math.min(altmin, alt);
+                    altmax = Math.max(altmax, alt);
+                } else ds.alt.push(0);
             }
 
-            if (velrf && veloffset != null && msgoffset + veloffset < dv.byteLength) {
-                const vel = velrf(dv, msgoffset + veloffset);
+            if (velrf && veloffset != null && msgoffset + veloffset + coordinateShift < dv.byteLength) {
+                const vel = velrf(dv, msgoffset + veloffset + coordinateShift);
                 ds.vel.push(vel);
                 velmax = Math.max(velmax, vel);
             }
@@ -453,5 +584,96 @@ class logfile {
 
     get_boot_time() {
         return this.boot_time_ms_since_epoch;
+    }
+}
+
+/* ArduPilot's exported text DataFlash format (.log). FMT rows describe every later CSV row. */
+class textlogfile {
+    constructor(buffer, progressCallback = null) {
+        this.buffer = buffer;
+        this.msgtypes = {};
+        this.msgtype_name_hash = {};
+        this.records = [];
+        this.totalMessages = 0;
+        this.parse(progressCallback);
+        this.boot_time_ms_since_epoch = this.find_timebase();
+    }
+
+    parse(progressCallback) {
+        const text = new TextDecoder('utf-8', { fatal: false }).decode(this.buffer);
+        const lines = text.split(/\r?\n/);
+        const formats = new Map();
+        for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            if (progressCallback && lineIndex % 4000 === 0) progressCallback(lineIndex / Math.max(1, lines.length));
+            const parts = lines[lineIndex].split(',').map(value => value.trim());
+            if (!parts[0]) continue;
+            if (parts[0] === 'FMT' && parts.length >= 6) {
+                const name = parts[3];
+                const columns = parts.slice(5).join(',');
+                const subitemlist = columns.split(',').map(value => value.trim()).filter(Boolean);
+                const subitemidx_from_name = Object.fromEntries(subitemlist.map((field, index) => [field, index]));
+                const type = parts[1] || name;
+                const format = { type, length: Number(parts[2]) || 0, name, fields: parts[4], columns,
+                    subitemlist, subitemidx_from_name, subitemoffset: subitemlist.map((_, index) => index),
+                    with_instances: false, data: [] };
+                formats.set(name, format); this.msgtypes[type] = format; this.msgtype_name_hash[name] = type;
+                continue;
+            }
+            const format = formats.get(parts[0]);
+            if (!format) continue;
+            const values = {};
+            format.subitemlist.forEach((field, index) => {
+                const raw = parts[index + 1];
+                if (raw == null) return;
+                const numeric = Number(raw);
+                values[field] = raw !== '' && Number.isFinite(numeric) ? numeric : raw;
+            });
+            const rawTimestamp = values.TimeUS ?? values.TimeMS;
+            const timestampMs = Number(rawTimestamp) / (values.TimeUS != null ? 1000 : 1);
+            if (!Number.isFinite(timestampMs)) continue;
+            const record = { name: format.name, instance: Number.isFinite(Number(values.Instance ?? values.I)) ? Number(values.Instance ?? values.I) : null, timestampMs, values };
+            format.data.push(this.records.length); this.records.push(record); this.totalMessages++;
+        }
+        this.records.sort((a, b) => a.timestampMs - b.timestampMs);
+        if (progressCallback) progressCallback(1);
+    }
+
+    to_snapshot() { return { msgtypes: this.msgtypes, msgtype_name_hash: this.msgtype_name_hash, records: this.records,
+        totalMessages: this.totalMessages, boot_time_ms_since_epoch: this.boot_time_ms_since_epoch, text: true }; }
+    static from_snapshot(buffer, snapshot) { const value = Object.create(textlogfile.prototype); Object.assign(value, snapshot, { buffer }); return value; }
+    get_msgitem_list() { return Object.values(this.msgtypes).sort((a, b) => a.name.localeCompare(b.name)); }
+    get_records(_progressCallback = null, allowedNames = null, sampleIntervalsMs = null) {
+        if (!this.records.length) throw new Error('No timestamped DataFlash rows were found in this text log.');
+        const lastSampleAt = new Map();
+        return this.records.filter(record => {
+            if (allowedNames && !allowedNames.has(record.name)) return false;
+            const interval = sampleIntervalsMs?.[record.name];
+            if (!interval) return true;
+            const key = `${record.name}:${record.instance ?? 0}`;
+            const previousTimestamp = lastSampleAt.get(key);
+            if (previousTimestamp != null && record.timestampMs >= previousTimestamp && record.timestampMs - previousTimestamp < interval) return false;
+            lastSampleAt.set(key, record.timestampMs);
+            return true;
+        });
+    }
+    find_timebase() {
+        const gps = this.records.find(record => record.name === 'GPS' && Number(record.values.GWk) > 1000 && Number.isFinite(Number(record.values.GMS)));
+        return gps ? Date.UTC(1980, 0, 6) + Number(gps.values.GWk) * 604800000 + Number(gps.values.GMS) - gps.timestampMs : 0;
+    }
+    get_boot_time() { return this.boot_time_ms_since_epoch; }
+    get_data_series(item, instance, field) {
+        const rows = this.records.filter(record => record.name === item && (instance < 0 || record.instance === instance) && Number.isFinite(Number(record.values[field])));
+        if (!rows.length) return null;
+        return { name: `${item}${instance >= 0 ? instance : ''}.${field}`, x: rows.map(record => this.boot_time_ms_since_epoch > 0 ? new Date(this.boot_time_ms_since_epoch + record.timestampMs) : record.timestampMs / 1000),
+            y: rows.map(record => Number(record.values[field])), type: 'scatter', mode: 'lines', line: { width: 1.8 } };
+    }
+    get_gps_series() {
+        const rows = this.records.filter(record => record.name === 'GPS' && Number.isFinite(Number(record.values.Lat)) && Number.isFinite(Number(record.values.Lng)) && (Number(record.values.Lat) !== 0 || Number(record.values.Lng) !== 0));
+        if (!rows.length) return null;
+        const ds = { name: 'GPS', lat: rows.map(row => Number(row.values.Lat)), lon: rows.map(row => Number(row.values.Lng)), alt: rows.map(row => Number(row.values.Alt) || 0),
+            time: rows.map(row => this.boot_time_ms_since_epoch > 0 ? new Date(this.boot_time_ms_since_epoch + row.timestampMs) : row.timestampMs / 1000),
+            vel: rows.map(row => Number(row.values.Spd) || 0), status: rows.map(row => Number(row.values.Status) || 0) };
+        ds.cenlat = ds.lat.reduce((a, b) => a + b, 0) / ds.lat.length; ds.cenlon = ds.lon.reduce((a, b) => a + b, 0) / ds.lon.length;
+        ds.altmin = Math.min(...ds.alt); ds.altmax = Math.max(...ds.alt); ds.velmax = Math.max(...ds.vel); return ds;
     }
 }

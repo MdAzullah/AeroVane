@@ -1,0 +1,146 @@
+{
+  "created_at": "2026-09-27T02:20:00Z",
+  "inventory": "ml/manifests/uav-sead-774a336a-batch-004-inventory.json",
+  "label_provenance": "expert_review",
+  "records": [
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-021",
+      "ranges_ms": [
+        {
+          "end": 103862.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 102149.0
+        },
+        {
+          "end": 108917.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Controls",
+          "start": 105833.0
+        },
+        {
+          "end": 108874.0,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 106947.0
+        },
+        {
+          "end": 113243.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Controls",
+          "start": 111915.0
+        }
+      ],
+      "sha256": "f2e9aee5482d538df7e03982ff7235552b744502e8a84f50fb885698f757ccf9",
+      "source_classes": [
+        "External Position",
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-022",
+      "ranges_ms": [
+        {
+          "end": 195725.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 188380.0
+        },
+        {
+          "end": 195439.0,
+          "source_class": "Mechanical",
+          "source_signal": "Raw Acceleration",
+          "start": 194389.0
+        },
+        {
+          "end": 202688.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 196583.0
+        },
+        {
+          "end": 205836.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 204786.0
+        }
+      ],
+      "sha256": "0bf1763a75ec9210fe70e7bdb78441fe98ea61db0d3026c11a9e2623f596f206",
+      "source_classes": [
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-023",
+      "ranges_ms": [
+        {
+          "end": 171279.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 164383.0
+        },
+        {
+          "end": 174775.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 173221.0
+        },
+        {
+          "end": 180409.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 175649.0
+        },
+        {
+          "end": 186042.0,
+          "source_class": "Mechanical",
+          "source_signal": "Actuator Outputs",
+          "start": 183128.0
+        }
+      ],
+      "sha256": "030195bb314ce0dd04d49b0c6625286b150b3093d163a9f752ea84d49664fa35",
+      "source_classes": [
+        "Mechanical"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-024",
+      "ranges_ms": [],
+      "sha256": "1b3b1507233c0648dfc810bbd415c57c198cd38665a070d9a82c0ab4469757a0",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-025",
+      "ranges_ms": [],
+      "sha256": "419d37fb9be9838523d288adc117af0c9810246ad1f081806ab90d693c9716bc",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "source_id": "uav-sead",
+  "source_version": "774a336a1d1d06b248927a35c2ea1f6869e9e1a4"
+}

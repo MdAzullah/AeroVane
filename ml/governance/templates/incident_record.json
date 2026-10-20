@@ -1,0 +1,15 @@
+{
+  "incident_id": "incident-YYYY-NNN",
+  "discovered_at": "YYYY-MM-DD",
+  "category": "privacy|license|provenance|integrity|labeling|safety",
+  "source_ids": [],
+  "content_hashes": [],
+  "affected_runs_and_artifacts": [],
+  "promotion_frozen": true,
+  "containment_actions": [],
+  "notification_review": null,
+  "remediation_or_deletion": [],
+  "human_safety_review": null,
+  "resume_approved_by": null,
+  "closed_at": null
+}

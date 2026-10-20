@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://skyforge.local/schemas/canonical-telemetry-sample.schema.json",
+  "title": "SkyForge canonical telemetry sample",
+  "type": "object",
+  "required": ["schemaVersion", "timestampMs", "source", "values", "availability"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "timestampMs": { "type": "number", "minimum": 0 },
+    "source": { "enum": ["live", "tlog", "dataflash", "simulation", "ulog"] },
+    "vehicleId": { "type": "string" },
+    "flightPhase": { "enum": ["unknown", "disconnected", "on_ground", "armed", "flying", "landing", "landed"] },
+    "vehicle": {
+      "type": "object",
+      "required": ["systemId", "componentId", "mavType", "autopilot", "family"],
+      "additionalProperties": false,
+      "properties": {
+        "systemId": { "type": "integer", "minimum": 0, "maximum": 255 },
+        "componentId": { "type": "integer", "minimum": 0, "maximum": 255 },
+        "mavType": { "type": "integer", "minimum": 0, "maximum": 255 },
+        "autopilot": { "type": "integer", "minimum": 0, "maximum": 255 },
+        "family": { "enum": ["multicopter", "fixed_wing", "vtol_hybrid", "ground_rover", "surface_vessel", "submersible", "lighter_than_air_other", "unknown"] },
+        "firmwareVersion": { "type": "string", "minLength": 1 },
+        "firmwareVersionEncoded": { "type": "integer", "minimum": 0, "maximum": 4294967295 },
+        "boardVersion": { "type": "integer", "minimum": 0, "maximum": 4294967295 },
+        "vendorId": { "type": "integer", "minimum": 0, "maximum": 65535 },
+        "productId": { "type": "integer", "minimum": 0, "maximum": 65535 }
+      }
+    },
+    "frame": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "airframeId": { "type": "number", "minimum": 0 },
+        "allocatorAirframe": { "type": "number", "minimum": 0 },
+        "frameClass": { "type": "number", "minimum": 0 },
+        "frameType": { "type": "number", "minimum": 0 },
+        "vtolFrameClass": { "type": "number", "minimum": 0 },
+        "vtolFrameType": { "type": "number", "minimum": 0 }
+      }
+    },
+    "values": { "type": "object", "additionalProperties": { "type": "number" } },
+    "units": { "type": "object", "additionalProperties": { "type": "string", "minLength": 1 } },
+    "textValues": { "type": "object", "additionalProperties": { "type": "string" } },
+    "availability": { "type": "object", "additionalProperties": { "type": "boolean" } },
+    "qualityFlags": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "uniqueItems": true,
+        "items": { "enum": ["missing_or_invalid", "source_reported_unavailable", "out_of_range", "stale", "estimated"] }
+      }
+    }
+  }
+}

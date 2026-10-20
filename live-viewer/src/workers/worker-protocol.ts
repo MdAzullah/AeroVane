@@ -12,7 +12,7 @@ import type { BaudRate } from '../services/baud-rates';
 import type { ParameterStateSnapshot, ParamSetResult } from '../services/parameter-types';
 import type { FaultEvent } from '../analysis';
 import type { FaultRecord } from '../analysis';
-import type { SpoofScenarioId } from '../services/spoof-scenarios';
+import type { SpoofScenarioId, SimulationEnvironmentId, SimulationFlightProfileId } from '../services/spoof-scenarios';
 
 // ---------------------------------------------------------------------------
 // Shared types used by both directions
@@ -20,11 +20,11 @@ import type { SpoofScenarioId } from '../services/spoof-scenarios';
 
 /** Worker-safe connection config (no DOM objects — must be cloneable via postMessage). */
 export type ConnectionConfig =
-  | { type: 'spoof'; scenario?: SpoofScenarioId }
+  | { type: 'spoof'; scenario?: SpoofScenarioId; environment?: SimulationEnvironmentId; flightProfile?: SimulationFlightProfileId }
   | { type: 'webserial'; baudRate: number }
   | { type: 'websocket'; url: string };
 
-export type ConnectionStatus = 'disconnected' | 'connecting' | 'connected' | 'no_data' | 'error' | 'probing';
+export type ConnectionStatus = 'disconnected' | 'connecting' | 'connected' | 'no_data' | 'reconnecting' | 'error' | 'probing';
 
 export type DebugLogLevel = 'debug' | 'info' | 'warn' | 'error';
 
@@ -71,6 +71,7 @@ export type WorkerEvent =
   | { type: 'update'; buffers: Record<string, { timestamps: Float64Array; values: Float64Array }> }
   | { type: 'availableFields'; fields: string[] }
   | { type: 'statusChange'; status: ConnectionStatus }
+  | { type: 'websocketDiagnostic'; state: 'connected' | 'reconnecting' | 'failed'; retryCount: number; delayMs?: number; closeCode?: number; reason?: string; lastPacketAt: number | null; lastHeartbeatAt: number | null }
   | { type: 'statustext'; severity: number; text: string; timestamp: number }
   | { type: 'logSessionStarted'; sessionId: string; startedAtMs: number }
   | { type: 'logChunk'; sessionId: string; seq: number; startUs: number; endUs: number; packetCount: number; sessionPacketCount: number; bytes: ArrayBuffer }

@@ -62,8 +62,11 @@ describe('AISafetyPanel', () => {
     await Promise.resolve();
 
     expect(document.body.textContent).toContain('WARNING');
+    expect(document.body.textContent).toContain('GPS position lock lost');
     expect(document.body.textContent).toContain('GPS does not have a valid 3D fix');
-    expect(document.body.textContent).toContain('limit 3 enum');
+    expect(document.body.textContent).toContain('What to do now');
+    expect(document.body.textContent).toContain('warning level 3 enum');
+    expect(document.body.textContent).toContain('Recommended actions');
     const button = Array.from(document.querySelectorAll('button')).find(item => item.textContent?.includes('Acknowledge')) as HTMLButtonElement;
     button.click();
     expect(appState.activeFaults[0].acknowledged).toBe(true);

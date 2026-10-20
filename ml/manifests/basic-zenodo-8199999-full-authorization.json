@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "source_id": "basic-zenodo-8199999",
+  "source_version": "1",
+  "authorized_at": "2026-09-29",
+  "authorized_by": "repository-owner-request-to-complete-professional-multi-model-task",
+  "record_id": "8199999",
+  "license": "CC-BY-4.0",
+  "candidate_count": 70,
+  "maximum_bytes": 2898419918,
+  "download_authorized": true,
+  "training_authorized": true,
+  "training_scope": "simulation-only multicopter sensor-fault development",
+  "prohibited_claims": [
+    "real-flight accuracy",
+    "all-fault coverage",
+    "automatic vehicle control",
+    "confirmed physical component diagnosis"
+  ],
+  "conditions": [
+    "verify every official size and MD5 checksum",
+    "hold out complete simulated-location cohorts",
+    "exclude RC failure until an unambiguous onset is established",
+    "emit unknown anomaly below the confidence threshold",
+    "do not promote the model as production-ready without independent real-flight evidence"
+  ]
+}

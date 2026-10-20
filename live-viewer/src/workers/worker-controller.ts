@@ -48,7 +48,7 @@ import {
 import { ThroughputMonitor } from './throughput-monitor';
 import { DataActivityMonitor } from './data-activity-monitor';
 import {
-  COMMUNICATION_WATCHDOG_SIGNAL,
+  createCommunicationWatchdogSample,
   createDefaultFaultDetectors,
   FaultDetectionEngine,
   MavlinkTelemetryNormalizer,
@@ -197,7 +197,7 @@ export class WorkerController {
 
     this.dataActivityMonitor = new DataActivityMonitor(NO_DATA_TIMEOUT_MS, {
       onNoData: () => {
-        if (!this.serial.serialSource?.isConnected) return;
+        if (!this.serial.serialSource?.isConnected && !this.pipeline.websocketSource?.isConnected) return;
         this.throughputMonitor.stop();
         stopLogSession(this.log, this.postEvent);
         this.postEvent({ type: 'statusChange', status: 'no_data' });
@@ -238,13 +238,16 @@ export class WorkerController {
         if (config.type === 'spoof') {
           let metadataJson = '';
           try {
-            const resp = await fetch('/params.json');
+            const resp = await fetch(`${import.meta.env.BASE_URL}params.json`);
             if (resp.ok) metadataJson = await resp.text();
           } catch { /* spoof FTP will serve empty metadata */ }
-          source = this.pipeline.spoofSource = new SpoofByteSource(this.registry, 1, 1, metadataJson, config.scenario);
+          source = this.pipeline.spoofSource = new SpoofByteSource(
+            this.registry, 1, 1, metadataJson, config.scenario, config.environment, config.flightProfile,
+          );
         } else if (config.type === 'websocket') {
-          source = this.pipeline.websocketSource = new WebSocketByteSource(config.url, () => {
-            this.postEvent({ type: 'statusChange', status: 'error' });
+          source = this.pipeline.websocketSource = new WebSocketByteSource(config.url, event => {
+            this.postEvent({ type: 'websocketDiagnostic', ...event, lastHeartbeatAt: this.activeVehicle?.lastHeartbeatMs ?? null });
+            this.postEvent({ type: 'statusChange', status: event.state === 'reconnecting' ? 'reconnecting' : event.state === 'failed' ? 'error' : 'connected' });
           });
         } else {
           source = this.pipeline.externalSource = new ExternalByteSource((data) => {
@@ -376,13 +379,9 @@ export class WorkerController {
           (message, timestampMs) => {
             if (previousTimestampMs !== undefined && timestampMs - previousTimestampMs > 1_000) {
               for (let tickMs = previousTimestampMs + 1_000; tickMs < timestampMs; tickMs += 1_000) {
-                logEngine.processSample({
-                  timestampMs: tickMs,
-                  source: 'tlog',
-                  values: { [COMMUNICATION_WATCHDOG_SIGNAL]: 1 },
-                  units: { [COMMUNICATION_WATCHDOG_SIGNAL]: 'boolean' },
-                  flightPhase: logNormalizer.getFlightPhase(),
-                });
+                logEngine.processSample(createCommunicationWatchdogSample(
+                  tickMs, 'tlog', logNormalizer.getFlightPhase(),
+                ));
               }
             }
             const normalized = logNormalizer.normalize(message, timestampMs);
@@ -606,17 +605,13 @@ export class WorkerController {
       if (sample) this.faultEngine.processSample(sample);
     });
     this.analysisWatchdogTimer = setInterval(() => {
-      this.faultEngine.processSample({
-        timestampMs: Date.now(),
-        source: 'live',
-        values: { [COMMUNICATION_WATCHDOG_SIGNAL]: 1 },
-        units: { [COMMUNICATION_WATCHDOG_SIGNAL]: 'boolean' },
-        flightPhase: this.telemetryNormalizer.getFlightPhase(),
-      });
+      this.faultEngine.processSample(createCommunicationWatchdogSample(
+        Date.now(), 'live', this.telemetryNormalizer.getFlightPhase(),
+      ));
     }, 1_000);
 
     this.pipeline.packetUnsub = this.pipeline.service.onPacket((packet, timestampUs) => {
-      if (this.serial.serialSource) this.dataActivityMonitor.recordActivity();
+      if (this.serial.serialSource || this.pipeline.websocketSource) this.dataActivityMonitor.recordActivity();
       appendPacketToLog(this.log, packet, timestampUs, LOG_FLUSH_BYTES, LOG_FLUSH_INTERVAL_MS, this.postEvent);
     });
 

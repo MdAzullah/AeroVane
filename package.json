@@ -7,13 +7,22 @@
   "scripts": {
     "dev": "npm --prefix live-viewer run dev",
     "dev:live": "npm --prefix live-viewer run dev",
-    "dev:saved": "python3 -m http.server 8080 --directory saved-log-viewer",
-    "dev:bridge": "./bridge/mavlink-server 'fakesource://' wsserver://0.0.0.0:9988",
-    "build:saved-ai": "./live-viewer/node_modules/@esbuild/linux-x64/bin/esbuild saved-log-viewer/ai-entry.ts --bundle --format=iife --platform=browser --target=es2020 --outfile=saved-log-viewer/ai-analysis.js",
-    "build": "npm run build:saved-ai && npm --prefix live-viewer run build",
+    "dev:saved": "node scripts/serve-skyforge.mjs --directory saved-log-viewer --port 8080 --open",
+    "dev:bridge": "node scripts/mavlink-bridge.mjs 'fakesource://' wsserver://127.0.0.1:9988",
+    "bridge": "node scripts/mavlink-bridge.mjs",
+    "build:saved-ai": "npm --prefix live-viewer exec -- esbuild saved-log-viewer/ai-entry.ts --bundle --format=iife --platform=browser --target=es2020 --outfile=saved-log-viewer/ai-analysis.js",
+    "build:saved-map": "npm --prefix live-viewer exec -- esbuild saved-log-viewer/map-entry.ts --bundle --format=iife --platform=browser --target=es2020 --outfile=saved-log-viewer/map-runtime.js",
+    "build": "npm run build:saved-ai && npm run build:saved-map && npm --prefix live-viewer run build && node scripts/build-dist.mjs",
+    "start": "node scripts/serve-skyforge.mjs --open",
+    "serve": "node scripts/serve-skyforge.mjs",
+    "install:local": "bash scripts/install-local-service.sh",
     "test:saved": "node --test saved-log-viewer/tests/*.test.mjs",
     "test": "npm run test:saved && npm --prefix live-viewer test",
     "typecheck": "npm --prefix live-viewer run typecheck",
-    "verify": "npm run build:saved-ai && npm run test:saved && npm --prefix live-viewer run verify"
+    "verify": "npm run build:saved-ai && npm run build:saved-map && npm run test:saved && npm --prefix live-viewer run verify"
+  },
+  "devDependencies": {
+    "maplibre-gl": "^5.24.0",
+    "pmtiles": "^4.5.0"
   }
 }

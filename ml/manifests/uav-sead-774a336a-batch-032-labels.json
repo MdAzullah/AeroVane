@@ -1,0 +1,91 @@
+{
+  "created_at": "2026-09-27T11:32:00Z",
+  "inventory": "ml/manifests/uav-sead-774a336a-batch-032-inventory.json",
+  "label_provenance": "expert_review",
+  "records": [
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-161",
+      "ranges_ms": [
+        {
+          "end": 691928.687,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 634639.301
+        }
+      ],
+      "sha256": "757a4d15db422309b7c8b990dc9f9e195f2bce5375c2cb0a2a6a3135e18b9368",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-162",
+      "ranges_ms": [
+        {
+          "end": 143326.347,
+          "source_class": "External Position",
+          "source_signal": "Position.X",
+          "start": 32600.581
+        }
+      ],
+      "sha256": "5fef117b24868c086d747e1e6c36d9ec370b4efce000201e0c95666c4980bfa0",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-163",
+      "ranges_ms": [
+        {
+          "end": 908625.713,
+          "source_class": "External Position",
+          "source_signal": "Position.Y",
+          "start": 879810.1
+        }
+      ],
+      "sha256": "163777eaf558c65bdea8a67bb6a60f16a6e32a0470a0b2995a9b3cb543e7bb63",
+      "source_classes": [
+        "External Position"
+      ],
+      "training_eligible": true,
+      "window_label": "anomalous"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-164",
+      "ranges_ms": [],
+      "sha256": "9e1d2102188c9f663404606f25b33860798308cb8131b5505c93494703632ab9",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    },
+    {
+      "exclusion_reason": null,
+      "fault_family": null,
+      "flight_id": "flight-165",
+      "ranges_ms": [],
+      "sha256": "c66e39ff927e9a2e38568ccf4b367c0bc43db75255d655a8ddce22058786152c",
+      "source_classes": [
+        "Normal"
+      ],
+      "training_eligible": true,
+      "window_label": "normal"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "source_id": "uav-sead",
+  "source_version": "774a336a1d1d06b248927a35c2ea1f6869e9e1a4"
+}

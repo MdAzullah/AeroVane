@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "advisory_only": true,
+  "fallback": "deterministic_rules",
+  "unknown_result": "unknown_anomaly",
+  "routes": [
+    {
+      "id": "multicopter_generic_anomaly",
+      "status": "integrated_experimental",
+      "vehicle_families": ["multicopter"],
+      "sources": ["live_mavlink", "tlog"],
+      "component_diagnosis": false,
+      "artifact": "models/uav-sead-experiment-2.json"
+    },
+    {
+      "id": "multicopter_sensor_fault",
+      "status": "integrated_experimental_advisory",
+      "vehicle_families": ["multicopter"],
+      "sources": ["live_mavlink", "tlog", "dataflash"],
+      "component_diagnosis": false,
+      "artifact": "models/basic-simulated-sensor-classifier-1.pt",
+      "portable_artifact": "live-viewer/src/analysis/models/basic-sensor-model.json",
+      "unsupported_class": "rc_failure",
+      "warning_copy": "simulation-trained pattern; not a confirmed diagnosis"
+    },
+    {
+      "id": "multicopter_propulsion_anomaly",
+      "status": "rejected_candidate_not_integrated",
+      "vehicle_families": ["multicopter"],
+      "component_diagnosis": false,
+      "source": "uav-fd-zenodo-7648996",
+      "report": "ml/experiments/uavfd-propulsion-1-report.json",
+      "reason": "held-out persisted recall 0.7368 is below the frozen 0.80 minimum"
+    },
+    {
+      "id": "vtol_hybrid_anomaly",
+      "status": "unsupported_no_qualified_fault_corpus",
+      "vehicle_families": ["vtol_hybrid"],
+      "component_diagnosis": false,
+      "fallback": "deterministic_rules"
+    },
+    {
+      "id": "fixed_wing_engine_actuator",
+      "status": "unsupported_pending_license_and_corpus_review",
+      "vehicle_families": ["fixed_wing"],
+      "component_diagnosis": false
+    }
+  ]
+}

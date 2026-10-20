@@ -1,6 +1,6 @@
 import type { TelemetrySample } from './types';
 import type { SpoofScenarioId } from '../services/spoof-scenarios';
-import { COMMUNICATION_WATCHDOG_SIGNAL } from './detectors';
+import { createCommunicationWatchdogSample } from './watchdog-sample';
 
 /** Deterministic detector-level replay fixture matching the selectable simulator scenarios. */
 export function createSpoofScenarioReplay(scenario: SpoofScenarioId): TelemetrySample[] {
@@ -30,7 +30,7 @@ export function createSpoofScenarioReplay(scenario: SpoofScenarioId): TelemetryS
       values['attitude.pitch_rad'] = 0.03 + timestampMs / 1_000_000;
     }
     if (active && scenario === 'link') {
-      samples.push({ timestampMs, source: 'simulation', flightPhase: 'flying', values: { [COMMUNICATION_WATCHDOG_SIGNAL]: 1 } });
+      samples.push(createCommunicationWatchdogSample(timestampMs, 'simulation', 'flying'));
     } else {
       samples.push({ timestampMs, source: 'simulation', flightPhase: 'flying', values });
     }
