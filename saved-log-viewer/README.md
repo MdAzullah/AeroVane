@@ -1,4 +1,4 @@
-# SkyForge Dataflash Log Analyzer
+# AeroVane Dataflash Log Analyzer
 
 A fast, client-side in-browser flight log analyzer for ArduPilot dataflash (`.bin`) log files. Perform telemetry analysis, sensor comparisons, and trajectory mapping offline with zero server dependencies.
 

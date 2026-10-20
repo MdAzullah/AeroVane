@@ -1,8 +1,8 @@
 {
-  "name": "skyforge-live-viewer",
+  "name": "aerovane-live-viewer",
   "private": false,
   "version": "1.0.0",
-  "description": "SkyForge — High-performance web-based MAVLink telemetry visualizer, serial/WebSocket live stream monitor, and drone log analysis tool.",
+  "description": "AeroVane — High-performance web-based MAVLink telemetry visualizer, serial/WebSocket live stream monitor, and drone log analysis tool.",
   "author": "MD Azizullah <md.azizullah.engineer@gmail.com>",
   "license": "MIT",
   "repository": {

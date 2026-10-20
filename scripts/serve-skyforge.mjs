@@ -5,13 +5,14 @@ import { extname, join, normalize, resolve, sep } from 'node:path';
 import { spawn } from 'node:child_process';
 
 const directoryIndex = process.argv.indexOf('--directory');
-const root = resolve(directoryIndex >= 0 ? process.argv[directoryIndex + 1] : 'skyforge-dist');
+const defaultDir = existsSync(resolve('aerovane-dist', 'index.html')) ? 'aerovane-dist' : 'aerovane-dist';
+const root = resolve(directoryIndex >= 0 ? process.argv[directoryIndex + 1] : defaultDir);
 const portIndex = process.argv.indexOf('--port');
 const port = portIndex >= 0 ? Number(process.argv[portIndex + 1]) : 4173;
 const shouldOpen = process.argv.includes('--open');
 
 if (!existsSync(join(root, 'index.html'))) {
-  console.error(`${root} does not contain index.html. Run \`npm run build\` first if serving skyforge-dist.`);
+  console.error(`${root} does not contain index.html. Run \`npm run build\` first if serving ${defaultDir}.`);
   process.exit(1);
 }
 
@@ -30,7 +31,7 @@ const mimeTypes = {
 const server = createServer((request, response) => {
   let pathname;
   try {
-    pathname = decodeURIComponent(new URL(request.url ?? '/', 'http://localhost').pathname);
+    pathname = decodeURIComponent(new URL(request.url || '/', 'http://localhost').pathname);
   } catch {
     response.writeHead(400).end('Bad request');
     return;
@@ -62,7 +63,7 @@ const server = createServer((request, response) => {
 
 server.listen(port, '127.0.0.1', () => {
   const url = `http://127.0.0.1:${port}/`;
-  console.log(`SkyForge is available at ${url}`);
+  console.log(`AeroVane is available at ${url}`);
   if (!shouldOpen) return;
   const command = process.platform === 'win32' ? 'cmd' : process.platform === 'darwin' ? 'open' : 'xdg-open';
   const args = process.platform === 'win32' ? ['/c', 'start', '', url] : [url];

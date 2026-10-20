@@ -1,7 +1,7 @@
 # ML data governance policy
 
 Version: 1.0.0  
-Owner: SkyForge maintainers  
+Owner: AeroVane maintainers  
 Review trigger: before any new source, new use, or public model release
 
 ## Data admission

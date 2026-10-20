@@ -644,7 +644,7 @@ export default function SettingsModal(props: SettingsModalProps) {
           class="flex items-center justify-between px-4 py-2 border-t text-xs"
           style={{ 'border-color': 'var(--border)', color: 'var(--text-secondary)' }}
         >
-          <span>SkyForge v{packageJson.version}</span>
+          <span>AeroVane v{packageJson.version}</span>
           <span class="flex items-center gap-1.5">
             <span
               class="inline-block w-2 h-2 rounded-full"

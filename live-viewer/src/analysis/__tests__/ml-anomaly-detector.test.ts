@@ -30,7 +30,7 @@ describe('MlAnomalyDetector', () => {
     detector.evaluate(sample(3000, unusual));
     const findings = detector.evaluate(sample(4500, unusual));
     expect(findings[0]).toMatchObject({ status: 'active', faultType: 'ML_FLIGHT_ANOMALY' });
-    expect(findings[0].status === 'active' && findings[0].message).toContain('skyforge-anomaly-1.0.0');
+    expect(findings[0].status === 'active' && findings[0].message).toContain('aerovane-anomaly-1.0.0');
   });
 
   it('fails safely when the model artifact is invalid', () => {

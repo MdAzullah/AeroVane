@@ -290,5 +290,18 @@ export async function analyzeDataFlashRecordsWithProgress(
     healthScore, dataCoveragePct: Math.round(samplesWithTelemetry / ordered.length * 100), ruleFindings: result.length - mlFindings, mlFindings };
 }
 
-declare global { interface Window { SkyForgeAI: { analyzeDataFlashRecords: typeof analyzeDataFlashRecords; analyzeDataFlashRecordsWithProgress: typeof analyzeDataFlashRecordsWithProgress; normalizeDataFlashRecords: typeof normalizeDataFlashRecords; presentFaultNotification: typeof presentFaultNotification } } }
-if (typeof window !== 'undefined') window.SkyForgeAI = { analyzeDataFlashRecords, analyzeDataFlashRecordsWithProgress, normalizeDataFlashRecords, presentFaultNotification };
+declare global {
+  interface Window {
+    AeroVaneAI: {
+      analyzeDataFlashRecords: typeof analyzeDataFlashRecords;
+      analyzeDataFlashRecordsWithProgress: typeof analyzeDataFlashRecordsWithProgress;
+      normalizeDataFlashRecords: typeof normalizeDataFlashRecords;
+      presentFaultNotification: typeof presentFaultNotification;
+    };
+    AeroVaneAI: Window['AeroVaneAI'];
+  }
+}
+if (typeof window !== 'undefined') {
+  window.AeroVaneAI = { analyzeDataFlashRecords, analyzeDataFlashRecordsWithProgress, normalizeDataFlashRecords, presentFaultNotification };
+  window.AeroVaneAI = window.AeroVaneAI;
+}

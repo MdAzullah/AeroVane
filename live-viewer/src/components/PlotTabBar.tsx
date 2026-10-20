@@ -6,6 +6,7 @@ import {
   renamePlotTab,
   reorderPlotTabs,
   setActiveSubTab,
+  setAppState,
 } from '../store';
 
 interface PlotTabBarProps {
@@ -271,6 +272,27 @@ export default function PlotTabBar(props: PlotTabBarProps) {
           <line x1="2" y1="7" x2="12" y2="7" />
         </svg>
       </button>
+
+      {/* Add Plot button on the tab bar */}
+      <div class="ml-auto flex items-center pr-2">
+        <button
+          class="flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium interactive-hover transition-colors"
+          style={{
+            color: 'var(--text-primary)',
+            'background-color': 'var(--bg-hover)',
+            border: '1px solid var(--border-subtle)',
+          }}
+          onClick={() => setAppState('addPlotCounter', c => c + 1)}
+          title="Add a new plot to this tab"
+          aria-label="Add plot"
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+          <span>+ Add Plot</span>
+        </button>
+      </div>
     </div>
   );
 }

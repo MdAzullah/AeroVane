@@ -26,7 +26,7 @@ test('sample BIN decodes into ordered DataFlash records and runs shared analysis
   const summary = vm.runInContext(`(() => {
     const log = new logfile(inputBuffer);
     const records = log.get_records();
-    const analysis = SkyForgeAI.analyzeDataFlashRecords(records);
+    const analysis = AeroVaneAI.analyzeDataFlashRecords(records);
     return { total: log.totalMessages, names: [...new Set(records.map(r => r.name))], ordered: records.every((r, i) => i === 0 || records[i - 1].timestampMs <= r.timestampMs), analysis };
   })()`, context);
   assert.ok(summary.total > 0);
@@ -102,7 +102,7 @@ test('large-log sampling bounds high-rate telemetry without dropping status reco
 
 test('shared battery detector reports sustained critical BIN voltage', async () => {
   const context = await loadRuntime();
-  const faults = vm.runInContext(`SkyForgeAI.analyzeDataFlashRecords([
+  const faults = vm.runInContext(`AeroVaneAI.analyzeDataFlashRecords([
     { name: 'BAT', instance: 0, timestampMs: 0, values: { Volt: 9.5 } },
     { name: 'BAT', instance: 0, timestampMs: 4000, values: { Volt: 9.5 } }
   ]).faults`, context);
@@ -116,7 +116,7 @@ test('large-log analysis reports incremental safety progress while preserving fi
     const records = Array.from({ length: 2_100 }, (_, index) => ({
       name: 'BAT', instance: 0, timestampMs: index * 1000, values: { Volt: index < 4 ? 9.5 : 15.2 }
     }));
-    const analysis = await SkyForgeAI.analyzeDataFlashRecordsWithProgress(records, value => progress.push(value));
+    const analysis = await AeroVaneAI.analyzeDataFlashRecordsWithProgress(records, value => progress.push(value));
     return { analysis, progress };
   })()`, context);
   assert.ok(result.progress.length > 3);
@@ -137,7 +137,7 @@ test('huge-log adaptive intervals bound sample count while preserving sustained 
     }
     const sampling = { BAT: 500 };
     const filtered = log.get_records(null, new Set(['BAT']), sampling);
-    const analysis = await SkyForgeAI.analyzeDataFlashRecordsWithProgress(filtered);
+    const analysis = await AeroVaneAI.analyzeDataFlashRecordsWithProgress(filtered);
     return { original: log.records.length, bounded: filtered.length, faults: analysis.faults.length };
   })()`, context);
   assert.equal(result.original, 10000);
@@ -147,7 +147,7 @@ test('huge-log adaptive intervals bound sample count while preserving sustained 
 
 test('shared notification presenter provides plain-language action guidance', async () => {
   const context = await loadRuntime();
-  const result = vm.runInContext(`SkyForgeAI.presentFaultNotification({
+  const result = vm.runInContext(`AeroVaneAI.presentFaultNotification({
     detectorId: 'real-ml-anomaly', faultType: 'ML_FLIGHT_ANOMALY', severity: 'warning',
     message: 'Anomaly detected', suggestedAction: 'Inspect telemetry; land safely', evidence: []
   })`, context);
@@ -159,7 +159,7 @@ test('shared notification presenter provides plain-language action guidance', as
 
 test('DataFlash canonical extraction preserves missing values and sorts timestamps', async () => {
   const context = await loadRuntime();
-  const samples = vm.runInContext(`SkyForgeAI.normalizeDataFlashRecords([
+  const samples = vm.runInContext(`AeroVaneAI.normalizeDataFlashRecords([
     { name: 'BAT', instance: 0, timestampMs: 2000, values: { Volt: 15.2, Curr: NaN } },
     { name: 'BAT', instance: 0, timestampMs: 1000, values: { Curr: 2.5 } }
   ])`, context);
@@ -174,7 +174,7 @@ test('DataFlash canonical extraction preserves missing values and sorts timestam
 test('DataFlash canonical extraction rejects invalid timestamps', async () => {
   const context = await loadRuntime();
   assert.throws(
-    () => vm.runInContext(`SkyForgeAI.normalizeDataFlashRecords([
+    () => vm.runInContext(`AeroVaneAI.normalizeDataFlashRecords([
       { name: 'BAT', instance: 0, timestampMs: NaN, values: { Volt: 15.2 } }
     ])`, context),
     /invalid record timestamp/,
@@ -183,7 +183,7 @@ test('DataFlash canonical extraction rejects invalid timestamps', async () => {
 
 test('DataFlash retains source-provided frame parameters without guessing', async () => {
   const context = await loadRuntime();
-  const samples = vm.runInContext(`SkyForgeAI.normalizeDataFlashRecords([
+  const samples = vm.runInContext(`AeroVaneAI.normalizeDataFlashRecords([
     { name: 'PARM', instance: null, timestampMs: 100, values: { Name: 'FRAME_CLASS', Value: 1 } },
     { name: 'PARM', instance: null, timestampMs: 200, values: { Name: 'FRAME_TYPE', Value: 3 } },
     { name: 'BAT', instance: 0, timestampMs: 300, values: { Volt: 15.2 } }
@@ -197,7 +197,7 @@ test('DataFlash retains source-provided frame parameters without guessing', asyn
 
 test('DataFlash exposes BASiC classifier sensor families in canonical units', async () => {
   const context = await loadRuntime();
-  const samples = vm.runInContext(`SkyForgeAI.normalizeDataFlashRecords([
+  const samples = vm.runInContext(`AeroVaneAI.normalizeDataFlashRecords([
     { name: 'GPS', instance: 0, timestampMs: 1000, values: { NSats: 12, HDop: 120, Spd: 4, VZ: -1 } },
     { name: 'MAG', instance: 0, timestampMs: 2000, values: { MagX: 100, MagY: 200, MagZ: 300 } },
     { name: 'BARO', instance: 0, timestampMs: 3000, values: { Alt: 42, Press: 101325, Temp: 25, CRt: 150 } },

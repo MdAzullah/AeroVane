@@ -1,6 +1,6 @@
 # Third-Party Attributions & Open Source Notices
 
-SkyForge integrates and builds upon exceptional open-source projects. We gratefully acknowledge the upstream creators and maintainers:
+AeroVane integrates and builds upon exceptional open-source projects. We gratefully acknowledge the upstream creators and maintainers:
 
 ---
 

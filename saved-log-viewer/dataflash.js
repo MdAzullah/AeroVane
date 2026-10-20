@@ -1,4 +1,4 @@
-/* SkyForge ArduPilot Dataflash Parser
+/* AeroVane ArduPilot Dataflash Parser
    Fast, robust in-browser parser for ArduPilot Dataflash (.bin and .log) files. */
 
 function buf2str(dv, offset, length) {

@@ -17,8 +17,8 @@ export default function Toolbar(props: ToolbarProps) {
   const logViewerService = useLogViewerService();
   const connectionManager = useConnectionManager();
 
-  const WS_URL_KEY = 'skyforge.websocketUrl';
-  const [wsUrl, setWsUrl] = createSignal(localStorage.getItem(WS_URL_KEY) || 'ws://127.0.0.1:9988');
+  const WS_URL_KEY = 'aerovane.websocketUrl';
+  const [wsUrl, setWsUrl] = createSignal(localStorage.getItem(WS_URL_KEY) || localStorage.getItem('aerovane.websocketUrl') || 'ws://127.0.0.1:9988');
   const [wsActive, setWsActive] = createSignal(false);
 
   function handleConnectWebSocket() {
@@ -71,7 +71,7 @@ export default function Toolbar(props: ToolbarProps) {
 
   return (
     <header
-      class="skyforge-toolbar flex items-center justify-between px-4 h-12 border-b"
+      class="aerovane-toolbar aerovane-toolbar flex items-center justify-between px-4 h-12 border-b"
       style={{
         'background-color': 'var(--bg-panel)',
         'border-color': 'var(--border-subtle)',
@@ -80,7 +80,7 @@ export default function Toolbar(props: ToolbarProps) {
     >
       {/* Left: Tab navigation */}
       <div class="toolbar-primary flex items-center gap-2">
-        <a href="/" class="live-brand" aria-label="SkyForge home"><span>SF</span><b>SKYFORGE</b><small>LIVE OPS</small></a>
+        <a href="/" class="live-brand" aria-label="AeroVane home"><span>AV</span><b>AEROVANE</b><small>LIVE OPS</small></a>
         <div
           class="flex overflow-hidden"
           style={{ border: '1px solid var(--border-subtle)', 'background-color': 'transparent' }}
@@ -206,12 +206,17 @@ export default function Toolbar(props: ToolbarProps) {
         <Show when={appState.activeTab === 'telemetry' && appState.isReady}>
           <button
             onClick={() => setAppState('addPlotCounter', c => c + 1)}
-            class="p-1.5 rounded interactive-hover"
-            style={{ color: 'var(--text-secondary)' }}
+            class="console-button flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium transition-colors"
+            style={{
+              color: 'var(--text-primary)',
+              'background-color': 'var(--bg-hover)',
+              border: '1px solid var(--border-subtle)',
+            }}
             title="Add plot"
             aria-label="Add plot"
           >
             <PlusIcon />
+            <span>Add Plot</span>
           </button>
 
           <Show when={!appState.logViewerState.isActive}>

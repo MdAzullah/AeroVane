@@ -24824,7 +24824,9 @@ ${n2.shaderPreludeCode.vertexSource}`, define: n2.shaderDefine }, defaultProject
   // saved-log-viewer/map-entry.ts
   var protocol = new B();
   import_maplibre_gl.default.addProtocol("pmtiles", protocol.tile);
-  window.SkyForgeMap = { maplibregl: import_maplibre_gl.default, protocol, PMTiles: w, FileSource: k, TileType: O };
+  var mapApi = { maplibregl: import_maplibre_gl.default, protocol, PMTiles: w, FileSource: k, TileType: O };
+  window.AeroVaneMap = mapApi;
+  window.AeroVaneMap = mapApi;
 })();
 /*! Bundled license information:
 

@@ -147,9 +147,9 @@ describe('tlog-service', () => {
 
     expect(kvStore.size).toBe(1);
     const [metaKey] = [...kvStore.keys()];
-    expect(metaKey).toContain('skyforge-tlog-meta-');
+    expect(metaKey).toContain('aerovane-tlog-meta-');
 
-    const meta = await getLogMetadata((metaKey as string).replace('skyforge-tlog-meta-', ''));
+    const meta = await getLogMetadata((metaKey as string).replace('aerovane-tlog-meta-', ''));
     expect(meta.displayName.endsWith('.tlog')).toBe(true);
 
     const bytes = await readLogFile(meta.fileName);

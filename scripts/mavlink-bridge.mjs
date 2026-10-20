@@ -6,7 +6,7 @@ import { createServer as createHttpServer } from 'node:http';
 
 const endpointArgs = process.argv.slice(2);
 if (endpointArgs.includes('--help') || endpointArgs.length < 2) {
-  console.log(`SkyForge portable MAVLink bridge
+  console.log(`AeroVane portable MAVLink bridge
 
 Usage:
   npm run bridge -- fakesource:// wsserver://127.0.0.1:9988

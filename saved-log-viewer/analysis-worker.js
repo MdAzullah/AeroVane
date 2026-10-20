@@ -116,7 +116,8 @@ self.onmessage = async function(event) {
         self.postMessage({ type: 'analysis_progress', progress: 0.08 });
 
         // ── STEP 5: Run safety detectors ─────────────────────────────────────────────
-        const analysis = await self.SkyForgeAI.analyzeDataFlashRecordsWithProgress(records, progress => {
+        const ai = self.AeroVaneAI || self.AeroVaneAI;
+        const analysis = await ai.analyzeDataFlashRecordsWithProgress(records, progress => {
             self.postMessage({ type: 'analysis_progress', progress: 0.08 + progress * 0.92 });
         });
 

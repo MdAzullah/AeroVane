@@ -26,7 +26,7 @@ def main() -> int:
                        "weights": state[f"network.{index}.weight"].numpy().astype(float).tolist(),
                        "bias": state[f"network.{index}.bias"].numpy().astype(float).tolist()})
     artifact = {"schema_version": "1.0.0", "model_kind": "multiclass-dense-network",
-                "version": "skyforge-basic-sensor-1.0.0", "advisory_only": True,
+                "version": "aerovane-basic-sensor-1.0.0", "advisory_only": True,
                 "simulation_trained": True, "component_diagnosis": False,
                 "features": saved["features"], "classes": saved["classes"],
                 "imputation_medians": np.asarray(saved["medians"], dtype=float).tolist(),

@@ -20,23 +20,23 @@ export default defineConfig({
           {
             urlPattern: /^https:\/\/(?:[^/]+\.)?tile\.openstreetmap\.org\//,
             handler: 'CacheFirst',
-            options: { cacheName: 'skyforge-map-street', expiration: { maxEntries: 800, maxAgeSeconds: 2592000 } },
+            options: { cacheName: 'aerovane-map-street', expiration: { maxEntries: 800, maxAgeSeconds: 2592000 } },
           },
           {
             urlPattern: /^https:\/\/server\.arcgisonline\.com\/ArcGIS\/rest\/services\//,
             handler: 'CacheFirst',
-            options: { cacheName: 'skyforge-map-satellite', expiration: { maxEntries: 800, maxAgeSeconds: 2592000 } },
+            options: { cacheName: 'aerovane-map-satellite', expiration: { maxEntries: 800, maxAgeSeconds: 2592000 } },
           },
           {
             urlPattern: /^https:\/\/(?:[^/]+\.)?basemaps\.cartocdn\.com\//,
             handler: 'CacheFirst',
-            options: { cacheName: 'skyforge-map-labels', expiration: { maxEntries: 400, maxAgeSeconds: 2592000 } },
+            options: { cacheName: 'aerovane-map-labels', expiration: { maxEntries: 400, maxAgeSeconds: 2592000 } },
           },
         ],
       },
       manifest: {
-        name: 'SkyForge Live Viewer',
-        short_name: 'SkyForge Live',
+        name: 'AeroVane Live Viewer',
+        short_name: 'AeroVane Live',
         description: 'Real-time MAVLink telemetry visualization',
         theme_color: '#111217',
         background_color: '#111217',

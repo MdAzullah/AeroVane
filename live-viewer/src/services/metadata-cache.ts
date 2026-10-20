@@ -1,6 +1,6 @@
 import { get, set, del, clear } from 'idb-keyval';
 
-const METADATA_CACHE_PREFIX = 'skyforge-metadata-cache-v1:';
+const METADATA_CACHE_PREFIX = 'aerovane-metadata-cache-v1:';
 const LEGACY_METADATA_CACHE_PREFIX = 'mavdeck-metadata-cache-v1:';
 
 interface CachedMetadataEntry {

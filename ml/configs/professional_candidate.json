@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "experiment": "skyforge-professional-candidate-1",
+  "experiment": "aerovane-professional-candidate-1",
   "random_seed": 9341,
   "development_splits": ["train", "validation"],
   "forbidden_splits": ["test", "excluded"],

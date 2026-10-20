@@ -15,7 +15,7 @@ duplicate review.
 | RflyMAD | The official page restricts the dataset and related work to non-commercial situations and asks commercial users to contact the owner. | Reject from commercial training/evaluation unless written permission is obtained. |
 | PX4 public Flight Review | Official PX4 documentation explicitly permits public logs for statistical analysis and machine learning and calls them “CC-BY PX4.” It does not state the CC version or complete attribution requirements on that page. | Quarantine until exact license/version and per-log privacy/provenance controls are frozen. |
 | ArduPilot AutoTest | Official pages make build outputs available and describe generated logs, but no explicit license for the output dataset was found. The source-code license does not automatically answer this question. | Quarantine; request clarification or generate a controlled in-project corpus. |
-| SkyForge SITL | SkyForge can license its scenario definitions and generated factual telemetry, subject to simulator and asset terms. | Quarantine until commits, dependencies, missions, seeds, and notices are frozen. |
+| AeroVane SITL | AeroVane can license its scenario definitions and generated factual telemetry, subject to simulator and asset terms. | Quarantine until commits, dependencies, missions, seeds, and notices are frozen. |
 | Consented user logs | Rights do not exist until each contributor makes an explicit, revocable grant for the described purposes. | Quarantine until the consent and deletion workflow exists. |
 
 ## Evidence

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed preflight for starting a controlled SkyForge training run."""
+"""Fail-closed preflight for starting a controlled AeroVane training run."""
 
 from __future__ import annotations
 

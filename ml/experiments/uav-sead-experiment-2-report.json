@@ -10,7 +10,7 @@
     "train",
     "validation"
   ],
-  "experiment": "skyforge-real-anomaly-experiment-2",
+  "experiment": "aerovane-real-anomaly-experiment-2",
   "experiment_1_test_used_for_development": false,
   "features": [
     "battery_voltage_v_mean",

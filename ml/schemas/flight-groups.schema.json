@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://skyforge.local/schemas/flight-groups.schema.json",
-  "title": "SkyForge privacy-safe flight groups",
+  "$id": "https://aerovane.local/schemas/flight-groups.schema.json",
+  "title": "AeroVane privacy-safe flight groups",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_version", "created_at", "source_id", "source_version", "grouping_method", "privacy_note", "records"],

@@ -1,4 +1,4 @@
-/* WebGL flight map. A custom MapLibre style URL can be supplied as window.SKYFORGE_MAP_STYLE_URL. */
+/* WebGL flight map. A custom MapLibre style URL can be supplied as window.AEROVANE_MAP_STYLE_URL. */
 let leafletMap = null; // Compatibility name used by main.js; contains the MapLibre instance.
 let currentGpsData = null;
 let aiFaultMarkers = [];
@@ -13,7 +13,7 @@ let activeBaseSources = [];
 let localPmtilesUrl = null;
 let localPmtilesName = null;
 
-const MAPTILER_KEY = typeof window !== 'undefined' ? (window.SKYFORGE_MAPTILER_KEY || '') : '';
+const MAPTILER_KEY = typeof window !== 'undefined' ? (window.AEROVANE_MAPTILER_KEY || window.SKYFORGE_MAPTILER_KEY || '') : '';
 const MAP_STYLES = create_map_styles();
 
 function raster_source(tiles, attribution, maxzoom = 20, tileSize = 256) {
@@ -76,13 +76,13 @@ function formatDuration(ms) {
 }
 
 function map_style() {
-    if (window.SKYFORGE_MAP_STYLE_URL) return window.SKYFORGE_MAP_STYLE_URL;
+    if (window.AEROVANE_MAP_STYLE_URL || window.SKYFORGE_MAP_STYLE_URL) return window.AEROVANE_MAP_STYLE_URL || window.SKYFORGE_MAP_STYLE_URL;
     const profile = base_style_for(selectedMapLayer);
     return { version: 8, sources: profile.sources, layers: profile.layers };
 }
 
 function base_style_for(layer) {
-    const pmtilesUrl = localPmtilesUrl || (window.SKYFORGE_PMTILES_URL ? `pmtiles://${window.SKYFORGE_PMTILES_URL}` : null);
+    const pmtilesUrl = localPmtilesUrl || (window.AEROVANE_PMTILES_URL || window.SKYFORGE_PMTILES_URL ? `pmtiles://${window.AEROVANE_PMTILES_URL || window.SKYFORGE_PMTILES_URL}` : null);
     if (layer === 'offline' && pmtilesUrl) {
         return {
             sources: { offline: { type: 'raster', url: pmtilesUrl, tileSize: 256, attribution: 'Offline map data' } },
@@ -94,7 +94,7 @@ function base_style_for(layer) {
 
 function preferred_theme_layer() {
     try {
-        const saved = localStorage.getItem('skyforge-map-layer');
+        const saved = localStorage.getItem('aerovane-map-layer') || localStorage.getItem('aerovane-map-layer');
         if (saved && MAP_STYLES[saved] && saved !== 'offline') return saved;
     } catch (_) { /* Storage can be disabled in privacy mode. */ }
     return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'street';
@@ -116,7 +116,10 @@ function change_map_layer(layer, button, force = false) {
     selectedMapLayer = layer;
     if (layer !== 'offline') {
         lastOnlineMapLayer = layer;
-        try { localStorage.setItem('skyforge-map-layer', layer); } catch (_) { /* Optional preference only. */ }
+        try {
+            localStorage.setItem('aerovane-map-layer', layer);
+            localStorage.setItem('aerovane-map-layer', layer);
+        } catch (_) { /* Optional preference only. */ }
     }
     tileFailureCount = 0;
     const selector = document.getElementById('map-layer-select');
@@ -139,7 +142,7 @@ function change_map_layer(layer, button, force = false) {
 
 function init_or_get_map(centerLat, centerLon, zoom = 15) {
     if (leafletMap) { leafletMap.jumpTo({ center: [centerLon, centerLat], zoom }); return leafletMap; }
-    const api = window.SkyForgeMap;
+    const api = window.AeroVaneMap || window.AeroVaneMap;
     if (!api) throw new Error('MapLibre runtime did not load.');
     leafletMap = new api.maplibregl.Map({ container: 'map', style: map_style(), center: [centerLon, centerLat], zoom,
         attributionControl: true, cooperativeGestures: false });
@@ -218,8 +221,9 @@ function marker_element(className, label) {
 }
 
 function add_endpoint(coordinates, className, html) {
-    return new SkyForgeMap.maplibregl.Marker({ element: marker_element(className, className) })
-        .setLngLat(coordinates).setPopup(new SkyForgeMap.maplibregl.Popup({ offset: 14 }).setHTML(html)).addTo(leafletMap);
+    const api = window.AeroVaneMap || window.AeroVaneMap;
+    return new api.maplibregl.Marker({ element: marker_element(className, className) })
+        .setLngLat(coordinates).setPopup(new api.maplibregl.Popup({ offset: 14 }).setHTML(html)).addTo(leafletMap);
 }
 
 function draw_flight_map(gpsds) {
@@ -235,8 +239,9 @@ function draw_flight_map(gpsds) {
     set_map_path_notice('');
     currentGpsData = gpsds;
     const map = init_or_get_map(gpsds.cenlat, gpsds.cenlon);
-    if (!map._skyforgeRouteClickBound) {
-        map._skyforgeRouteClickBound = true;
+    if (!map._aerovaneRouteClickBound && !map._aerovaneRouteClickBound) {
+        map._aerovaneRouteClickBound = true;
+        map._aerovaneRouteClickBound = true;
         map.on('click', event => focus_graph_from_map(event.lngLat));
     }
     const render = () => {
@@ -253,7 +258,8 @@ function draw_flight_map(gpsds) {
         const first = [gpsds.lon[0], gpsds.lat[0]], lastIndex = gpsds.lat.length - 1;
         endpointMarkers.push(add_endpoint(first, 'map-endpoint takeoff', '<strong>Takeoff</strong>'));
         endpointMarkers.push(add_endpoint([gpsds.lon[lastIndex], gpsds.lat[lastIndex]], 'map-endpoint landing', '<strong>Landing</strong>'));
-        flightBounds = new SkyForgeMap.maplibregl.LngLatBounds();
+        const api = window.AeroVaneMap || window.AeroVaneMap;
+        flightBounds = new api.maplibregl.LngLatBounds();
         gpsds.lat.forEach((lat, index) => flightBounds.extend([gpsds.lon[index], lat]));
         fit_flight_path();
     };
@@ -327,8 +333,9 @@ function draw_ai_fault_markers(analysis, bootTimeMs) {
         const gpsIndex = find_nearest_gps_index(currentGpsData, fault.startedAtMs, bootTimeMs);
         if (gpsIndex < 0) return;
         const element = marker_element('fault', `${fault.severity} fault`); element.style.setProperty('--marker-color', colors[fault.severity] || colors.info);
-        const popup = new SkyForgeMap.maplibregl.Popup({ offset: 12 }).setHTML(`<strong>${escape_map_html(fault.message)}</strong><br>${escape_map_html(format_ai_time(fault.startedAtMs))}<br><button onclick="show_fault_on_graph(${index})">Show on graph</button>`);
-        aiFaultMarkers[index] = new SkyForgeMap.maplibregl.Marker({ element }).setLngLat([currentGpsData.lon[gpsIndex], currentGpsData.lat[gpsIndex]]).setPopup(popup).addTo(leafletMap);
+        const api = window.AeroVaneMap || window.AeroVaneMap;
+        const popup = new api.maplibregl.Popup({ offset: 12 }).setHTML(`<strong>${escape_map_html(fault.message)}</strong><br>${escape_map_html(format_ai_time(fault.startedAtMs))}<br><button onclick="show_fault_on_graph(${index})">Show on graph</button>`);
+        aiFaultMarkers[index] = new api.maplibregl.Marker({ element }).setLngLat([currentGpsData.lon[gpsIndex], currentGpsData.lat[gpsIndex]]).setPopup(popup).addTo(leafletMap);
     });
 }
 
@@ -339,7 +346,8 @@ function set_map_cursor_time(plotTime) {
     if (!Number.isFinite(timestamp)) return;
     let best = 0, distance = Infinity;
     currentGpsData.time.forEach((value, index) => { const time = value instanceof Date ? value.getTime() : value * 1000; const delta = Math.abs(time - timestamp); if (delta < distance) { best = index; distance = delta; } });
-    if (!droneCursorMarker) droneCursorMarker = new SkyForgeMap.maplibregl.Marker({ element: marker_element('cursor', 'Graph cursor position') }).setLngLat([currentGpsData.lon[best], currentGpsData.lat[best]]).addTo(leafletMap);
+    const api = window.AeroVaneMap || window.AeroVaneMap;
+    if (!droneCursorMarker) droneCursorMarker = new api.maplibregl.Marker({ element: marker_element('cursor', 'Graph cursor position') }).setLngLat([currentGpsData.lon[best], currentGpsData.lat[best]]).addTo(leafletMap);
     else droneCursorMarker.setLngLat([currentGpsData.lon[best], currentGpsData.lat[best]]);
 }
 
@@ -368,7 +376,7 @@ function toggle_map_fullscreen() { const card = document.querySelector('.map-car
 
 async function load_offline_pmtiles(file) {
     if (!file) return;
-    const api = window.SkyForgeMap;
+    const api = window.AeroVaneMap;
     if (!api?.PMTiles || !api?.FileSource || !api?.protocol) { set_map_path_notice('Offline map runtime is unavailable. Reload the Log Analyser and try again.'); return; }
     try {
         const archive = new api.PMTiles(new api.FileSource(file));

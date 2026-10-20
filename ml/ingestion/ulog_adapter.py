@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Convert PX4 ULog topics to the SkyForge canonical JSONL contract."""
+"""Convert PX4 ULog topics to the AeroVane canonical JSONL contract."""
 
 from __future__ import annotations
 

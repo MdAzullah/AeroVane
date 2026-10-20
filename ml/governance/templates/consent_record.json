@@ -7,7 +7,7 @@
   "permitted_uses": [],
   "model_distribution_permission": "not_granted",
   "retention_expires_at": "YYYY-MM-DD",
-  "sharing_scope": "skyforge_maintainers_only",
+  "sharing_scope": "aerovane_maintainers_only",
   "commercial_use": "not_granted",
   "withdrawal_method_presented": false,
   "privacy_notice_presented": false,

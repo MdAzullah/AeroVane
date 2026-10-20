@@ -27,7 +27,7 @@ const TILE_LAYERS = {
   },
   offline: {
     url: '',
-    attribution: 'SkyForge offline coordinate grid',
+    attribution: 'AeroVane offline coordinate grid',
     maxZoom: 22,
   },
 } as const;
@@ -80,7 +80,7 @@ function sampledPath(latitudes: Float64Array, longitudes: Float64Array): L.LatLn
 }
 
 function createOfflineLayer(): L.GridLayer {
-  const layer = L.gridLayer({ attribution: 'SkyForge offline coordinate grid', maxZoom: 22 });
+  const layer = L.gridLayer({ attribution: 'AeroVane offline coordinate grid', maxZoom: 22 });
   (layer as L.GridLayer & { createTile: (coords: L.Coords) => HTMLElement }).createTile = coords => {
     const tile = document.createElement('canvas');
     tile.width = 256; tile.height = 256;

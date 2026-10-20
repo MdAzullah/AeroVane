@@ -6,18 +6,18 @@ import {
   useConnectionManager,
   useSerialSessionController,
   useWorkerBridge,
-  type SkyForgeSettings,
+  type AeroVaneSettings,
 } from '../services';
 import type { Setter } from 'solid-js';
 
-function settingsEqual(a: SkyForgeSettings, b: SkyForgeSettings): boolean {
-  return Object.keys(a).every((key) => a[key as keyof SkyForgeSettings] === b[key as keyof SkyForgeSettings]);
+function settingsEqual(a: AeroVaneSettings, b: AeroVaneSettings): boolean {
+  return Object.keys(a).every((key) => a[key as keyof AeroVaneSettings] === b[key as keyof AeroVaneSettings]);
 }
 
 export function useSettingsSync(
   settingsReady: Accessor<boolean>,
-  loadedSettings: Accessor<SkyForgeSettings>,
-  setLoadedSettings: Setter<SkyForgeSettings>,
+  loadedSettings: Accessor<AeroVaneSettings>,
+  setLoadedSettings: Setter<AeroVaneSettings>,
 ): void {
   const workerBridge = useWorkerBridge();
   const connectionManager = useConnectionManager();

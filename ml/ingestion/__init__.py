@@ -1,1 +1,1 @@
-"""Source-specific adapters for canonical SkyForge telemetry."""
+"""Source-specific adapters for canonical AeroVane telemetry."""

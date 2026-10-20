@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://skyforge.local/schemas/portable-tree-model.schema.json",
-  "title": "SkyForge portable binary decision-tree model",
+  "$id": "https://aerovane.local/schemas/portable-tree-model.schema.json",
+  "title": "AeroVane portable binary decision-tree model",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_version", "model_kind", "version", "advisory_only", "features", "imputation_medians", "persistence_windows", "decision_threshold", "lineage", "tree"],

@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an improvement or new capability for SkyForge
+about: Suggest an improvement or new capability for AeroVane
 title: "[Feature] "
 labels: enhancement
 assignees: ""

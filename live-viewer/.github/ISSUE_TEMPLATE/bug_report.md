@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report a reproducible problem in SkyForge
+about: Report a reproducible problem in AeroVane
 title: "[Bug] "
 labels: bug
 assignees: ""

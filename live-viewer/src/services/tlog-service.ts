@@ -1,13 +1,13 @@
 import { get, set, del, keys } from 'idb-keyval';
 
 const LOGS_DIR = 'logs';
-const STAGE_META_PREFIX = 'skyforge-tlog-stage-meta-';
+const STAGE_META_PREFIX = 'aerovane-tlog-stage-meta-';
 const LEGACY_STAGE_META_PREFIX = 'mavdeck-tlog-stage-meta-';
-const STAGE_CHUNK_PREFIX = 'skyforge-tlog-stage-chunk-';
+const STAGE_CHUNK_PREFIX = 'aerovane-tlog-stage-chunk-';
 const LEGACY_STAGE_CHUNK_PREFIX = 'mavdeck-tlog-stage-chunk-';
-const LOG_META_PREFIX = 'skyforge-tlog-meta-';
+const LOG_META_PREFIX = 'aerovane-tlog-meta-';
 const LEGACY_LOG_META_PREFIX = 'mavdeck-tlog-meta-';
-const RECOVERY_LOCK_KEY = 'skyforge-tlog-recovery-lock';
+const RECOVERY_LOCK_KEY = 'aerovane-tlog-recovery-lock';
 
 const MAX_NOTE_LENGTH = 2000;
 

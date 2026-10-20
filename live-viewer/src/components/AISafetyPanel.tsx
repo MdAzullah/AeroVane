@@ -209,7 +209,7 @@ function exportAnalysisJson(): void {
   const link = document.createElement('a');
   const baseName = appState.logViewerState.sourceName.replace(/\.[^.]+$/, '').replace(/[^a-z0-9_-]+/gi, '-') || 'flight';
   link.href = url;
-  link.download = `${baseName}-skyforge-analysis.json`;
+  link.download = `${baseName}-aerovane-analysis.json`;
   link.click();
   URL.revokeObjectURL(url);
 }

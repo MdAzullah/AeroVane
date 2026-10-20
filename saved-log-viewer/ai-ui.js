@@ -7,7 +7,8 @@ function run_dataflash_ai_analysis(log, filename) {
     try {
         status.textContent = 'Running shared safety detectors…';
         const records = log.get_records();
-        savedLogAiResult = window.SkyForgeAI.analyzeDataFlashRecords(records);
+        const aiApi = window.AeroVaneAI || window.AeroVaneAI;
+        savedLogAiResult = aiApi.analyzeDataFlashRecords(records);
         render_dataflash_ai_analysis(savedLogAiResult, filename, log.boot_time_ms_since_epoch || 0);
     } catch (error) {
         render_ai_analysis_error(error);
@@ -40,7 +41,8 @@ function render_dataflash_ai_analysis(result, filename, bootTimeMs) {
         result.faults.forEach((fault, index) => {
             const card = document.createElement('article');
             card.className = `ai-fault-card severity-${fault.severity}`;
-            const presented = window.SkyForgeAI.presentFaultNotification(fault);
+            const aiApi = window.AeroVaneAI || window.AeroVaneAI;
+            const presented = aiApi.presentFaultNotification(fault);
             const evidence = presented.evidence.slice(0, 3).map(item => `<li><strong>${escape_ai_html(item.label)}:</strong> ${format_ai_value(item.value)} ${escape_ai_html(item.unit || '')}${Number.isFinite(item.threshold) ? `; warning level ${format_ai_value(item.threshold)} ${escape_ai_html(item.unit || '')}` : ''}<small>${escape_ai_html(item.description)}</small></li>`).join('');
             const actions = presented.actions.map(item => `<li>${escape_ai_html(item)}</li>`).join('');
             card.innerHTML = `
@@ -133,7 +135,7 @@ function export_ai_analysis() {
     const blob = new Blob([JSON.stringify(savedLogAiResult, null, 2)], { type: 'application/json' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = 'skyforge-bin-ai-analysis.json';
+    link.download = 'aerovane-bin-ai-analysis.json';
     link.click();
     URL.revokeObjectURL(link.href);
 }

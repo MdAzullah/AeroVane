@@ -24,7 +24,7 @@ Legal-text SHA-256:
 
 Required attribution records must include the dataset title, Aykut Kabaoglu and
 Sanem Sariel, the DOI/repository link, CC BY 4.0 with a license link, the frozen
-revision, and a description of SkyForge transformations. The paper citation in
+revision, and a description of AeroVane transformations. The paper citation in
 the dataset card must be retained with model and dataset documentation.
 
 ## Provenance finding

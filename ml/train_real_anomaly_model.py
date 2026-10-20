@@ -180,7 +180,7 @@ def main() -> int:
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     if report["accepted"]:
-        artifact = {"version": "skyforge-real-anomaly-1.0.0", "advisory_only": True, "features": feature_names,
+        artifact = {"version": "aerovane-real-anomaly-1.0.0", "advisory_only": True, "features": feature_names,
                     "imputation_medians": prep[0], "means": prep[1], "scales": prep[2],
                     "weights": weights, "bias": bias, "threshold": threshold}
         args.model_output.parent.mkdir(parents=True, exist_ok=True)

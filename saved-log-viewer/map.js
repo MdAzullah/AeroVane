@@ -1,4 +1,4 @@
-/* SkyForge Geographic Flight Path & Real-World Map Visualizer (Leaflet)
+/* AeroVane Geographic Flight Path & Real-World Map Visualizer (Leaflet)
    Clean 4-layer selection, collapsible controls, and fullscreen support */
 
 let leafletMap = null;

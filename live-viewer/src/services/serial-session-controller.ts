@@ -2,7 +2,7 @@ import type { Accessor, Setter } from 'solid-js';
 import { EventEmitter } from '../core';
 import type { ConnectionManager } from './connection-manager';
 import type { LogViewerService } from './log-viewer-service';
-import { saveSettingsDebounced, type SkyForgeSettings } from './settings-service';
+import { saveSettingsDebounced, type AeroVaneSettings } from './settings-service';
 import type { MavlinkWorkerBridge } from './worker-bridge';
 import { BAUD_PROBE_ORDER, PROBE_TIMEOUT_MS, type BaudRate } from './baud-rates';
 import type { SerialPortIdentity } from './serial-probe-service';
@@ -468,12 +468,12 @@ export class SerialSessionController {
 
   persistSerialSettings(
     info: { baudRate: BaudRate; portIdentity: SerialPortIdentity | null },
-    loadedSettings: Accessor<SkyForgeSettings>,
-    setLoadedSettings: Setter<SkyForgeSettings>,
+    loadedSettings: Accessor<AeroVaneSettings>,
+    setLoadedSettings: Setter<AeroVaneSettings>,
     autoConnect: boolean,
     autoDetectBaud: boolean,
   ): void {
-    const nextSettings: SkyForgeSettings = {
+    const nextSettings: AeroVaneSettings = {
       ...loadedSettings(),
       autoConnect,
       autoDetectBaud,

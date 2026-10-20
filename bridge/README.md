@@ -1,6 +1,6 @@
-# SkyForge MAVLink Bridges
+# AeroVane MAVLink Bridges
 
-SkyForge's recommended bridge is the cross-platform Node.js implementation at
+AeroVane's recommended bridge is the cross-platform Node.js implementation at
 `scripts/mavlink-bridge.mjs`. It works on Windows, macOS, and Linux and routes
 MAVLink byte streams between UDP, TCP, and WebSockets without extra packages.
 For USB connections, Live Viewer's **Connect USB** button talks directly to the
@@ -10,9 +10,9 @@ The `mavlink-server` file in this directory is retained as an optional legacy
 Linux x86-64 binary for users who need its additional serial and REST features.
 
 ## Features
-- **Cross-platform Default**: Runs with the same Node.js installation as SkyForge.
+- **Cross-platform Default**: Runs with the same Node.js installation as AeroVane.
 - **Multi-Endpoint Routing**: Bridges UDP, TCP, WebSocket, and generated test telemetry.
-- **WebSocket Streaming**: Exposes real-time MAVLink feeds to browser applications (like SkyForge Live Viewer).
+- **WebSocket Streaming**: Exposes real-time MAVLink feeds to browser applications (like AeroVane Live Viewer).
 
 ## Quick Start
 

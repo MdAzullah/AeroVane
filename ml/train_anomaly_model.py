@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Train and evaluate SkyForge's compact browser anomaly classifier.
+"""Train and evaluate AeroVane's compact browser anomaly classifier.
 
 Uses only the Python standard library. Synthetic flights are split by flight,
 not by individual window, so adjacent windows cannot leak into evaluation.
@@ -70,7 +70,7 @@ def main():
     parser=argparse.ArgumentParser(); parser.add_argument('--output', type=Path, required=True); args=parser.parse_args()
     data=flights(); random.Random(9341).shuffle(data); split=int(len(data)*.75)
     train_rows=[r for f in data[:split] for r in f]; test_rows=[r for f in data[split:] for r in f]
-    weights,bias=train(train_rows); artifact={"version":"skyforge-anomaly-1.0.0","features":FEATURES,"means":MEANS,"scales":SCALES,"weights":[round(v,6) for v in weights],"bias":round(bias,6),"threshold":.75}
+    weights,bias=train(train_rows); artifact={"version":"aerovane-anomaly-1.0.0","features":FEATURES,"means":MEANS,"scales":SCALES,"weights":[round(v,6) for v in weights],"bias":round(bias,6),"threshold":.75}
     args.output.write_text(json.dumps(artifact,indent=2)+'\n')
     print(json.dumps({"model":artifact["version"],"holdout":metrics(test_rows,weights,bias),"rules_only_holdout":rule_metrics(test_rows)},indent=2))
 

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://skyforge.local/schemas/pilot-labels.schema.json",
-  "title": "SkyForge privacy-minimal pilot labels",
+  "$id": "https://aerovane.local/schemas/pilot-labels.schema.json",
+  "title": "AeroVane privacy-minimal pilot labels",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_version", "created_at", "source_id", "source_version", "inventory", "label_provenance", "records"],

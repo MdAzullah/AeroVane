@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#07111d">
+  <title>AeroVane — Local Flight Operations</title>
+  <link rel="stylesheet" href="./assets/portal.css">
+  <link rel="stylesheet" href="./assets/portal-motion.css">
+  <link rel="stylesheet" href="./assets/portal-polish.css">
+  <link rel="stylesheet" href="./assets/aviation-motion-v3.css">
+  <link rel="stylesheet" href="./assets/aviation-refinement.css">
+  <link rel="stylesheet" href="./assets/aviation-types.css">
+  <link rel="stylesheet" href="./assets/aviation-types-v2.css">
+  <link rel="stylesheet" href="./assets/aviation-visibility.css">
+  <link rel="stylesheet" href="./assets/aviation-professional.css">
+  <script defer src="./assets/aviation-controller.js?v=4"></script>
+</head>
+<body>
+  <div class="sky" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <svg class="flight-scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="sf-drone-shell" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#65717a"/><stop offset=".3" stop-color="#29343c"/><stop offset="1" stop-color="#090e12"/></linearGradient>
+      <linearGradient id="sf-plane-shell" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#aab2b8"/><stop offset=".4" stop-color="#46515a"/><stop offset="1" stop-color="#11171c"/></linearGradient>
+      <linearGradient id="sf-trail" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#65ddff" stop-opacity="0"/><stop offset="1" stop-color="#65ddff" stop-opacity=".48"/></linearGradient>
+      <filter id="sf-aircraft-glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="sf-rotor-blur" x="-30%" y="-100%" width="160%" height="300%"><feGaussianBlur stdDeviation="1.4"/></filter>
+    </defs>
+
+    <g class="flight-object drone-object">
+      <g class="drone-bank">
+        <path class="wake drone-wake" d="M-55 0H-220"/>
+        <g class="rotor rear-left" transform="translate(-45 -24)"><ellipse rx="25" ry="5"/><path d="M-22 0H22"/><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur=".16s" repeatCount="indefinite" additive="sum"/></g>
+        <g class="rotor front-left" transform="translate(45 -24)"><ellipse rx="25" ry="5"/><path d="M-22 0H22"/><animateTransform attributeName="transform" type="rotate" from="360" to="0" dur=".14s" repeatCount="indefinite" additive="sum"/></g>
+        <g class="rotor rear-right" transform="translate(-45 24)"><ellipse rx="25" ry="5"/><path d="M-22 0H22"/><animateTransform attributeName="transform" type="rotate" from="360" to="0" dur=".15s" repeatCount="indefinite" additive="sum"/></g>
+        <g class="rotor front-right" transform="translate(45 24)"><ellipse rx="25" ry="5"/><path d="M-22 0H22"/><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur=".17s" repeatCount="indefinite" additive="sum"/></g>
+        <g class="drone-frame">
+          <path class="arms" d="M-31-15-45-24M31-15 45-24M-31 15-45 24M31 15 45 24"/>
+          <circle cx="-45" cy="-24" r="5"/><circle cx="45" cy="-24" r="5"/><circle cx="-45" cy="24" r="5"/><circle cx="45" cy="24" r="5"/>
+          <path class="shell" d="M-27-8Q-2-15 22-8L33 0 22 8Q-2 15-27 8L-35 0Z"/>
+          <path class="canopy" d="M-13-8Q6-13 21-6L26 0H-17Z"/>
+          <path class="body-panel" d="M-22 0H26M-8-10-13 10M12-10 17 9"/>
+          <path class="landing-gear" d="M-14 9-20 17M15 9l7 8"/>
+          <g class="gimbal"><path d="M18 12h13l-2 13H17Z"/><circle cx="24" cy="21" r="4"/></g>
+        </g>
+        <circle class="strobe strobe-red" cx="-47" cy="-25" r="2.2"/><circle class="strobe strobe-green" cx="47" cy="-25" r="2.2"/>
+      </g>
+      <g class="vtol-bank aircraft-variant" hidden>
+        <path class="wake vtol-wake" d="M-55 0H-210"/>
+        <path class="vtol-wing" d="M-44-7 7-18 42-8 50 0 42 8 7 18-44 7-54 0Z"/>
+        <path class="vtol-body" d="M-34-5H39L55 0 39 5H-34Z"/>
+        <g class="tilt-rotor" transform="translate(-22 -13)"><ellipse rx="22" ry="4"/><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur=".14s" repeatCount="indefinite" additive="sum"/></g>
+        <g class="tilt-rotor" transform="translate(-22 13)"><ellipse rx="22" ry="4"/><animateTransform attributeName="transform" type="rotate" from="360" to="0" dur=".16s" repeatCount="indefinite" additive="sum"/></g>
+        <circle class="strobe strobe-green" cx="8" cy="17" r="2"/>
+      </g>
+      <g class="hexa-bank aircraft-variant" hidden>
+        <path class="wake" d="M-48 0H-190"/><g class="hexa-arms"><path d="M-25 0H25M-17-12 18 12M-17 12 18-12"/><circle cx="-34" cy="0" r="9"/><circle cx="34" cy="0" r="9"/><circle cx="-25" cy="-20" r="9"/><circle cx="25" cy="20" r="9"/><circle cx="-25" cy="20" r="9"/><circle cx="25" cy="-20" r="9"/></g><path class="hexa-body" d="M-19-10H17L29 0 17 10H-19L-28 0Z"/><circle class="plane-beacon" cx="7" cy="0" r="2"/>
+      </g>
+      <g class="heli-bank aircraft-variant" hidden>
+        <path class="wake" d="M-55 0H-190"/><ellipse class="heli-rotor" cx="0" cy="0" rx="48" ry="4"/><path class="heli-body" d="M-23-10Q5-18 25-7L37 0 25 8Q2 17-23 9L-33 0Z"/><path class="heli-tail" d="M-26 0-73 0-84-8M-75-8v16"/><circle class="plane-beacon" cx="18" cy="0" r="2"/>
+      </g>
+    </g>
+
+    <g class="flight-object plane-object">
+      <g class="plane-bank">
+        <path class="contrail" d="M-35-6H-210M-35 6H-210"/>
+        <path class="plane-shell" d="M64 0Q55-6 42-7L11-8-21-45h-11l14 38-38-3-14-12h-7l5 19-10 3 10 3-5 19h7l14-12 38-3-14 38h11L11 8l31-1Q55 6 64 0Z"/>
+        <path class="plane-spine" d="M57 0H-72"/>
+        <circle class="plane-beacon" cx="-8" cy="0" r="2"/>
+      </g>
+      <g class="wing-bank aircraft-variant" hidden>
+        <path class="contrail" d="M-20 0H-180"/>
+        <path class="flying-wing" d="M59 0 12-12-57-35-35-5-70 0-35 5-57 35 12 12Z"/>
+        <path class="wing-detail" d="M45 0-37-25M45 0-37 25M-35-5v10"/>
+        <circle class="plane-beacon" cx="-6" cy="0" r="2"/>
+      </g>
+    </g>
+  </svg>
+  <div class="telemetry-orbit" aria-hidden="true"><span></span><span></span><span></span><b></b></div>
+  <main>
+    <nav><a class="brand" href="/">AERO<span>VANE</span></a><span class="local"><b></b> LOCAL SYSTEM</span></nav>
+    <section class="hero">
+      <div class="eyebrow"><span class="signal-bars"><i></i><i></i><i></i><i></i></span> PRIVATE · OFFLINE-FIRST · LOCALHOST</div>
+      <h1>Flight intelligence,<br><em>under your control.</em></h1>
+      <p>Monitor MAVLink telemetry in real time or turn an ArduPilot flight log into clear, actionable diagnostics. Your flight data stays on this computer.</p>
+    </section>
+    <section class="choices" aria-label="AeroVane tools">
+      <a class="card live" href="/live/">
+        <div class="icon">⌁</div><div><small>REAL-TIME OPERATIONS</small><h2>Live Flight Monitor</h2><strong>OPEN LIVE VIEWER <span>→</span></strong></div>
+      </a>
+      <a class="card logs" href="/logs/">
+        <div class="icon">⌗</div><div><small>SAVED FLIGHT ANALYSIS</small><h2>Saved Flight Log Analyzer</h2><strong>OPEN LOG VIEWER <span>→</span></strong></div>
+      </a>
+    </section>
+  </main>
+</body>
+</html>

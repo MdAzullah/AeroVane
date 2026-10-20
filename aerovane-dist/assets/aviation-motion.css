@@ -1,0 +1,103 @@
+.aviation-layer {
+  position: fixed;
+  z-index: 1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.aircraft {
+  position: absolute;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.aircraft svg {
+  display: block;
+  overflow: visible;
+}
+
+.drone-flight {
+  top: 19%;
+  left: 0;
+  color: #83e9ff;
+  animation: drone-crossing 24s 2s cubic-bezier(.38, .05, .58, .95) infinite;
+}
+
+.drone {
+  width: 54px;
+  fill: #081923;
+  stroke: currentColor;
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 8px #44dfff66);
+}
+
+.plane-flight {
+  top: 72%;
+  left: 0;
+  color: #a99bff;
+  animation: plane-crossing 38s 10s linear infinite;
+}
+
+.plane {
+  width: 62px;
+  fill: currentColor;
+  filter: blur(.2px) drop-shadow(0 0 6px #8d79ff55);
+}
+
+.flight-trail {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  right: 72%;
+  width: 110px;
+  height: 1px;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, transparent, currentColor);
+  opacity: .22;
+}
+
+.plane-flight .flight-trail { width: 155px; opacity: .12; }
+.drone-flight .flight-trail { right: auto; left: 72%; background: linear-gradient(90deg, currentColor, transparent); }
+
+.nav-light {
+  position: absolute;
+  top: 14px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  animation: nav-blink 1.35s steps(1) infinite;
+}
+
+.nav-light.red { left: 5px; background: #ff6c80; box-shadow: 0 0 8px #ff4966; }
+.nav-light.green { right: 5px; background: #55f5ae; box-shadow: 0 0 8px #36e99a; animation-delay: -.67s; }
+
+@keyframes drone-crossing {
+  0%, 8% { opacity: 0; transform: translate3d(106vw, 0, 0) rotate(-4deg); }
+  13% { opacity: .62; }
+  28% { transform: translate3d(83vw, 18px, 0) rotate(2deg); }
+  47% { transform: translate3d(64vw, -10px, 0) rotate(-2deg); }
+  60% { opacity: .48; transform: translate3d(49vw, 14px, 0) rotate(3deg); }
+  66%, 100% { opacity: 0; transform: translate3d(42vw, 4px, 0) rotate(0); }
+}
+
+@keyframes plane-crossing {
+  0%, 12% { opacity: 0; transform: translate3d(-12vw, 0, 0) scale(.72) rotate(-2deg); }
+  18% { opacity: .22; }
+  48% { opacity: .3; transform: translate3d(43vw, -34px, 0) scale(.78) rotate(-1deg); }
+  76% { opacity: .2; }
+  86%, 100% { opacity: 0; transform: translate3d(108vw, -72px, 0) scale(.84) rotate(1deg); }
+}
+
+@keyframes nav-blink { 0%, 42% { opacity: 1; } 43%, 100% { opacity: .12; } }
+
+@media (max-width: 760px) {
+  .plane-flight { display: none; }
+  .drone-flight { top: 15%; animation-duration: 30s; }
+  .drone { width: 43px; }
+  .flight-trail { width: 72px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aviation-layer { display: none; }
+}

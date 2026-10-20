@@ -67,6 +67,7 @@ export class MavlinkWorkerBridge {
   private readonly faultAnalysisCompleteEmitter = new EventEmitter<(result: FaultAnalysisResult) => void>();
   private initResolve: (() => void) | null = null;
   private lastUpdate: Map<string, { timestamps: Float64Array; values: Float64Array }> | null = null;
+  private lastAvailableFields: string[] | null = null;
 
   constructor() {
     this.worker = new Worker(
@@ -141,9 +142,18 @@ export class MavlinkWorkerBridge {
     return unsub;
   }
 
-  /** Subscribe to known field key updates. */
+  /** Subscribe to known field key updates. New subscribers get the last cached fields immediately. */
   onAvailableFields(callback: AvailableFieldsCallback): () => void {
-    return this.availableFieldsEmitter.on(callback);
+    const unsub = this.availableFieldsEmitter.on(callback);
+    if (this.lastAvailableFields && this.lastAvailableFields.length > 0) {
+      callback(this.lastAvailableFields);
+    }
+    return unsub;
+  }
+
+  /** Get the current cached list of known available field keys. */
+  getAvailableFields(): string[] {
+    return this.lastAvailableFields ?? [];
   }
 
   /** Subscribe to connection status changes. */
@@ -315,6 +325,7 @@ export class MavlinkWorkerBridge {
       }
 
       case 'availableFields': {
+        this.lastAvailableFields = msg.fields;
         this.availableFieldsEmitter.emit(msg.fields);
         break;
       }

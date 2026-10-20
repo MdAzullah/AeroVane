@@ -1,7 +1,7 @@
 {
   "config_sha256": "f3f3319aa82c903e94637cd7c85b5ba637a9c48f92235b566cec63b98eb94e68",
   "development_only": true,
-  "experiment": "skyforge-professional-candidate-1",
+  "experiment": "aerovane-professional-candidate-1",
   "features": [
     "battery_voltage_v_mean",
     "battery_voltage_v_min",

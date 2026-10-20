@@ -20,7 +20,7 @@ import {
   useFaultEvents,
 } from './hooks';
 import { RuntimeServicesProvider, saveSettings } from './services';
-import type { SkyForgeSettings } from './services';
+import type { AeroVaneSettings } from './services';
 
 interface AppContentProps {
   settingsReady: () => boolean;
@@ -40,7 +40,7 @@ function AppContent(props: AppContentProps) {
   function handleSelectTab(tabId: 'telemetry' | 'map' | 'parameters') {
     if (appState.activeTab === tabId) return;
     setAppState('activeTab', tabId);
-    const nextSettings: SkyForgeSettings = {
+    const nextSettings: AeroVaneSettings = {
       ...props.loadedSettings(),
       activeTab: tabId,
     };
@@ -83,7 +83,7 @@ export default function App() {
       <Show when={!loading()} fallback={
         <div class="flex items-center justify-center h-screen" style={{ 'background-color': 'var(--bg-primary)' }}>
           <div class="text-center">
-            <div class="text-lg font-medium" style={{ color: 'var(--text-primary)' }}>SkyForge</div>
+            <div class="text-lg font-medium" style={{ color: 'var(--text-primary)' }}>AeroVane</div>
             <div class="text-sm mt-2" style={{ color: 'var(--text-secondary)' }}>Loading dialect...</div>
           </div>
         </div>

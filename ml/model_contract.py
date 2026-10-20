@@ -1,4 +1,4 @@
-"""Portable SkyForge decision-tree model contract and reference scorer."""
+"""Portable AeroVane decision-tree model contract and reference scorer."""
 
 from __future__ import annotations
 

@@ -11,7 +11,7 @@ from pathlib import Path
 
 
 def stable_order(group_id: str) -> str:
-    return hashlib.sha256(("skyforge-reviewed-v1:" + group_id).encode()).hexdigest()
+    return hashlib.sha256(("aerovane-reviewed-v1:" + group_id).encode()).hexdigest()
 
 
 def allocate(group_ids: list[str]) -> dict[str, str]:

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://skyforge.local/schemas/dataset-registry.schema.json",
-  "title": "SkyForge dataset registry",
+  "$id": "https://aerovane.local/schemas/dataset-registry.schema.json",
+  "title": "AeroVane dataset registry",
   "type": "object",
   "required": ["schema_version", "commercial_compatibility_required", "sources"],
   "properties": {

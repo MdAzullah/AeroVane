@@ -1,11 +1,11 @@
-# SkyForge anomaly-model datasets
+# AeroVane anomaly-model datasets
 
 ## UAV-FD real propulsion-fault corpus
 
 The checksum-bound `uav-fd-zenodo-7648996` corpus contains 18 real hexarotor
 flights from Zenodo record 7648996 under CC BY 4.0: six normal flights and
 twelve chipped-propeller flights spanning six motors and two damage levels.
-SkyForge reads only IMU, vibration, attitude, and ESC measurements. The fixed
+AeroVane reads only IMU, vibration, attitude, and ESC measurements. The fixed
 split reserves motor 5 for validation and motor 6 for a one-time test. The
 first candidate failed the recall gate and is not integrated; see
 `experiments/UAVFD_PROPULSION_1_REPORT.md`.

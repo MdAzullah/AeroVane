@@ -1,4 +1,4 @@
-/* SkyForge Main App Controller
+/* AeroVane Main App Controller
    Supports full responsiveness, split fullscreen graph/sidebar workspace, and mobile layouts */
 
 let activeAnalysisWorker = null;
@@ -265,7 +265,7 @@ async function init_main_plot() {
             side: 'right',
             gridcolor: 'transparent'
         },
-        uirevision: 'skyforge-log'
+        uirevision: 'aerovane-log'
     };
 
     const config = {
@@ -318,8 +318,12 @@ function set_theme(theme) {
     if (icon) icon.textContent = normalized === 'dark' ? 'Sun' : 'Moon';
     const button = document.getElementById('theme-toggle');
     if (button) button.setAttribute('aria-label', normalized === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
-    try { localStorage.setItem('skyforge-theme', normalized); } catch (_) { /* private mode */ }
-    window.dispatchEvent(new CustomEvent('skyforge-theme-change', { detail: { theme: normalized } }));
+    try {
+        localStorage.setItem('aerovane-theme', normalized);
+        localStorage.setItem('aerovane-theme', normalized);
+    } catch (_) { /* private mode */ }
+    window.dispatchEvent(new CustomEvent('aerovane-theme-change', { detail: { theme: normalized } }));
+    window.dispatchEvent(new CustomEvent('aerovane-theme-change', { detail: { theme: normalized } }));
     apply_plot_theme();
 }
 
@@ -327,7 +331,7 @@ function toggle_theme() { set_theme(document.documentElement.dataset.theme === '
 
 function init_theme() {
     let saved = null;
-    try { saved = localStorage.getItem('skyforge-theme'); } catch (_) { /* private mode */ }
+    try { saved = localStorage.getItem('aerovane-theme') || localStorage.getItem('aerovane-theme'); } catch (_) { /* private mode */ }
     const preferred = window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     set_theme(saved || preferred);
 }

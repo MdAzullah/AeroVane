@@ -68,7 +68,7 @@ tune a replacement.
 
 ## Historical synthetic integration prototype
 
-Model: `skyforge-anomaly-1.0.0`
+Model: `aerovane-anomaly-1.0.0`
 
 Deterministic flight-level holdout (1,200 windows):
 

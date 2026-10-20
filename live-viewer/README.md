@@ -1,10 +1,10 @@
-# SkyForge — Live Telemetry Viewer
+# AeroVane — Live Telemetry Viewer
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 A high-performance, web-based MAVLink telemetry visualizer and real-time flight monitor. Built with SolidJS, Vite, Tailwind CSS v4, uPlot, and Leaflet.
 
-## Why SkyForge?
+## Why AeroVane?
 
 - **Web-based & Fast** — Opens instantly in modern browsers with zero driver installations required.
 - **Offline-capable (PWA)** — Full Progressive Web App support that persists across sessions.

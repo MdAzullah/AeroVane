@@ -197,7 +197,7 @@ def main() -> int:
     payload = {"model": model, "features": FEATURES, "persistence_windows": 2}
     args.model.parent.mkdir(parents=True, exist_ok=True); joblib.dump(payload, args.model)
     if accepted:
-        artifact = pipeline_to_artifact(model, features=FEATURES, version="skyforge-uavfd-propulsion-1.0.0", persistence_windows=2,
+        artifact = pipeline_to_artifact(model, features=FEATURES, version="aerovane-uavfd-propulsion-1.0.0", persistence_windows=2,
                                         lineage={"experiment": report["experiment"], "report_sha256": hashlib.sha256(args.report.read_bytes()).hexdigest(),
                                                  "config_sha256": hashlib.sha256(json.dumps({"features": FEATURES, "selected": report["selected"]}, sort_keys=True).encode()).hexdigest()})
         args.portable.parent.mkdir(parents=True, exist_ok=True)

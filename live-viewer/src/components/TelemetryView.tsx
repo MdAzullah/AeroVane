@@ -21,12 +21,13 @@ function pickNextColor(existingSignals: PlotSignalConfig[]): string {
   return SIGNAL_COLORS[existingSignals.length % SIGNAL_COLORS.length];
 }
 
-const LAYOUT_KEY_V2 = 'skyforge-layout-v2';
-const LEGACY_LAYOUT_KEY_V2 = 'mavdeck-layout-v2';
-const LAYOUT_KEY_V1 = 'skyforge-layout-v1';
-const LEGACY_LAYOUT_KEY_V1 = 'mavdeck-layout-v1';
-const ACTIVE_SUBTAB_KEY = 'skyforge-active-subtab';
-const LEGACY_ACTIVE_SUBTAB_KEY = 'mavdeck-active-subtab';
+const LAYOUT_KEY_V2 = 'aerovane-layout-v2';
+const LEGACY_LAYOUT_KEY_V2 = 'aerovane-layout-v2';
+const PRE_LEGACY_LAYOUT_KEY_V2 = 'mavdeck-layout-v2';
+const LAYOUT_KEY_V1 = 'aerovane-layout-v1';
+const LEGACY_LAYOUT_KEY_V1 = 'aerovane-layout-v1';
+const ACTIVE_SUBTAB_KEY = 'aerovane-active-subtab';
+const LEGACY_ACTIVE_SUBTAB_KEY = 'aerovane-active-subtab';
 
 let plotIdCounter = 0;
 function nextPlotId(): string {
@@ -205,9 +206,37 @@ export default function TelemetryView() {
   });
 
   function handleFieldSelected(messageName: string, fieldName: string) {
-    const plotId = selectedPlotId();
-    if (!plotId) return;
+    let plotId = selectedPlotId();
     const fieldKey = `${messageName}.${fieldName}`;
+    const plots = currentPlots();
+
+    if (!plotId && plots.length > 0) {
+      plotId = plots[0].id;
+      setSelectedPlotId(plotId);
+    }
+
+    if (!plotId) {
+      const newPlot: PlotConfig = {
+        id: nextPlotId(),
+        title: messageName,
+        signals: [{
+          id: nextSignalId(),
+          messageType: messageName,
+          fieldName,
+          fieldKey,
+          color: pickNextColor([]),
+          visible: true,
+        }],
+        scalingMode: 'auto',
+        timeWindow: appState.timeWindow,
+        gridPos: { x: 0, y: 0, w: 6, h: 4 },
+      };
+      updatePlots(p => [...p, newPlot]);
+      setSelectedPlotId(newPlot.id);
+      scheduleLayoutSave();
+      return;
+    }
+
     handleToggleSignal(plotId, fieldKey);
   }
 
@@ -287,6 +316,28 @@ export default function TelemetryView() {
       id: nextPlotId(),
       title: 'New Plot',
       signals: [],
+      scalingMode: 'auto',
+      timeWindow: appState.timeWindow,
+      gridPos: { x: 0, y: 0, w: 6, h: 4 },
+    };
+    updatePlots(plots => [...plots, plot]);
+    setSelectedPlotId(plot.id);
+    scheduleLayoutSave();
+  }
+
+  function handleAddPresetPlot(title: string, signalDefs: Array<{ msg: string; field: string }>) {
+    const signals: PlotSignalConfig[] = signalDefs.map((def, idx) => ({
+      id: nextSignalId(),
+      messageType: def.msg,
+      fieldName: def.field,
+      fieldKey: `${def.msg}.${def.field}`,
+      color: SIGNAL_COLORS[idx % SIGNAL_COLORS.length],
+      visible: true,
+    }));
+    const plot: PlotConfig = {
+      id: nextPlotId(),
+      title,
+      signals,
       scalingMode: 'auto',
       timeWindow: appState.timeWindow,
       gridPos: { x: 0, y: 0, w: 6, h: 4 },
@@ -444,13 +495,97 @@ export default function TelemetryView() {
                     <Show
                       when={tabPlots().length > 0}
                       fallback={
-                        <div class="flex h-full items-center justify-center px-6">
-                          <button
-                            class="console-button rounded px-3 py-1.5 text-sm font-medium"
-                            onClick={() => handleAddPlot()}
+                        <div class="flex h-full flex-col items-center justify-center px-6 py-10 text-center">
+                          <div
+                            class="max-w-md p-6 rounded-xl border shadow-lg"
+                            style={{
+                              'background-color': 'var(--bg-panel)',
+                              'border-color': 'var(--border-subtle)',
+                            }}
                           >
-                            Add plot
-                          </button>
+                            <div class="w-12 h-12 mx-auto mb-3 rounded-full flex items-center justify-center" style={{ 'background-color': 'var(--bg-hover)', color: 'var(--accent)' }}>
+                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="20" x2="18" y2="10" />
+                                <line x1="12" y1="20" x2="12" y2="4" />
+                                <line x1="6" y1="20" x2="6" y2="14" />
+                              </svg>
+                            </div>
+                            <h3 class="text-base font-semibold" style={{ color: 'var(--text-primary)' }}>
+                              No Telemetry Plots in this Tab
+                            </h3>
+                            <p class="text-xs mt-1.5 mb-5" style={{ color: 'var(--text-secondary)' }}>
+                              Add a blank plot to pick custom telemetry signals, or choose a quick starter preset below. You can also click any numeric field in the left <strong>Signals</strong> panel to start plotting immediately.
+                            </p>
+
+                            <button
+                              class="console-button w-full py-2 px-4 rounded text-sm font-medium mb-4 flex items-center justify-center gap-2"
+                              style={{
+                                'background-color': 'var(--accent)',
+                                color: '#ffffff',
+                              }}
+                              onClick={() => handleAddPlot()}
+                            >
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                              </svg>
+                              <span>Create Blank Plot</span>
+                            </button>
+
+                            <div class="text-[11px] font-medium uppercase tracking-wider mb-2" style={{ color: 'var(--text-quiet)' }}>
+                              Quick Flight Presets
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2 text-left">
+                              <button
+                                class="p-2 rounded text-xs border interactive-hover flex flex-col"
+                                style={{ 'border-color': 'var(--border-subtle)', 'background-color': 'var(--bg-panel-2)' }}
+                                onClick={() => handleAddPresetPlot('Attitude (Roll & Pitch)', [
+                                  { msg: 'ATTITUDE', field: 'roll' },
+                                  { msg: 'ATTITUDE', field: 'pitch' },
+                                ])}
+                              >
+                                <span class="font-medium" style={{ color: 'var(--text-primary)' }}>✈️ Attitude</span>
+                                <span class="text-[10px]" style={{ color: 'var(--text-secondary)' }}>Roll & Pitch</span>
+                              </button>
+
+                              <button
+                                class="p-2 rounded text-xs border interactive-hover flex flex-col"
+                                style={{ 'border-color': 'var(--border-subtle)', 'background-color': 'var(--bg-panel-2)' }}
+                                onClick={() => handleAddPresetPlot('Altitude & Climb', [
+                                  { msg: 'VFR_HUD', field: 'alt' },
+                                  { msg: 'VFR_HUD', field: 'climb' },
+                                ])}
+                              >
+                                <span class="font-medium" style={{ color: 'var(--text-primary)' }}>⛰️ Altitude</span>
+                                <span class="text-[10px]" style={{ color: 'var(--text-secondary)' }}>Alt & Climb Rate</span>
+                              </button>
+
+                              <button
+                                class="p-2 rounded text-xs border interactive-hover flex flex-col"
+                                style={{ 'border-color': 'var(--border-subtle)', 'background-color': 'var(--bg-panel-2)' }}
+                                onClick={() => handleAddPresetPlot('Battery & Power', [
+                                  { msg: 'SYS_STATUS', field: 'voltage_battery' },
+                                  { msg: 'SYS_STATUS', field: 'current_battery' },
+                                ])}
+                              >
+                                <span class="font-medium" style={{ color: 'var(--text-primary)' }}>🔋 Battery</span>
+                                <span class="text-[10px]" style={{ color: 'var(--text-secondary)' }}>Voltage & Current</span>
+                              </button>
+
+                              <button
+                                class="p-2 rounded text-xs border interactive-hover flex flex-col"
+                                style={{ 'border-color': 'var(--border-subtle)', 'background-color': 'var(--bg-panel-2)' }}
+                                onClick={() => handleAddPresetPlot('GPS & Satellites', [
+                                  { msg: 'GPS_RAW_INT', field: 'satellites_visible' },
+                                  { msg: 'GPS_RAW_INT', field: 'eph' },
+                                ])}
+                              >
+                                <span class="font-medium" style={{ color: 'var(--text-primary)' }}>📡 GPS Health</span>
+                                <span class="text-[10px]" style={{ color: 'var(--text-secondary)' }}>Satellites & HDOP</span>
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       }
                     >

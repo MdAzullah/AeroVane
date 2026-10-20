@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://skyforge.local/schemas/pilot-inventory.schema.json",
-  "title": "SkyForge Phase C pilot inventory",
+  "$id": "https://aerovane.local/schemas/pilot-inventory.schema.json",
+  "title": "AeroVane Phase C pilot inventory",
   "type": "object",
   "required": ["schema_version", "created_at", "source_id", "source_version", "purpose", "files", "summary"],
   "additionalProperties": false,

@@ -1,4 +1,4 @@
-/* SkyForge Signal Explorer & Sidebar Navigation */
+/* AeroVane Signal Explorer & Sidebar Navigation */
 
 let activeTraces = [];
 const TRACE_COLORS = [
@@ -171,7 +171,7 @@ function add_trace_to_plot(ds, axisId = 'y') {
     if (!plot) return;
 
     if (activeTraces.length >= 12) {
-        alert('For a readable graph, SkyForge supports up to 12 signals at once. Remove a signal before adding another.');
+        alert('For a readable graph, AeroVane supports up to 12 signals at once. Remove a signal before adding another.');
         return;
     }
     ds = sanitize_signal(ds);

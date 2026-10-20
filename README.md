@@ -1,4 +1,4 @@
-# SkyForge 🛸 — Real-Time Drone Telemetry & Post-Flight Log Analysis Suite
+# AeroVane 🛸 — Real-Time Drone Telemetry & Post-Flight Log Analysis Suite
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
@@ -7,15 +7,15 @@
 [![MAVLink](https://img.shields.io/badge/Protocol-MAVLink%20v1%2Fv2-green.svg)](https://mavlink.io/)
 [![Offline First](https://img.shields.io/badge/Privacy-100%25%20Local%20%2F%20Offline-success.svg)](USER_GUIDE.md)
 
-**SkyForge** is a unified, high-performance flight operations and telemetry diagnostic suite for autonomous drones, UAVs, and robotic vehicles running **ArduPilot** or **PX4**.
+**AeroVane** is a unified, high-performance flight operations and telemetry diagnostic suite for autonomous drones, UAVs, and robotic vehicles running **ArduPilot** or **PX4**.
 
-Built for drone pilots, aerospace engineers, and robotics researchers, SkyForge combines **zero-latency real-time MAVLink flight monitoring** with a **two-phase non-blocking post-flight log analyzer** that processes 500MB+ `.bin` dataflash files directly in the browser with **100% local privacy**.
+Built for drone pilots, aerospace engineers, and robotics researchers, AeroVane combines **zero-latency real-time MAVLink flight monitoring** with a **two-phase non-blocking post-flight log analyzer** that processes 500MB+ `.bin` dataflash files directly in the browser with **100% local privacy**.
 
 ---
 
-## 🌟 Why SkyForge?
+## 🌟 Why AeroVane?
 
-| Challenge with Existing Tools | How SkyForge Solves It |
+| Challenge with Existing Tools | How AeroVane Solves It |
 | :--- | :--- |
 | **Cloud Uploads & Privacy Risks** | **100% Client-Side**: Telemetry and logs never leave your machine. No cloud uploads, no logins, no telemetry tracking. |
 | **Browser Freezes on Large Files** | **Non-Blocking 2-Phase Engine**: Large 500MB+ `.bin` logs open the graph and trajectory map in seconds; deep AI safety analysis finishes in the background with a top progress banner. |
@@ -35,7 +35,7 @@ flowchart TB
         Logs["📁 ArduPilot DataFlash (.bin / .log)"]
     end
 
-    subgraph SkyForgePortal["SkyForge Suite (http://127.0.0.1:4173)"]
+    subgraph AeroVanePortal["AeroVane Suite (http://127.0.0.1:4173)"]
         Portal["🌐 Unified Local Portal (index.html)"]
         
         subgraph LiveEngine["Live Telemetry Viewer (/live/)"]
@@ -95,7 +95,7 @@ flowchart TB
 * Zero-dependency bridge multiplexing MAVLink streams between:
   - Autopilot telemetry radios (UDP `14550`)
   - Ground control stations (Mission Planner / QGroundControl on UDP `14551`)
-  - SkyForge browser interface (WebSockets `ws://127.0.0.1:9988`)
+  - AeroVane browser interface (WebSockets `ws://127.0.0.1:9988`)
 
 ---
 
@@ -108,8 +108,8 @@ flowchart TB
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/MdAzullah/SkyForge.git
-cd SkyForge
+git clone https://github.com/MdAzullah/AeroVane.git
+cd AeroVane
 ```
 
 ### 2. Install Dependencies & Build
@@ -119,12 +119,12 @@ npm --prefix live-viewer ci
 npm run build
 ```
 
-### 3. Start SkyForge
+### 3. Start AeroVane
 ```bash
 npm start
 ```
 
-This launches the local server and automatically opens **http://127.0.0.1:4173/** in your default browser. Keep the terminal running while using SkyForge; press `Ctrl+C` to stop.
+This launches the local server and automatically opens **http://127.0.0.1:4173/** in your default browser. Keep the terminal running while using AeroVane; press `Ctrl+C` to stop.
 
 * **Live Telemetry Viewer**: `http://127.0.0.1:4173/live/`
 * **Saved Log Analyzer**: `http://127.0.0.1:4173/logs/`
@@ -166,7 +166,7 @@ For detailed setup with Mission Planner, Ethernet antennas, and offline basemaps
 
 ## 🧪 Testing & Quality Assurance
 
-SkyForge includes an automated test suite across unit, component, telemetry, and parser modules:
+AeroVane includes an automated test suite across unit, component, telemetry, and parser modules:
 
 ```bash
 # Run Saved Log Analyzer test suite (17 DataFlash & AI tests)
@@ -184,7 +184,7 @@ npm --prefix live-viewer run typecheck
 ## 📂 Repository Structure
 
 ```text
-SkyForge/
+AeroVane/
 ├── portal/                     # Local landing portal (http://127.0.0.1:4173/)
 ├── live-viewer/                # Real-time MAVLink telemetry dashboard (SolidJS + Vite)
 │   ├── src/analysis/           # Fault engine, detectors, normalizer & ML models
@@ -209,7 +209,7 @@ SkyForge/
 **MD Azizullah**
 - **GitHub**: [@MdAzullah](https://github.com/MdAzullah)
 - **Email**: md.azizullah.engineer@gmail.com
-- **Project Link**: [https://github.com/MdAzullah/SkyForge](https://github.com/MdAzullah/SkyForge)
+- **Project Link**: [https://github.com/MdAzullah/AeroVane](https://github.com/MdAzullah/AeroVane)
 
 ---
 

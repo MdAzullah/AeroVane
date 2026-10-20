@@ -1,5 +1,5 @@
 {
-  "version": "skyforge-anomaly-1.0.0",
+  "version": "aerovane-anomaly-1.0.0",
   "features": ["battery_voltage_v", "gps_satellites", "vibration_peak_mps2", "attitude_error_rad", "high_throttle_descent", "ekf_max_variance", "motor_rpm_deviation", "attitude_age_ms"],
   "means": [12.3, 14, 5, 0.04, 0, 0.2, 0.01, 0],
   "scales": [1, 5, 20, 0.4, 2, 1, 0.2, 2000],

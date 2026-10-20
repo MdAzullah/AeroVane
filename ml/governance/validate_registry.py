@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Dependency-free admission checks for the SkyForge dataset registry."""
+"""Dependency-free admission checks for the AeroVane dataset registry."""
 
 import json
 import re

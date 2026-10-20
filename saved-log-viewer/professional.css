@@ -1,4 +1,4 @@
-/* SkyForge professional analysis workspace — intentionally overrides the legacy theme. */
+/* AeroVane professional analysis workspace — intentionally overrides the legacy theme. */
 :root {
     --app-bg: #f3f6fa;
     --surface: #ffffff;
@@ -316,7 +316,7 @@ html[data-theme="dark"] .workspace-grid.fullscreen-workspace,
 html[data-theme="dark"] .map-card.fullscreen-active { background: var(--app-bg) !important; }
 html[data-theme="dark"] .workspace-grid.fullscreen-workspace .sidebar { background: var(--surface); }
 
-/* Unified SkyForge visual language */
+/* Unified AeroVane visual language */
 .brand-lockup { position: relative; }
 .brand-lockup a { text-decoration: none; }
 .workspace-label {

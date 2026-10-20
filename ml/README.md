@@ -1,8 +1,8 @@
-# SkyForge machine-learning workspace
+# AeroVane machine-learning workspace
 
-SkyForge ML is an advisory anomaly-warning system. It does not diagnose a
+AeroVane ML is an advisory anomaly-warning system. It does not diagnose a
 root cause, control a vehicle, change parameters, or trigger a failsafe. The
-existing `skyforge-anomaly-1.0.0` model is an integration prototype trained on
+existing `aerovane-anomaly-1.0.0` model is an integration prototype trained on
 generated data and is not evidence of real-world fault-detection performance.
 
 ## Governance gate

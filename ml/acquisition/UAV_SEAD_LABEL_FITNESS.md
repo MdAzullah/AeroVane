@@ -35,7 +35,7 @@ expanded into synthetic anomaly intervals.
   and evaluation.
 - Source annotation timestamps, notes, and original filenames are omitted from
   the committed label manifest.
-- Source classes are preserved verbatim. No SkyForge fault family is assigned:
+- Source classes are preserved verbatim. No AeroVane fault family is assigned:
   the observed `Mechanical`/`Battery` and `Altitude`/`Roll Rate` combinations
   show that automatic cause mapping would overstate the ground truth.
 

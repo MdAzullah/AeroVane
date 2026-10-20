@@ -33,7 +33,7 @@ def main() -> int:
     if payload["features"] != report["features"] or payload["persistence_windows"] != selected["persistence_windows"]:
         raise SystemExit("pipeline metadata differs from accepted report")
     artifact = pipeline_to_artifact(
-        payload["model"], features=payload["features"], version="skyforge-real-anomaly-2.0.0",
+        payload["model"], features=payload["features"], version="aerovane-real-anomaly-2.0.0",
         persistence_windows=payload["persistence_windows"],
         lineage={"experiment": report["experiment"], "report_sha256": digest(args.report), "config_sha256": report["config_sha256"]},
     )

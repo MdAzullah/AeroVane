@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://skyforge.local/schemas/split-manifest.schema.json",
-  "title": "SkyForge leakage-safe split manifest",
+  "$id": "https://aerovane.local/schemas/split-manifest.schema.json",
+  "title": "AeroVane leakage-safe split manifest",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_version", "created_at", "frozen_at", "status", "source_id", "source_version", "training_authorized", "records"],

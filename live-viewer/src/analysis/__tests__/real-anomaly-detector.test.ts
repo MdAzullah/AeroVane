@@ -20,7 +20,7 @@ function sample(timestampMs: number, family: 'multicopter' | 'fixed_wing' = 'mul
 
 describe('RealAnomalyDetector', () => {
   it('loads the promoted model contract', () => {
-    expect(validatePortableTreeModel(realModel)?.version).toBe('skyforge-real-anomaly-2.0.0');
+    expect(validatePortableTreeModel(realModel)?.version).toBe('aerovane-real-anomaly-2.0.0');
     const ids = createDefaultFaultDetectors().map(detector => detector.id);
     expect(ids).toContain('real-ml-anomaly');
     expect(ids).not.toContain('ml-anomaly');

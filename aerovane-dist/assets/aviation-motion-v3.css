@@ -1,0 +1,46 @@
+.flight-scene {
+  position: fixed;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+.flight-object { filter: url(#sf-aircraft-glow); }
+.drone-bank { animation: sf-drone-bank 6.5s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.drone-frame .shell { fill: url(#sf-drone-shell); stroke: #8de7f8; stroke-width: .8; }
+.drone-frame .canopy { fill: #07131a; stroke: #68bacb; stroke-width: .65; }
+.drone-frame .arms { fill: none; stroke: #679dac; stroke-width: 5; stroke-linecap: round; }
+.drone-frame circle { fill: #142a34; stroke: #78cad9; stroke-width: .8; }
+.gimbal path { fill: #132832; stroke: #69c7da; stroke-width: .7; }
+.gimbal circle { fill: #071015; stroke: #8aeaff; stroke-width: 1; }
+.rotor ellipse { fill: #8eeeff; opacity: .16; filter: url(#sf-rotor-blur); }
+.rotor path { fill: none; stroke: #b6f5ff; stroke-width: 1.2; stroke-linecap: round; opacity: .54; }
+.wake { fill: none; stroke: url(#sf-trail); stroke-width: 1.2; filter: blur(.45px); }
+.drone-wake { transform: translateX(12px); }
+.strobe { animation: sf-strobe 1.7s steps(1) infinite; }
+.strobe-red { fill: #ff4f67; filter: drop-shadow(0 0 5px #ff3654); }
+.strobe-green { fill: #46efa1; filter: drop-shadow(0 0 5px #36e795); animation-delay: -.85s; }
+
+.plane-bank { animation: sf-plane-bank 9s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.plane-shell { fill: url(#sf-plane-shell); stroke: #d3dded; stroke-width: .5; }
+.plane-spine { fill: none; stroke: #f1f5ff; stroke-width: .65; opacity: .45; }
+.plane-beacon { fill: #fff; filter: drop-shadow(0 0 4px #b8c8ff); animation: sf-strobe 2.2s steps(1) infinite; }
+.contrail { fill: none; stroke: #b8c5e5; stroke-width: 1.2; opacity: .18; filter: blur(.7px); }
+
+@keyframes sf-drone-bank {
+  0%, 100% { transform: rotate(-1.5deg) scale(.98); }
+  35% { transform: rotate(3deg) scale(1.02); }
+  68% { transform: rotate(-2.5deg) scale(1); }
+}
+@keyframes sf-plane-bank {
+  0%, 100% { transform: rotate(-1deg) scale(.72); }
+  50% { transform: rotate(2deg) scale(.76); }
+}
+@keyframes sf-strobe { 0%, 7% { opacity: 1; } 8%, 100% { opacity: .08; } }
+
+@media (max-width: 760px) {
+  .plane-object { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .flight-scene { display: none; } }

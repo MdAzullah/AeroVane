@@ -8,13 +8,13 @@
 
 import { createEffect, onCleanup } from 'solid-js';
 import { appState } from '../store';
-import { useSerialSessionController, getSerialBackend, type SkyForgeSettings } from '../services';
+import { useSerialSessionController, getSerialBackend, type AeroVaneSettings } from '../services';
 import type { Accessor, Setter } from 'solid-js';
 
 export function useAutoConnect(
   settingsReady: Accessor<boolean>,
-  _loadedSettings: Accessor<SkyForgeSettings>,
-  _setLoadedSettings: Setter<SkyForgeSettings>,
+  _loadedSettings: Accessor<AeroVaneSettings>,
+  _setLoadedSettings: Setter<AeroVaneSettings>,
 ): void {
   const serialController = useSerialSessionController();
 

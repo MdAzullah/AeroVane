@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://skyforge.local/schemas/canonical-telemetry-sample.schema.json",
-  "title": "SkyForge canonical telemetry sample",
+  "$id": "https://aerovane.local/schemas/canonical-telemetry-sample.schema.json",
+  "title": "AeroVane canonical telemetry sample",
   "type": "object",
   "required": ["schemaVersion", "timestampMs", "source", "values", "availability"],
   "additionalProperties": false,

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Serve a SkyForge production package on loopback only."""
+"""Serve a AeroVane production package on loopback only."""
 import argparse
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
