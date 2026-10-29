@@ -25,7 +25,7 @@ test.describe('Plot Creation and Signals', () => {
     const plotHeader = mavdeck.page.locator('.grid-stack-item .cursor-grab').first();
     await plotHeader.dblclick();
 
-    await expect(mavdeck.page.getByText('Select Signals')).toBeVisible();
+    await expect(mavdeck.page.getByText('Select Telemetry Signals')).toBeVisible();
   });
 
   test('add signals to a plot and verify chart renders', async () => {
@@ -34,7 +34,7 @@ test.describe('Plot Creation and Signals', () => {
     // Open signal selector
     const plotHeader = mavdeck.page.locator('.grid-stack-item .cursor-grab').first();
     await plotHeader.dblclick();
-    await expect(mavdeck.page.getByText('Select Signals')).toBeVisible();
+    await expect(mavdeck.page.getByText('Select Telemetry Signals')).toBeVisible();
 
     // Expand ATTITUDE group and add roll
     await mavdeck.page.getByTestId('signal-group-ATTITUDE').click();

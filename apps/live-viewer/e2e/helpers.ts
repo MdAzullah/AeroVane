@@ -56,6 +56,7 @@ export class MavDeckPage {
 
   /** Click the "Add plot" button on the toolbar. */
   async addPlot() {
-    await this.page.getByLabel('Add plot').click();
+    // The plot tab bar has a second "Add plot" button; target the toolbar one by its title.
+    await this.page.getByTitle('Add plot', { exact: true }).click();
   }
 }
