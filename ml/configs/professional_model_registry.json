@@ -19,7 +19,7 @@
       "sources": ["live_mavlink", "tlog", "dataflash"],
       "component_diagnosis": false,
       "artifact": "models/basic-simulated-sensor-classifier-1.pt",
-      "portable_artifact": "live-viewer/src/analysis/models/basic-sensor-model.json",
+      "portable_artifact": "apps/live-viewer/src/analysis/models/basic-sensor-model.json",
       "unsupported_class": "rc_failure",
       "warning_copy": "simulation-trained pattern; not a confirmed diagnosis"
     },

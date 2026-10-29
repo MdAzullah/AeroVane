@@ -3,7 +3,7 @@
 AeroVane's recommended bridge is the cross-platform Node.js implementation at
 `scripts/mavlink-bridge.mjs`. It works on Windows, macOS, and Linux and routes
 MAVLink byte streams between UDP, TCP, and WebSockets without extra packages.
-For USB connections, Live Viewer's **Connect USB** button talks directly to the
+For USB connections, Live Viewer's **Connect Serial** button talks directly to the
 vehicle through Chromium's Web Serial support.
 
 The `mavlink-server` file in this directory is retained as an optional legacy
@@ -20,7 +20,7 @@ Run these commands from the repository root.
 
 ### 1. Connecting with USB
 
-Open Live Viewer in Chrome, Edge, or Brave and click **Connect USB**.
+Open Live Viewer in Chrome, Edge, or Brave and click **Connect Serial**.
 
 ### 2. Launching with UDP (e.g. ArduPilot / SITL / PX4 Simulator)
 Route telemetry from SITL / QGroundControl UDP port 14550 to WebSocket:

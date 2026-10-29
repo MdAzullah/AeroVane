@@ -1,9 +1,0 @@
-{
-  "version": "aerovane-anomaly-1.0.0",
-  "features": ["battery_voltage_v", "gps_satellites", "vibration_peak_mps2", "attitude_error_rad", "high_throttle_descent", "ekf_max_variance", "motor_rpm_deviation", "attitude_age_ms"],
-  "means": [12.3, 14, 5, 0.04, 0, 0.2, 0.01, 0],
-  "scales": [1, 5, 20, 0.4, 2, 1, 0.2, 2000],
-  "weights": [-1.381817, -1.400125, 1.844056, 1.635607, 1.46747, 1.556042, 1.816929, 1.638852],
-  "bias": -1.400862,
-  "threshold": 0.75
-}

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroVane — Flight Log Analyzer</title>
+    <link rel="stylesheet" href="map-runtime.css">
+    <link rel="stylesheet" href="sw.css">
+    <link rel="stylesheet" href="professional.css">
+    <link rel="stylesheet" href="comfort-upgrade.css?v=3">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="brand">
+                <div class="brand-lockup"><a class="brand-mark" href="/" aria-label="AeroVane home">AV</a><div><a class="brand-name" href="/">AeroVane</a><h1>Flight Log Analyzer</h1></div><span class="workspace-label">POST-FLIGHT WORKSPACE</span></div>
+                <div class="header-actions"><div class="privacy-chip"><span></span>Local analysis · files stay on this device</div><button id="theme-toggle" class="theme-toggle" type="button" onclick="toggle_theme()" aria-label="Switch color theme"><span id="theme-icon">Moon</span></button></div>
+            </div>
+            <p class="brand-tagline">Find the important event, inspect the supporting signals, and locate it on the flight path.</p>
+            
+            <div class="drop-card" ondrop="handle_ondrop(event)" ondragover="handle_dragover(event)" ondragenter="handle_dragenter(event)">
+                <div class="drop-content">
+                    <span class="upload-icon">↑</span>
+                    <p class="drop-title"><strong>Drop a flight log here</strong><span>ArduPilot DataFlash <code>.bin</code> and text <code>.log</code></span></p>
+                    <label class="browse-btn">
+                        Browse File
+                        <input type="file" id="files" name="file" accept=".bin,.BIN,.log,.LOG" onchange="handle_onfilechange(event)">
+                    </label>
+                </div>
+            </div>
+            <div class="format-support" aria-label="Supported log formats">
+                <span><b>BIN</b> ArduPilot onboard</span><span><b>LOG</b> ArduPilot text export</span><span><b>TLOG</b> Available in Live Viewer</span><span class="muted"><b>ULG</b> PX4 decoder not installed</span>
+            </div>
+        </header>
+
+        <!-- Main Analysis Dashboard (Revealed upon loading) -->
+        <main id="analyzepage" style="display: none;">
+            <div class="analysis-nav" aria-label="Analysis sections">
+                <button onclick="scroll_analysis_section('overview-section', this)">Overview</button>
+                <button class="active" onclick="scroll_analysis_section('findings-section', this)">Findings</button>
+                <button onclick="scroll_analysis_section('graph-section', this)">Graph</button>
+                <button onclick="scroll_analysis_section('map-section', this)">Map</button>
+            </div>
+            <section id="overview-section" class="overview-section">
+                <div class="metric-card">
+                    <span class="metric-label">Logging Start</span>
+                    <span class="metric-value" id="logstart">-</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-label">Logging Duration</span>
+                    <span class="metric-value" id="logduration">-</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-label">Total Distance</span>
+                    <span class="metric-value" id="distance">- km</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-label">Altitude Delta</span>
+                    <span class="metric-value" id="maxaltdiff">- m</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-label">Flight Time</span>
+                    <span class="metric-value" id="flighttime">-</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-label">Avg / Max Speed</span>
+                    <span class="metric-value"><span id="avgspeed">- km/h</span> / <span id="maxspeed">- km/h</span></span>
+                </div>
+            </section>
+
+            <section id="findings-section" class="ai-analysis-panel compact-report" aria-labelledby="ai-analysis-title">
+                <div class="ai-analysis-header">
+                    <div class="report-title"><span class="report-status-dot"></span><div><h2 id="ai-analysis-title">Automated safety report</h2><p id="ai-analysis-status" aria-live="polite">Waiting for a flight log…</p></div></div>
+                    <div class="report-metrics">
+                        <span>Score <strong id="ai-health-score">—</strong></span>
+                        <span>Coverage <strong id="ai-coverage">—</strong></span>
+                        <span>Rules / ML <strong id="ai-detector-split">—</strong></span>
+                        <span id="ai-record-count">0 records</span>
+                    </div>
+                    <div class="report-actions"><button id="ai-report-toggle" type="button" class="secondary-button" onclick="toggle_ai_report()" aria-expanded="false">View details</button><button type="button" class="secondary-button" onclick="export_ai_analysis()">Export</button></div>
+                </div>
+                <div id="ai-fault-timeline" class="ai-fault-timeline" hidden></div>
+            </section>
+
+            <!-- Mobile Sidebar Toggle -->
+            <button class="mobile-sidebar-toggle" onclick="toggle_mobile_sidebar()">☰ Signals & Messages Explorer</button>
+
+            <!-- Workspace Layout: Left Sidebar + Right Visualization -->
+            <div class="workspace-grid">
+                <!-- Left Sidebar: Signal & Message Tree -->
+                <aside class="sidebar">
+                    <nav id="nav-container"></nav>
+                </aside>
+
+                <!-- Right Workspace: Plot Controls, Multi-Axis Plotly Chart & Flight Map -->
+                <section class="visualizer-panel">
+                    <!-- Active Plotted Traces Bar -->
+                    <div id="graph-section" class="traces-toolbar">
+                        <div class="traces-header">
+                            <div><span class="eyebrow">Synchronized timeline</span><h2 class="panel-heading">Signal graph</h2></div>
+                            <div class="header-action-group">
+                                <button class="fullscreen-toggle-btn" onclick="reset_graph_view()" title="Reset zoom and automatically fit all traces">Reset view</button>
+                                <button id="graph-fullscreen-btn" class="fullscreen-toggle-btn" onclick="toggle_graph_fullscreen()" title="Fullscreen graph and signal explorer">Focus mode</button>
+                                <button class="clear-btn" onclick="clear_all_traces()" title="Clear all active plots">Clear All</button>
+                            </div>
+                        </div>
+                        <div id="active-traces-bar" class="traces-pill-container"></div>
+                        <div class="signal-presets" aria-label="Signal presets">
+                            <span>Quick plots</span>
+                            <button type="button" onclick="apply_signal_preset('battery')">Battery</button>
+                            <button type="button" onclick="apply_signal_preset('attitude')">Attitude</button>
+                            <button type="button" onclick="apply_signal_preset('gps')">GPS</button>
+                            <button type="button" onclick="apply_signal_preset('vibration')">Vibration</button>
+                            <button type="button" onclick="apply_signal_preset('ekf')">EKF</button>
+                        </div>
+                        <div id="graph-notice" class="graph-notice" role="status" hidden></div>
+                    </div>
+
+                    <!-- Main Time-Series Plot -->
+                    <div class="chart-card">
+                        <div class="chart-help"><span><b class="fault-key critical"></b> Critical</span><span><b class="fault-key warning"></b> Warning</span><span><b class="fault-key caution"></b> Caution</span><span class="chart-tip">Hover to track the vehicle · drag to zoom · double-click to reset</span></div>
+                        <div id="fault-event-rail" class="fault-event-rail" aria-label="Detected fault events"></div>
+                        <div id="plot"></div>
+                    </div>
+
+                    <!-- GPS Real-World Trajectory Map -->
+                    <div id="map-section" class="map-card">
+                        <div class="map-header">
+                            <div class="map-title-group">
+                                <span class="map-icon">⌖</span>
+                                <div><span class="eyebrow">Position synchronized with graph</span><h2 class="panel-heading">Flight path</h2></div>
+                            </div>
+                            <div class="map-actions">
+                                <label class="map-layer-switcher">
+                                    <span>Map</span>
+                                    <select id="map-layer-select" aria-label="Map style" onchange="change_map_layer(this.value, this)">
+                                        <option value="street">Road</option>
+                                        <option value="satellite">Satellite hybrid</option>
+                                        <option value="terrain">Terrain</option>
+                                        <option value="dark">Dark</option>
+                                    </select>
+                                </label>
+                                <label class="fit-btn offline-map-picker" title="Choose a local raster PMTiles basemap">
+                                    Offline PMTiles
+                                    <input id="offline-pmtiles-input" type="file" accept=".pmtiles,application/vnd.pmtiles" onchange="load_offline_pmtiles(this.files && this.files[0])">
+                                </label>
+                                <button class="fit-btn" onclick="fit_flight_path()" title="Center map on flight path">Fit path</button>
+                                <button class="fit-btn" onclick="reset_map_orientation()" title="Reset map bearing and pitch">North up</button>
+                                <button id="map-fullscreen-btn" class="fullscreen-toggle-btn" onclick="toggle_map_fullscreen()" title="Toggle full screen map">Fullscreen</button>
+                            </div>
+                        </div>
+                        <div id="map">
+                            <div class="map-legend" aria-label="Map legend">
+                                <span><i class="legend-route"></i>Flight path</span>
+                                <span><i class="legend-point takeoff"></i>Takeoff</span>
+                                <span><i class="legend-point landing"></i>Landing</span>
+                                <span><i class="legend-point fault"></i>Fault</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script type="text/javascript" src="map-runtime.js"></script>
+    <script type="text/javascript" src="plotly-2.14.0.min.js"></script>
+    <script type="text/javascript" src="dataflash.js"></script>
+    <script type="text/javascript" src="ai-analysis.js"></script>
+    <script type="text/javascript" src="ai-ui.js"></script>
+    <script type="text/javascript" src="map-gl.js?v=2"></script>
+    <script type="text/javascript" src="navbar.js"></script>
+    <script type="text/javascript" src="main.js?v=2"></script>
+</body>
+</html>

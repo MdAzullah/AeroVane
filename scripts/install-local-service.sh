@@ -16,7 +16,7 @@ NODE_PATH="$(command -v node 2>/dev/null || echo /usr/bin/node)"
 if [ -x "$NODE_PATH" ] && "$NODE_PATH" -e 'process.exit(Number(process.versions.node.split(".")[0]) >= 18 ? 0 : 1)' 2>/dev/null; then
   EXEC_START="$NODE_PATH $PROJECT_DIR/scripts/serve-aerovane.mjs"
 else
-  EXEC_START="/usr/bin/python3 $PROJECT_DIR/scripts/serve-aerovane.py --directory $PROJECT_DIR/aerovane-dist --port 4173"
+  EXEC_START="/usr/bin/python3 $PROJECT_DIR/scripts/serve-aerovane.py --directory $PROJECT_DIR/dist --port 4173"
 fi
 
 cat > "$SERVICE_DIR/aerovane.service" <<EOF
@@ -35,8 +35,8 @@ RestartSec=2
 WantedBy=default.target
 EOF
 
-# Maintain aerovane.service as alias for backward compatibility
-cp "$SERVICE_DIR/aerovane.service" "$SERVICE_DIR/aerovane.service"
+# Remove legacy shortcuts before writing the current launcher.
+rm -f "$APP_DIR/aerovane.desktop" "$DESKTOP_DIR/AeroVane.desktop"
 
 cat > "$APP_DIR/aerovane.desktop" <<EOF
 [Desktop Entry]
@@ -44,13 +44,14 @@ Type=Application
 Name=AeroVane
 Comment=Local drone telemetry and flight log analysis
 Exec=xdg-open http://127.0.0.1:4173/
-Icon=$PROJECT_DIR/live-viewer/public/icon.svg
+Icon=$PROJECT_DIR/apps/live-viewer/public/icon.svg
 Terminal=false
+StartupNotify=true
 Categories=Science;Utility;
+Keywords=drone;telemetry;MAVLink;flight log;analyzer;
 EOF
 
-# Clean up old aerovane desktop entry and place AeroVane
-rm -f "$APP_DIR/aerovane.desktop" "$DESKTOP_DIR/AeroVane.desktop"
+# Also provide the same launcher on the desktop for environments that expose it.
 cp "$APP_DIR/aerovane.desktop" "$DESKTOP_DIR/AeroVane.desktop"
 chmod +x "$APP_DIR/aerovane.desktop" "$DESKTOP_DIR/AeroVane.desktop"
 

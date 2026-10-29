@@ -1,9 +1,30 @@
 # AeroVane machine-learning workspace
 
 AeroVane ML is an advisory anomaly-warning system. It does not diagnose a
-root cause, control a vehicle, change parameters, or trigger a failsafe. The
-existing `aerovane-anomaly-1.0.0` model is an integration prototype trained on
-generated data and is not evidence of real-world fault-detection performance.
+root cause, control a vehicle, change parameters, or trigger a failsafe.
+
+The Live Viewer currently embeds two portable models from this workspace:
+
+| Model | Kind | Trained on | Report |
+|---|---|---|---|
+| `aerovane-real-anomaly-2.0.0` | Binary decision tree | Reviewed UAV-SEAD flights | [`experiments/UAV_SEAD_EXPERIMENT_2_REPORT.md`](experiments/UAV_SEAD_EXPERIMENT_2_REPORT.md) |
+| `aerovane-basic-sensor-1.0.0` | Multiclass dense network | Simulated sensor data only | [`experiments/BASIC_SIMULATED_SENSOR_CLASSIFIER_1_REPORT.md`](experiments/BASIC_SIMULATED_SENSOR_CLASSIFIER_1_REPORT.md) |
+
+The earlier `aerovane-anomaly-1.0.0` synthetic prototype was retired on
+2026-10-29 (see [DATASET.md](DATASET.md)).
+
+## Running tests
+
+```bash
+cd ml
+python3 -m pip install -r requirements.txt
+python3 -m pytest -q
+```
+
+`pytest.ini` puts `ingestion/`, `preprocessing/`, and `governance/` on the import
+path, so the whole suite runs from `ml/`. If an unrelated globally installed
+pytest plugin (for example from ROS) breaks collection, run with
+`PYTEST_DISABLE_PLUGIN_AUTOLOAD=1`.
 
 ## Governance gate
 
@@ -43,7 +64,7 @@ be evaluated only once.
 
 `schemas/portable-tree-model.schema.json` defines the versioned browser-neutral
 decision-tree format. `model_contract.py` and
-`live-viewer/src/analysis/portable-tree-model.ts` implement matching fail-closed
+`apps/live-viewer/src/analysis/portable-tree-model.ts` implement matching fail-closed
 reference scorers. `export_portable_model.py` converts an accepted local
 joblib pipeline without rerunning evaluation and binds the JSON to the accepted
 report and experiment configuration hashes. Export does not authorize viewer
@@ -89,5 +110,5 @@ under `governance/templates/`. Completed records must be stored in restricted
 operational storage, not committed when they contain personal information.
 
 Phase B's canonical schema and ingestion work is complete. See
-[`PHASE_B_COMPLETION_REPORT.md`](PHASE_B_COMPLETION_REPORT.md) and
+[`PHASE_B_COMPLETION_REPORT.md`](docs/phase-reports/PHASE_B_COMPLETION_REPORT.md) and
 [`ingestion/SOURCE_COMPATIBILITY.md`](ingestion/SOURCE_COMPATIBILITY.md).

@@ -1,0 +1,14 @@
+# Keep the knowledge graph to hand-written source only.
+# (.gitignore is already honored: node_modules/, dist/, dev-dist/, data/ ...)
+
+# Vendored third-party library
+apps/saved-log-viewer/plotly-*.min.js
+
+# esbuild outputs (sources: ai-entry.ts, map-entry.ts — see root package.json)
+apps/saved-log-viewer/ai-analysis.js
+apps/saved-log-viewer/map-runtime.js
+apps/saved-log-viewer/map-runtime.css
+
+# Any other minified bundles
+*.min.js
+*.min.css

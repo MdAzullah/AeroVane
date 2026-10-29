@@ -15,7 +15,7 @@ Usage:
   npm run bridge -- udpserver://0.0.0.0:14550 udpclient://127.0.0.1:14551 wsserver://127.0.0.1:9988
 
 Supported endpoints: fakesource, udpserver, udpclient, tcpserver, tcpclient, wsserver.
-For a USB/serial vehicle, connect directly with Live Viewer's Connect USB button.`);
+For a USB/serial vehicle, connect directly with Live Viewer's Connect Serial button.`);
   process.exit(endpointArgs.includes('--help') ? 0 : 1);
 }
 

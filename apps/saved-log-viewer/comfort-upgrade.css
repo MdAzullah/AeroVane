@@ -1,0 +1,21 @@
+.progress-stages{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;margin:4px 0}.progress-stages span{display:flex;align-items:center;gap:7px;padding:8px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--ink-muted);font-size:11px}.progress-stages b{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--surface-subtle);color:var(--ink-muted)}.progress-stages .active{border-color:#9cc9e5;background:var(--brand-soft);color:var(--brand)}.progress-stages .active b{background:var(--brand);color:white}.progress-stages .complete{color:var(--good)}.progress-stages .complete b{background:var(--good);color:white}.overview-section,.ai-analysis-panel,.traces-toolbar,.chart-card,.map-card{scroll-margin-top:72px}.analysis-nav{max-width:calc(100vw - 32px);overflow-x:auto}.chart-card:hover,.map-card:hover{border-color:var(--line-strong);box-shadow:var(--shadow-md)}#map{cursor:crosshair}@media(max-width:680px){.progress-stages{grid-template-columns:1fr}.progress-stages span{padding:6px}.analysis-nav{width:100%;display:flex}.analysis-nav button{flex:1;padding-inline:9px}}
+
+/* ── Safety analysis compact top banner ─────────────────────────────────── */
+.safety-analysis-banner{position:sticky;top:0;z-index:200;background:linear-gradient(90deg,rgba(var(--brand-rgb,30,100,200),.12) 0%,rgba(var(--brand-rgb,30,100,200),.06) 100%);border-bottom:1px solid rgba(var(--brand-rgb,30,100,200),.22);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);animation:safety-banner-slide-in .28s ease}
+@keyframes safety-banner-slide-in{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.safety-banner-inner{display:flex;align-items:center;gap:10px;padding:7px 18px;flex-wrap:wrap}
+.safety-banner-icon{font-size:15px;flex-shrink:0}
+.safety-banner-label{font-size:12px;color:var(--ink-muted,#9aabba);flex-shrink:0;white-space:nowrap}
+.safety-banner-label strong{color:var(--brand,#1268a8);font-variant-numeric:tabular-nums}
+.safety-banner-bar{flex:1;min-width:80px;max-width:260px;height:4px;border-radius:2px;background:var(--surface-subtle,rgba(0,0,0,.12));overflow:hidden}
+.safety-banner-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#1268a8,#45c495);transition:width .4s ease;will-change:width}
+.safety-banner-skip{padding:3px 10px;font-size:11px;border-radius:4px;border:1px solid var(--line,rgba(100,120,140,.25));background:transparent;color:var(--ink-muted,#9aabba);cursor:pointer;flex-shrink:0;transition:border-color .15s,color .15s}
+.safety-banner-skip:hover{border-color:var(--brand,#1268a8);color:var(--brand,#1268a8)}
+[data-theme=dark] .safety-analysis-banner{background:linear-gradient(90deg,rgba(86,180,233,.1) 0%,rgba(86,180,233,.04) 100%);border-bottom-color:rgba(86,180,233,.2)}
+[data-theme=dark] .safety-banner-fill{background:linear-gradient(90deg,#56b4e9,#45c495)}
+
+/* ── Fault card: key reading, AI note and collapsible details ───────────── */
+.fault-reading{margin:4px 0 0!important;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px!important;font-variant-numeric:tabular-nums}
+.fault-note{margin:6px 0 0!important;font-size:12px!important;font-style:italic;color:var(--ink-muted,#7a899b)!important}
+.fault-detail summary{margin-top:8px;cursor:pointer;font-size:12px;color:var(--ink-muted,#7a899b)}
+.fault-detail summary:hover{color:var(--brand,#1268a8)}

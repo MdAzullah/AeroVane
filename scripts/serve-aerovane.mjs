@@ -5,7 +5,7 @@ import { extname, join, normalize, resolve, sep } from 'node:path';
 import { spawn } from 'node:child_process';
 
 const directoryIndex = process.argv.indexOf('--directory');
-const defaultDir = existsSync(resolve('aerovane-dist', 'index.html')) ? 'aerovane-dist' : 'aerovane-dist';
+const defaultDir = 'dist';
 const root = resolve(directoryIndex >= 0 ? process.argv[directoryIndex + 1] : defaultDir);
 const portIndex = process.argv.indexOf('--port');
 const port = portIndex >= 0 ? Number(process.argv[portIndex + 1]) : 4173;

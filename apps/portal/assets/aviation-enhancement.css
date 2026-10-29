@@ -1,0 +1,44 @@
+/* Natural, low-distraction flight detail for the landing-page SVG scene. */
+.flight-object {
+  will-change: transform, opacity;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.flight-object .wake,
+.flight-object .contrail {
+  stroke-dasharray: 10 7;
+  animation: sf-trail-flow 1.9s linear infinite;
+}
+
+.drone-object .wake { animation-duration: 1.15s; }
+.plane-object .contrail { animation-duration: 2.8s; }
+
+.drone-object .drone-bank,
+.drone-object .vtol-bank,
+.drone-object .hexa-bank,
+.drone-object .heli-bank {
+  filter: drop-shadow(0 10px 9px #0009);
+}
+
+.plane-object .plane-bank,
+.plane-object .wing-bank {
+  filter: drop-shadow(0 8px 8px #0008);
+}
+
+.flight-object .strobe-red { animation-duration: 1.35s; }
+.flight-object .strobe-green { animation-duration: 1.35s; }
+.flight-object .plane-beacon { animation-duration: 1.7s; }
+
+@keyframes sf-trail-flow {
+  to { stroke-dashoffset: -34; }
+}
+
+@media (max-width: 760px) {
+  .plane-object { display: none; }
+  .flight-object .wake { animation: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flight-scene { display: none; }
+}

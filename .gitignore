@@ -5,7 +5,7 @@ node_modules/
 
 # Build outputs
 dist/
-skyforge-dist/
+aerovane-dist/
 dev-dist/
 build/
 *.tsbuildinfo
@@ -58,3 +58,10 @@ artifacts/
 /models/
 __pycache__/
 *.py[cod]
+.pytest_cache/
+
+# Local planning notes (not versioned)
+docs/planning/
+
+# Knowledge graph cache
+graphify-out/cache/
